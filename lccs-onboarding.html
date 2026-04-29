@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LCCS — Volunteer Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base:    #191d2b;
+  --surface: #1e2336;
+  --card:    #252b42;
+  --raised:  #2e3650;
+  --border:  #3d4f7c;
+  --border2: #2a3558;
+  --primary: #4d7cff;
+  --primary-dim: rgba(77,124,255,0.12);
+  --success: #3dd68c;
+  --success-dim: rgba(61,214,140,0.12);
+  --warn:    #f5a623;
+  --error:   #ff6b6b;
+  --text:    #e8e6e0;
+  --muted:   #7a8ab0;
+  --dim:     #3d4f7c;
+  --font:    'Noto Sans Thai','Noto Sans',sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0f1117;
+  font-family: var(--font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* ── DEVICE FRAME ── */
+.device {
+  width: 1024px;
+  height: 768px;
+  background: var(--base);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(77,124,255,0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── STATUS BAR ── */
+.statusbar {
+  height: 36px;
+  background: #141828;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.sb-brand {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.sb-event {
+  font-size: 11px;
+  color: var(--muted);
+}
+.sb-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sb-offline {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--warn);
+}
+.sb-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--warn);
+  animation: blink 2s infinite;
+}
+.sb-dot.online { background: var(--success); animation: none; }
+.sb-time {
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── SCREEN CONTAINER ── */
+.screens {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(40px);
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+.screen.exit {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+/* ── PROGRESS BAR ── */
+.progress-track {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--border2);
+  z-index: 10;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ══════════════════════════════
+   SCREEN 0 — WELCOME
+══════════════════════════════ */
+.s-welcome {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--base);
+  text-align: center;
+  padding: 48px;
+  gap: 0;
+}
+
+.welcome-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.welcome-logo {
+  width: 72px; height: 72px;
+  border-radius: 18px;
+  background: var(--primary-dim);
+  border: 1px solid rgba(77,124,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  font-size: 28px;
+}
+.welcome-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.welcome-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 460px;
+  margin: 0 auto 40px;
+  font-weight: 300;
+}
+.welcome-cards {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 44px;
+}
+.wc {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  min-width: 140px;
+}
+.wc-icon { font-size: 18px; }
+.btn-start {
+  background: var(--primary);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px 56px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.02em;
+}
+.btn-start:hover { background: #3d6ef0; transform: translateY(-1px); }
+.btn-start:active { transform: translateY(0); }
+.welcome-note {
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 14px;
+}
+
+/* ══════════════════════════════
+   SCREEN 1 — NAME
+══════════════════════════════ */
+.s-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-left {
+  background: var(--surface);
+  border-right: 1px solid var(--border2);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.step-indicator {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.form-question {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.form-helper {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 36px;
+}
+.annotation {
+  background: var(--primary-dim);
+  border: 1px solid rgba(77,124,255,0.2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.annotation strong { color: var(--primary); font-weight: 500; }
+
+.form-right {
+  background: var(--base);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-group { margin-bottom: 20px; }
+.input-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: block;
+}
+.input-field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: var(--font);
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
+.input-field:focus { border-color: var(--primary); }
+.input-field::placeholder { color: var(--dim); }
+.input-field.filled { border-color: rgba(77,124,255,0.4); }
+
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+}
+.btn-back {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.btn-back:hover { border-color: var(--border); color: var(--text); }
+.btn-next {
+  flex: 1;
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-next:hover { background: #3d6ef0; transform: translateY(-1px); }
+
+/* ══════════════════════════════
+   SCREEN 2 — ID
+══════════════════════════════ */
+.id-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.id-option {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  font-size: 14px;
+  color: var(--text);
+}
+.id-option:hover { border-color: var(--border); background: var(--card); }
+.id-option.selected { border-color: var(--primary); background: var(--primary-dim); }
+.id-option-icon {
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.id-option.selected .id-option-icon { background: rgba(77,124,255,0.15); }
+.id-option-body { flex: 1; }
+.id-option-title { font-size: 14px; font-weight: 500; color: var(--text); }
+.id-option-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.id-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: transparent;
+}
+.id-option.selected .id-check {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+/* ══════════════════════════════
+   SCREEN 3 — SKILL
+══════════════════════════════ */
+.skill-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.skill-chip {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.skill-chip:hover { border-color: var(--border); color: var(--text); }
+.skill-chip.selected {
+  border-color: var(--primary);
+  background: var(--primary-dim);
+  color: var(--text);
+}
+.skill-icon { font-size: 18px; width: 24px; text-align: center; }
+.skill-name { flex: 1; font-size: 13px; }
+.skill-check {
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: transparent;
+  flex-shrink: 0;
+}
+.skill-chip.selected .skill-check {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.skill-note {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 300;
+}
+
+/* ══════════════════════════════
+   SCREEN 4 — REVIEW
+══════════════════════════════ */
+.s-review {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.review-left {
+  background: var(--surface);
+  border-right: 1px solid var(--border2);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.review-right {
+  background: var(--base);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 10px;
+}
+.rc-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.rc-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+.rc-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.skills-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.sp-tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--primary-dim);
+  border: 1px solid rgba(77,124,255,0.2);
+  color: var(--primary);
+}
+.tier-badge {
+  background: rgba(245,166,35,0.12);
+  border: 1px solid rgba(245,166,35,0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--warn);
+}
+.tier-icon { font-size: 18px; }
+
+.offline-note {
+  background: var(--primary-dim);
+  border: 1px solid rgba(77,124,255,0.2);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.offline-note strong { color: var(--primary); font-weight: 500; }
+
+.btn-confirm {
+  width: 100%;
+  background: var(--success);
+  border: none;
+  color: #0d1f14;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  margin-top: 16px;
+  letter-spacing: 0.02em;
+}
+.btn-confirm:hover { background: #2fc97a; transform: translateY(-1px); }
+
+/* ══════════════════════════════
+   SCREEN 5 — BADGE
+══════════════════════════════ */
+.s-badge {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--base);
+  padding: 32px 48px;
+  gap: 28px;
+  text-align: center;
+}
+
+.badge-wrapper {
+  position: relative;
+}
+.badge-card {
+  width: 340px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.badge-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 16px;
+}
+.badge-logo {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--primary-dim);
+  border: 1px solid rgba(77,124,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.badge-org {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.badge-event {
+  font-size: 11px;
+  color: var(--muted);
+}
+.badge-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  text-align: left;
+}
+.badge-id-num {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: left;
+  margin-bottom: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.badge-tier-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.badge-tier {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(245,166,35,0.15);
+  border: 1px solid rgba(245,166,35,0.35);
+  color: var(--warn);
+  letter-spacing: 0.08em;
+}
+.badge-zone {
+  font-size: 11px;
+  color: var(--muted);
+}
+.badge-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+.bs {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--primary-dim);
+  border: 1px solid rgba(77,124,255,0.2);
+  color: var(--primary);
+}
+.badge-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border2);
+}
+.badge-qr {
+  width: 52px; height: 52px;
+  background: var(--raised);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.badge-timestamp {
+  text-align: right;
+  font-size: 10px;
+  color: var(--dim);
+  line-height: 1.5;
+}
+.badge-pending {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--warn);
+  margin-top: 6px;
+}
+.pending-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--warn);
+  animation: blink 2s infinite;
+}
+
+.badge-right {
+  text-align: left;
+}
+.badge-success-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.badge-success-sub {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+.badge-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.btn-mission {
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 13px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+.btn-another {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 13px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.sync-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.sync-icon { font-size: 13px; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  height: 48px;
+  background: #141828;
+  border-top: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.step-dots {
+  display: flex;
+  gap: 6px;
+  margin: 0 auto;
+}
+.step-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background .3s, width .3s;
+}
+.step-dot.active {
+  background: var(--primary);
+  width: 20px;
+  border-radius: 3px;
+}
+.step-dot.done { background: var(--success); }
+
+.screen-label {
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: auto;
+}
+.time-left {
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes blink {
+  0%,100% { opacity:1; }
+  50% { opacity:0.3; }
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.badge-card {
+  animation: slideUp 0.5s ease both;
+}
+</style>
+</head>
+<body>
+
+<div class="device">
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <div class="sb-brand">LCCS</div>
+    <div class="sb-event">น้ำท่วมเชียงราย 2568 · จุดลงทะเบียน อบต.แม่สาย</div>
+    <div class="sb-right">
+      <div class="sb-offline" id="conn-status">
+        <div class="sb-dot" id="conn-dot"></div>
+        <span id="conn-label">ออฟไลน์</span>
+      </div>
+      <div class="sb-time" id="clock">08:47</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-track">
+    <div class="progress-fill" id="progress" style="width:0%"></div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="screens">
+
+    <!-- S0: WELCOME -->
+    <div class="screen s-welcome active" id="s0">
+      <div class="welcome-eyebrow">ระบบลงทะเบียนผู้ช่วยเหลือ</div>
+      <div class="welcome-logo">🆘</div>
+      <div class="welcome-title">ยินดีต้อนรับ<br>ผู้ช่วยเหลือทุกท่าน</div>
+      <div class="welcome-sub">กรอกข้อมูลเพื่อรับ badge และรับมอบหมายงาน ใช้เวลาประมาณ 3 นาที ระบบทำงานได้แม้ไม่มีสัญญาณ</div>
+      <div class="welcome-cards">
+        <div class="wc"><div class="wc-icon">⚡</div>3 นาที</div>
+        <div class="wc"><div class="wc-icon">📡</div>ออฟไลน์ได้</div>
+        <div class="wc"><div class="wc-icon">🪪</div>badge ทันที</div>
+      </div>
+      <button class="btn-start" onclick="goTo(1)">เริ่มลงทะเบียน</button>
+      <div class="welcome-note">ข้อมูลจะถูก sync ไปยังระบบกลางเมื่อมีสัญญาณอินเทอร์เน็ต</div>
+    </div>
+
+    <!-- S1: NAME -->
+    <div class="screen s-form" id="s1">
+      <div class="form-left">
+        <div class="step-indicator">ขั้นตอน 1 จาก 4</div>
+        <div class="form-question">ชื่อของคุณ<br>คือ?</div>
+        <div class="form-helper">ระบุชื่อ-นามสกุลตามบัตรประชาชน เพื่อสร้าง badge และบันทึกการทำงานของคุณ</div>
+        <div class="annotation">
+          <strong>หมายเหตุ Designer:</strong> ถามชื่อก่อนเพื่อให้ระบบเรียกผู้ใช้ด้วยชื่อในหน้าถัดไป ลด anxiety ในสถานการณ์ฉุกเฉิน
+        </div>
+      </div>
+      <div class="form-right">
+        <div class="input-group">
+          <label class="input-label">ชื่อ</label>
+          <input class="input-field filled" type="text" value="สมชาย" placeholder="ชื่อ" id="fname">
+        </div>
+        <div class="input-group">
+          <label class="input-label">นามสกุล</label>
+          <input class="input-field filled" type="text" value="ใจดี" placeholder="นามสกุล" id="lname">
+        </div>
+        <div class="input-group">
+          <label class="input-label">เบอร์โทรศัพท์</label>
+          <input class="input-field" type="tel" placeholder="0812345678" id="phone">
+        </div>
+        <div class="btn-row">
+          <button class="btn-back" onclick="goTo(0)">← ย้อนกลับ</button>
+          <button class="btn-next" onclick="goTo(2)">ถัดไป →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2: ID VERIFY -->
+    <div class="screen s-form" id="s2">
+      <div class="form-left">
+        <div class="step-indicator">ขั้นตอน 2 จาก 4</div>
+        <div class="form-question">ยืนยัน<br>ตัวตน</div>
+        <div class="form-helper">เลือกวิธียืนยันตัวตนที่สะดวก ระบบจะ cross-check กับฐานข้อมูลท้องถิ่นโดยอัตโนมัติ</div>
+        <div class="annotation">
+          <strong>หมายเหตุ Designer:</strong> ไม่บล็อกการทำงานระหว่างรอ verify — tier 2 ได้รับ badge ทันที แต่ zone access จำกัดจนกว่า coordinator จะ approve<br><br>
+          <strong>Production:</strong> cross-check กับ DOPA API เมื่อมี internet
+        </div>
+      </div>
+      <div class="form-right">
+        <div class="id-options">
+          <div class="id-option selected" onclick="selectId(this)">
+            <div class="id-option-icon">🪪</div>
+            <div class="id-option-body">
+              <div class="id-option-title">เลขบัตรประชาชน 13 หลัก</div>
+              <div class="id-option-sub">กรอกด้วยตนเอง · ทำงาน offline ได้</div>
+            </div>
+            <div class="id-check">✓</div>
+          </div>
+          <div class="id-option" onclick="selectId(this)">
+            <div class="id-option-icon">📷</div>
+            <div class="id-option-body">
+              <div class="id-option-title">สแกน Barcode หลังบัตร</div>
+              <div class="id-option-sub">เร็วกว่า · ไม่ต้องพิมพ์ · ต้องการกล้อง</div>
+            </div>
+            <div class="id-check"></div>
+          </div>
+          <div class="id-option" onclick="selectId(this)">
+            <div class="id-option-icon">🏢</div>
+            <div class="id-option-body">
+              <div class="id-option-title">รหัสหน่วยงาน (เจ้าหน้าที่รัฐ / NGO)</div>
+              <div class="id-option-sub">มีรหัสล่วงหน้าจาก ปภ. หรือ อบต.</div>
+            </div>
+            <div class="id-check"></div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">เลขบัตรประชาชน</label>
+          <input class="input-field filled" type="text" value="1-2345-67890-12-3" placeholder="X-XXXX-XXXXX-XX-X">
+        </div>
+        <div class="btn-row">
+          <button class="btn-back" onclick="goTo(1)">← ย้อนกลับ</button>
+          <button class="btn-next" onclick="goTo(3)">ถัดไป →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3: SKILL -->
+    <div class="screen s-form" id="s3">
+      <div class="form-left">
+        <div class="step-indicator">ขั้นตอน 3 จาก 4</div>
+        <div class="form-question">คุณช่วย<br>อะไรได้บ้าง?</div>
+        <div class="form-helper">เลือกทักษะที่มี ระบบจะ match งานที่เหมาะสมให้คุณโดยอัตโนมัติ เลือกได้มากกว่า 1 อย่าง</div>
+        <div class="annotation">
+          <strong>หมายเหตุ Designer:</strong> skill self-declare ไม่ต้องการ verification ในชั่วโมงแรก — coordinator ตรวจสอบและ upgrade tier ย้อนหลังได้
+        </div>
+      </div>
+      <div class="form-right">
+        <div class="skill-grid">
+          <div class="skill-chip selected" onclick="toggleSkill(this)">
+            <div class="skill-icon">🚑</div>
+            <div class="skill-name">ปฐมพยาบาล</div>
+            <div class="skill-check">✓</div>
+          </div>
+          <div class="skill-chip" onclick="toggleSkill(this)">
+            <div class="skill-icon">🚛</div>
+            <div class="skill-name">ขับรถหนัก</div>
+            <div class="skill-check"></div>
+          </div>
+          <div class="skill-chip selected" onclick="toggleSkill(this)">
+            <div class="skill-icon">🍳</div>
+            <div class="skill-name">ประกอบอาหาร</div>
+            <div class="skill-check">✓</div>
+          </div>
+          <div class="skill-chip" onclick="toggleSkill(this)">
+            <div class="skill-icon">🌐</div>
+            <div class="skill-name">แปลภาษา</div>
+            <div class="skill-check"></div>
+          </div>
+          <div class="skill-chip" onclick="toggleSkill(this)">
+            <div class="skill-icon">⚡</div>
+            <div class="skill-name">ช่างไฟฟ้า</div>
+            <div class="skill-check"></div>
+          </div>
+          <div class="skill-chip" onclick="toggleSkill(this)">
+            <div class="skill-icon">📻</div>
+            <div class="skill-name">วิทยุสื่อสาร</div>
+            <div class="skill-check"></div>
+          </div>
+          <div class="skill-chip" onclick="toggleSkill(this)">
+            <div class="skill-icon">💻</div>
+            <div class="skill-name">IT / คอมพิวเตอร์</div>
+            <div class="skill-check"></div>
+          </div>
+          <div class="skill-chip" onclick="toggleSkill(this)">
+            <div class="skill-icon">🏊</div>
+            <div class="skill-name">ว่ายน้ำ / เรือ</div>
+            <div class="skill-check"></div>
+          </div>
+        </div>
+        <div class="skill-note">เลือกแล้ว 2 ทักษะ · เพิ่มทีหลังได้จาก coordinator</div>
+        <div class="btn-row">
+          <button class="btn-back" onclick="goTo(2)">← ย้อนกลับ</button>
+          <button class="btn-next" onclick="goTo(4)">ตรวจสอบข้อมูล →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4: REVIEW -->
+    <div class="screen s-review" id="s4">
+      <div class="review-left">
+        <div class="step-indicator">ขั้นตอน 4 จาก 4</div>
+        <div class="form-question" style="margin-bottom:10px">ตรวจสอบ<br>ข้อมูล</div>
+        <div class="form-helper" style="margin-bottom:20px">กรุณาตรวจสอบข้อมูลก่อนยืนยัน หลังกด "ยืนยัน" ระบบจะสร้าง badge ให้ทันที</div>
+        <div class="tier-badge">
+          <div class="tier-icon">⏳</div>
+          <div><strong>Tier 2 — รอยืนยัน</strong><br>เข้าพื้นที่ทั่วไปได้ รอ coordinator อนุมัติ</div>
+        </div>
+        <div class="offline-note">
+          <strong>Offline mode:</strong> ข้อมูลบันทึกในเครื่องนี้ก่อน จะ sync อัตโนมัติเมื่อมีสัญญาณ
+        </div>
+      </div>
+      <div class="review-right">
+        <div class="review-card">
+          <div class="rc-label">ชื่อ-นามสกุล</div>
+          <div class="rc-value">สมชาย ใจดี</div>
+          <div class="rc-sub">เบอร์: 081-234-5678</div>
+        </div>
+        <div class="review-card">
+          <div class="rc-label">หมายเลขบัตรประชาชน</div>
+          <div class="rc-value">1-2345-67890-12-3</div>
+          <div class="rc-sub">วิธียืนยัน: กรอกด้วยตนเอง</div>
+        </div>
+        <div class="review-card">
+          <div class="rc-label">ทักษะที่เลือก</div>
+          <div class="skills-preview">
+            <span class="sp-tag">🚑 ปฐมพยาบาล</span>
+            <span class="sp-tag">🍳 ประกอบอาหาร</span>
+          </div>
+        </div>
+        <button class="btn-confirm" onclick="goTo(5)">✓ ยืนยันและรับ Badge</button>
+        <div class="btn-row" style="margin-top:10px">
+          <button class="btn-back" style="width:100%;text-align:center" onclick="goTo(3)">← แก้ไขข้อมูล</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- S5: BADGE -->
+    <div class="screen s-badge" id="s5" style="flex-direction:row;gap:40px;align-items:center;justify-content:center">
+      <div>
+        <div class="badge-card">
+          <div class="badge-header">
+            <div class="badge-logo">🆘</div>
+            <div>
+              <div class="badge-org">LCCS · ปภ.</div>
+              <div class="badge-event">น้ำท่วมเชียงราย 2568</div>
+            </div>
+          </div>
+          <div class="badge-name">สมชาย ใจดี</div>
+          <div class="badge-id-num">ID: LCCS-2568-08471</div>
+          <div class="badge-tier-row">
+            <span class="badge-tier">TIER 2 — รอยืนยัน</span>
+            <span class="badge-zone">zone: ทั่วไป</span>
+          </div>
+          <div class="badge-skills">
+            <span class="bs">🚑 ปฐมพยาบาล</span>
+            <span class="bs">🍳 ประกอบอาหาร</span>
+          </div>
+          <div class="badge-footer">
+            <div class="badge-qr">▦</div>
+            <div class="badge-timestamp">
+              <div>ลงทะเบียน 08:49</div>
+              <div class="badge-pending"><div class="pending-dot"></div>รอ sync...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="badge-right">
+        <div style="font-size:40px;margin-bottom:12px">✅</div>
+        <div class="badge-success-title">ลงทะเบียน<br>เสร็จแล้ว</div>
+        <div class="badge-success-sub">แสดง badge นี้ที่จุดรับงาน coordinator จะ assign งานให้คุณ</div>
+        <div class="badge-actions">
+          <button class="btn-mission" onclick="goTo(0)">รับมอบหมายงาน →</button>
+          <button class="btn-another" onclick="goTo(0)">ลงทะเบียนคนถัดไป</button>
+        </div>
+        <div class="sync-indicator">
+          <div class="sync-icon">🔄</div>
+          <span>บันทึกในเครื่อง · sync เมื่อมีสัญญาณ</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="screen-label" id="screen-label">หน้าต้อนรับ</div>
+    <div class="step-dots">
+      <div class="step-dot active" id="dot0"></div>
+      <div class="step-dot" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+      <div class="step-dot" id="dot4"></div>
+      <div class="step-dot" id="dot5"></div>
+    </div>
+    <div class="time-left" id="timer">0:00</div>
+  </div>
+
+</div>
+
+<script>
+let current = 0;
+let startTime = null;
+let timerInterval = null;
+
+const labels = ['หน้าต้อนรับ','ชื่อ-นามสกุล','ยืนยันตัวตน','ทักษะ','ตรวจสอบ','Badge'];
+const progress = [0, 20, 40, 60, 80, 100];
+
+function goTo(n) {
+  if (n === 1 && startTime === null) {
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+  if (n === 5) {
+    clearInterval(timerInterval);
+  }
+
+  const prev = document.getElementById('s' + current);
+  const next = document.getElementById('s' + n);
+
+  prev.classList.remove('active');
+  prev.classList.add('exit');
+  setTimeout(() => prev.classList.remove('exit'), 300);
+
+  next.classList.add('active');
+
+  current = n;
+  document.getElementById('progress').style.width = progress[n] + '%';
+  document.getElementById('screen-label').textContent = labels[n];
+
+  // dots
+  for (let i = 0; i < 6; i++) {
+    const d = document.getElementById('dot' + i);
+    d.className = 'step-dot';
+    if (i < n) d.classList.add('done');
+    else if (i === n) d.classList.add('active');
+  }
+}
+
+function selectId(el) {
+  document.querySelectorAll('.id-option').forEach(o => {
+    o.classList.remove('selected');
+    o.querySelector('.id-check').textContent = '';
+  });
+  el.classList.add('selected');
+  el.querySelector('.id-check').textContent = '✓';
+}
+
+function toggleSkill(el) {
+  el.classList.toggle('selected');
+  const chk = el.querySelector('.skill-check');
+  chk.textContent = el.classList.contains('selected') ? '✓' : '';
+  const count = document.querySelectorAll('.skill-chip.selected').length;
+  document.querySelector('.skill-note').textContent =
+    `เลือกแล้ว ${count} ทักษะ · เพิ่มทีหลังได้จาก coordinator`;
+}
+
+function updateTimer() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const m = Math.floor(elapsed / 60);
+  const s = elapsed % 60;
+  document.getElementById('timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+// Clock
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2,'0');
+  const m = now.getMinutes().toString().padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// Simulate offline→online after 8s
+setTimeout(() => {
+  document.getElementById('conn-dot').className = 'sb-dot online';
+  document.getElementById('conn-label').textContent = 'ออนไลน์';
+  document.getElementById('conn-label').style.color = 'var(--success)';
+  document.querySelector('.sb-offline').style.color = 'var(--success)';
+}, 8000);
+</script>
+</body>
+</html>

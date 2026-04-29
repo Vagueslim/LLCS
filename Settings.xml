@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathOfBuilding2>
+	<Mode mode="BUILD">
+		<Arg string="C:/Users/Admin/Downloads/New folder (4)/Builds/Ice R150.xml"/>
+		<Arg string="Ice R150"/>
+	</Mode>
+	<Accounts lastRealm="PoE2" lastToken="0f13a0f46b1229734ce696b7bb516adb82cc5187" lastRefreshToken="13f8fdf0492c442a2ecbeaf0facb2aeb3ac35667" tokenExpiry="1767635643"/>
+	<SharedItems/>
+	<Misc betaTest="false" defaultGemQuality="0" defaultCharLevel="1" lastExportWebsite="PoeNinja" invertSliderScrollDirection="false" disableDevAutoSave="false" dpiScaleOverridePercent="0" buildSortMode="NAME" showAllItemAffixes="true" nodePowerTheme="RED/BLUE" showAnimations="true" colorPositive="^x33FF77" showThousandsSeparators="true" POESESSID="" colorNegative="^xDD0022" notSupportedModTooltips="true" colorHighlight="^xFF0000" slotOnlyTooltips="true" connectionProtocol="nil" edgeSearchHighlight="true" thousandsSeparator="," decimalSeparator="." defaultItemAffixQuality="0.5" showTitlebarName="true" showFlavourText="true" showWarnings="true"/>
+</PathOfBuilding2>

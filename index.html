@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LCCS — Life-Critical Command System</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #000;
+  --bg1: #0c0c0c;
+  --bg2: #141414;
+  --border: #222;
+  --border2: #333;
+  --text: #e8e6e0;
+  --muted: #777;
+  --dim: #444;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 42px;
+  background: rgba(0,0,0,0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 48px; gap: 32px; z-index: 100;
+}
+.nav-id { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 24px; margin-left: auto; }
+.nav-link { font-size: 10px; color: var(--muted); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color .15s; }
+.nav-link:hover { color: var(--text); }
+
+main { padding-top: 42px; }
+
+/* ── 01 ORIGIN ── */
+.origin {
+  padding: 96px 48px 80px;
+  border-bottom: 1px solid var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.origin-label {
+  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 48px;
+  display: flex; align-items: center; gap: 12px;
+}
+.origin-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.origin-body {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+}
+.origin-quote {
+  font-family: var(--mono); font-style: italic;
+  font-size: clamp(22px, 3vw, 36px); font-weight: 300;
+  line-height: 1.3; color: var(--text);
+  border-left: 1px solid var(--text); padding-left: 28px;
+}
+.origin-text {
+  font-family: var(--sans); font-size: 15px; font-weight: 300;
+  color: #aaa; line-height: 1.9;
+}
+.origin-text p + p { margin-top: 18px; }
+.origin-text strong { color: var(--text); font-weight: 400; }
+
+/* ── 02 WHAT IS LCCS ── */
+.what {
+  padding: 80px 48px;
+  border-bottom: 1px solid var(--border);
+  max-width: 1100px; margin: 0 auto;
+}
+.what-label {
+  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 48px;
+  display: flex; align-items: center; gap: 12px;
+}
+.what-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.what-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.what-block {
+  background: var(--bg); padding: 28px 24px;
+}
+.wb-num { font-size: 10px; color: var(--dim); margin-bottom: 14px; }
+.wb-title { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
+.wb-desc { font-family: var(--sans); font-size: 13px; color: #999; line-height: 1.8; font-weight: 300; }
+
+/* ── 03 CONTEXT ── */
+.context {
+  padding: 80px 48px;
+  border-bottom: 1px solid var(--border);
+  max-width: 1100px; margin: 0 auto;
+}
+.context-label {
+  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 48px;
+  display: flex; align-items: center; gap: 12px;
+}
+.context-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.context-row { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 28px 0; border-top: 1px solid var(--border); align-items: start; }
+.ctx-title { font-size: 12px; font-weight: 500; color: var(--text); }
+.ctx-body { font-family: var(--sans); font-size: 13px; color: #999; line-height: 1.8; font-weight: 300; }
+.ctx-body strong { color: var(--text); font-weight: 400; }
+
+/* ── 04 NODE MAP ── */
+.nodemap {
+  padding: 80px 48px;
+  border-bottom: 1px solid var(--border);
+  max-width: 1100px; margin: 0 auto;
+}
+.nodemap-label {
+  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.nodemap-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.nodemap-intro {
+  font-family: var(--sans); font-size: 14px; color: #999;
+  font-weight: 300; max-width: 640px; line-height: 1.8; margin-bottom: 48px;
+}
+
+/* tree */
+.tree { display: flex; flex-direction: column; }
+.tree-root-node {
+  display: inline-flex; align-items: baseline; gap: 16px;
+  padding: 14px 20px;
+  background: var(--text); color: var(--bg);
+  font-weight: 600; font-size: 13px; letter-spacing: 0.08em;
+  width: fit-content; margin-bottom: 0;
+}
+.trn-sub { font-size: 10px; color: var(--dim); font-weight: 400; }
+
+.branch-wrap { display: flex; margin-left: 20px; }
+.v-line { width: 1px; background: var(--border2); flex-shrink: 0; }
+.branch-col { flex: 1; }
+
+.branch-row { display: flex; align-items: flex-start; }
+.h-line { width: 32px; height: 1px; background: var(--border2); margin-top: 28px; flex-shrink: 0; }
+
+.ncard {
+  flex: 1; border: 1px solid var(--border);
+  background: var(--bg1); margin: 6px 0;
+  cursor: pointer; transition: border-color .15s, background .15s;
+}
+.ncard:hover { border-color: var(--border2); background: var(--bg2); }
+.ncard.open { border-color: #555; }
+
+.nc-header {
+  display: flex; align-items: center; gap: 0;
+  padding: 14px 18px;
+}
+.nc-num { font-size: 10px; color: var(--dim); width: 36px; flex-shrink: 0; }
+.nc-name { font-size: 13px; font-weight: 500; flex: 1; }
+.nc-tag {
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--border2); padding: 2px 8px; margin-right: 12px;
+}
+.nc-toggle { font-size: 13px; color: var(--dim); transition: transform .2s; }
+.ncard.open .nc-toggle { transform: rotate(45deg); }
+
+.nc-why {
+  padding: 0 18px 14px 54px;
+  font-family: var(--sans); font-size: 12px; color: var(--muted);
+  line-height: 1.7; font-weight: 300;
+}
+
+.nc-detail {
+  display: none; padding: 18px 18px 18px 54px;
+  border-top: 1px solid var(--border);
+}
+.ncard.open .nc-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+
+.nd-block {}
+.nd-label {
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 8px;
+}
+.nd-text { font-family: var(--sans); font-size: 12px; color: #999; line-height: 1.75; font-weight: 300; }
+.nd-text strong { color: var(--text); font-weight: 400; }
+
+.nd-flows { display: flex; flex-direction: column; gap: 5px; }
+.nd-flow { display: flex; align-items: baseline; gap: 8px; font-size: 11px; }
+.ndf-arrow { color: var(--dim); width: 14px; flex-shrink: 0; }
+.ndf-node { color: var(--text); font-family: var(--mono); font-size: 11px; }
+.ndf-what { color: var(--muted); font-family: var(--sans); font-size: 11px; font-weight: 300; }
+
+.nd-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.nd-tag {
+  font-size: 10px; padding: 2px 8px;
+  border: 1px solid var(--border2); color: var(--muted);
+}
+
+/* ── 05 FLOW TABLE ── */
+.flows {
+  padding: 80px 48px;
+  border-bottom: 1px solid var(--border);
+  max-width: 1100px; margin: 0 auto;
+}
+.flows-label {
+  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.flows-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.flows-intro {
+  font-family: var(--sans); font-size: 14px; color: #999;
+  font-weight: 300; max-width: 600px; line-height: 1.8; margin-bottom: 40px;
+}
+
+.flow-row {
+  display: grid; grid-template-columns: 140px 140px 1fr 160px;
+  gap: 0; border-bottom: 1px solid var(--border);
+  transition: background .12s;
+}
+.flow-row:first-of-type { border-top: 1px solid var(--border); }
+.flow-row:hover { background: var(--bg1); }
+.flow-row.head { background: var(--bg1); }
+
+.fr-cell {
+  padding: 12px 16px; font-size: 11px;
+  border-right: 1px solid var(--border);
+}
+.fr-cell:last-child { border-right: none; }
+.flow-row.head .fr-cell {
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dim); font-weight: 400;
+}
+.fc-from { font-weight: 500; color: var(--text); }
+.fc-to { color: var(--muted); }
+.fc-what { font-family: var(--sans); color: #999; font-size: 12px; font-weight: 300; line-height: 1.5; }
+.fc-broken { font-family: var(--sans); color: var(--dim); font-size: 11px; font-weight: 300; line-height: 1.5; font-style: italic; }
+
+/* ── 06 REFERENCE ── */
+.reference {
+  padding: 80px 48px;
+  max-width: 1100px; margin: 0 auto;
+}
+.ref-label {
+  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 48px;
+  display: flex; align-items: center; gap: 12px;
+}
+.ref-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-bottom: 48px; }
+.ref-card { background: var(--bg); padding: 24px; }
+.rc-name { font-size: 12px; font-weight: 500; margin-bottom: 8px; }
+.rc-full { font-size: 10px; color: var(--dim); margin-bottom: 12px; letter-spacing: 0.05em; }
+.rc-desc { font-family: var(--sans); font-size: 12px; color: #999; line-height: 1.7; font-weight: 300; }
+
+.ref-note {
+  font-family: var(--sans); font-size: 13px; color: var(--muted);
+  line-height: 1.9; font-weight: 300; max-width: 720px;
+  border-left: 1px solid var(--border2); padding-left: 24px;
+}
+.ref-note strong { color: var(--text); font-weight: 400; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.ft { font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+section, .origin, .what, .context, .nodemap, .flows, .reference { animation: fadeIn .5s ease both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-id">LCCS</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#why">Why</a>
+    <a class="nav-link" href="#what">What</a>
+    <a class="nav-link" href="#nodes">Nodes</a>
+    <a class="nav-link" href="#flows">Flows</a>
+    <a class="nav-link" href="#ref">Research</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ── 01 ORIGIN ── -->
+<div id="why"></div>
+<div class="origin">
+  <div class="origin-label">01 — Why this exists</div>
+  <div class="origin-body">
+    <div class="origin-quote">
+      "The people saving lives<br>shouldn't have to<br>work until they break."
+    </div>
+    <div class="origin-text">
+      <p>Every time a disaster happens in Thailand, the same images appear. Officials sleeping at the site. Staff writing notes on paper. Three people coordinating a hundred volunteers by phone, surviving on instant noodles and no sleep.</p>
+      <p>The problem is not that these people aren't capable. The problem is that <strong>there is no system to hold the information for them.</strong> So it all lives in their heads. And when they finally go to sleep, the knowledge goes with them — and the next shift starts from zero.</p>
+      <p>LCCS started as a question: <strong>what if the system remembered, so the humans didn't have to?</strong></p>
+      <p>What if a commander could hand off a shift and the next person could walk in, read a screen, and know exactly what's happening — without a 40-minute briefing?</p>
+      <p>What if a volunteer arriving at the site could be registered, assigned, and deployed in 3 minutes instead of standing in a confused crowd?</p>
+      <p>What if a family looking for their mother could just search a name — and get an answer — instead of calling 12 different hotlines?</p>
+      <p>LCCS is that system. Not to replace the humans. To give them rest.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── 02 WHAT IS LCCS ── -->
+<div id="what"></div>
+<div class="what">
+  <div class="what-label">02 — What LCCS is</div>
+  <div class="what-grid">
+    <div class="what-block">
+      <div class="wb-num">01</div>
+      <div class="wb-title">A command layer</div>
+      <div class="wb-desc">LCCS sits above the chaos. It doesn't do the rescuing. It holds the map, the status, the resources, and the decisions — so the people doing the work don't have to hold it all in their heads.</div>
+    </div>
+    <div class="what-block">
+      <div class="wb-num">02</div>
+      <div class="wb-title">An operations backbone</div>
+      <div class="wb-desc">11 nodes, each covering a real function that happens at every disaster site: command, field ops, inventory, medical triage, survivor shelter, food, sanitation, communication, and people search.</div>
+    </div>
+    <div class="what-block">
+      <div class="wb-num">03</div>
+      <div class="wb-title">Designed for degraded conditions</div>
+      <div class="wb-desc">Disasters break infrastructure. LCCS works on Starlink, LoRa mesh radio, and offline-first mobile apps. If the internet dies, the system keeps running and syncs when connection returns.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 03 CONTEXT ── -->
+<div class="context">
+  <div class="context-label">03 — Where the idea comes from</div>
+
+  <div class="context-row">
+    <div class="ctx-title">The image that started it</div>
+    <div class="ctx-body">Tham Luang, 2018. The cave rescue that Thailand watched for 17 days. Officials on-site around the clock. Volunteers from 20 countries. A governor sleeping in a tent. Resources pouring in with no coordinated intake. <strong>It worked — because extraordinary people did extraordinary things under impossible pressure.</strong> But it shouldn't require that. It shouldn't cost that much of a person.</div>
+  </div>
+
+  <div class="context-row">
+    <div class="ctx-title">The research</div>
+    <div class="ctx-body">While designing LCCS from scratch, I discovered that the US has been running the <strong>Incident Command System (ICS)</strong> since 1970, and MIT Lincoln Laboratory built <strong>NICS</strong> — an open-source command platform used in 40+ countries. The Sahana Foundation built disaster management software after the 2004 Tsunami. What I had designed independently aligned with all of them. <strong>That meant the problem was real. And the gap — a system designed for Thai context, Thai language, Thai infrastructure — was also real.</strong></div>
+  </div>
+
+  <div class="context-row">
+    <div class="ctx-title">What LCCS adds</div>
+    <div class="ctx-body">ICS defines the structure. NICS provides the platform. But neither solves the last-mile problem: <strong>a volunteer who just arrived with no credentials, a family searching for a missing person in Thai, a field team reporting from a zone with no internet.</strong> LCCS is designed for those three people specifically.</div>
+  </div>
+</div>
+
+<!-- ── 04 NODE MAP ── -->
+<div id="nodes"></div>
+<div class="nodemap">
+  <div class="nodemap-label">04 — The 11 nodes</div>
+  <div class="nodemap-intro">Each node is a real function that happens at every disaster site. Most of them are currently handled by one exhausted person with a phone and a notebook. Click any node to see why it exists, what it does, and what happens if it breaks.</div>
+
+  <div class="tree">
+    <div class="tree-root-node">
+      WALLROOM — Central Command
+      <span class="trn-sub">all nodes report here</span>
+    </div>
+    <div class="branch-wrap">
+      <div class="v-line"></div>
+      <div class="branch-col">
+
+        <!-- N-01 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-01</div>
+              <div class="nc-name">Command Center</div>
+              <div class="nc-tag">Core</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">The brain. Every decision, every order, every shift handover lives here. Without this, each team operates in isolation — working hard but not together.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">In real disasters, commanders hold the entire operation in their memory. When they sleep or leave, continuity breaks. <strong>This node is institutional memory that doesn't need rest.</strong> Every decision is logged. Every shift handover is a 2-minute screen read, not a 40-minute briefing.</div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Functions</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Mission Dispatch</span>
+                  <span class="nd-tag">Decision Log</span>
+                  <span class="nd-tag">Shift Handover</span>
+                  <span class="nd-tag">Resource Override</span>
+                  <span class="nd-tag">Alert Broadcast</span>
+                  <span class="nd-tag">War Room Display</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">All nodes</div><div class="ndf-what">— status reports</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— field intelligence</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">All nodes</div><div class="ndf-what">— commands + priorities</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— mission cards</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-02 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-02</div>
+              <div class="nc-name">Contact Center</div>
+              <div class="nc-tag">Comms</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">The gate. Every person, donation, or shipment entering the operation passes through here first. It's also where the public calls when they're scared.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">Without a single intake point, international experts arrive at the airport with no one to meet them. Donated supplies pile up at the entrance with no one to record them. <strong>The Contact Center is the difference between "help arrived" and "help reached the right place."</strong></div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Functions</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Public Hotline</span>
+                  <span class="nd-tag">Logistics Coordination</span>
+                  <span class="nd-tag">Airport Escort</span>
+                  <span class="nd-tag">Donation Intake</span>
+                  <span class="nd-tag">Translator Pool</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Public</div><div class="ndf-what">— donation offers, inquiries</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">External Coord</div><div class="ndf-what">— incoming shipments</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Inventory</div><div class="ndf-what">— incoming stock manifest</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— logistics status updates</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-03 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-03</div>
+              <div class="nc-name">Operation Teams</div>
+              <div class="nc-tag">Field</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">The hands. The only node that physically touches survivors. Every other node exists to support this one. If Ops fails, nothing else matters.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">Field teams work disconnected from command — in rubble, in water, without signal. They need mission cards that work offline, and a way to report back that doesn't require a phone call. <strong>LCCS gives them a form that syncs when signal returns, and a mission card that tells them exactly where to go and what to bring.</strong></div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sub-teams</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Recon Wave 1 — hasty survey</span>
+                  <span class="nd-tag">SAR Grid — deep search</span>
+                  <span class="nd-tag">Evacuation</span>
+                  <span class="nd-tag">Supply Delivery</span>
+                  <span class="nd-tag">Zone Inspection</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Command</div><div class="ndf-what">— mission cards with route + gear list</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Inventory</div><div class="ndf-what">— equipment + tools</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— field reports, zone status, damage level</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Triage</div><div class="ndf-what">— survivors with field triage notes</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-04 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-04</div>
+              <div class="nc-name">Inventory & Equipment</div>
+              <div class="nc-tag">Logistics</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">The stockroom. Three asset types: things you consume, things you borrow and return, things you use once. Without this, supplies run out silently and equipment disappears.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">At Tham Luang, volunteers counted supplies manually. Nobody knew how much food was left until it was almost gone. <strong>This node gives every downstream node — kitchen, medical, field — a live count of what's available and warns before it hits zero.</strong></div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Asset categories</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Consumable</span>
+                  <span class="nd-tag">Borrow-Return</span>
+                  <span class="nd-tag">Disposable</span>
+                  <span class="nd-tag">Heavy Machinery</span>
+                  <span class="nd-tag">AV / Comms Gear</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Contact Center</div><div class="ndf-what">— incoming donations</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">External Coord</div><div class="ndf-what">— special equipment from abroad</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Kitchen</div><div class="ndf-what">— raw materials</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Medical</div><div class="ndf-what">— medicine + first aid</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— field equipment</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-05 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-05</div>
+              <div class="nc-name">Power & Comms Infra</div>
+              <div class="nc-tag">Critical</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">The one node that, if it fails, takes everything else down with it. Dedicated team, 24h. Not optional.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">Power and comms are always buried inside logistics — handled by whoever is around. That means when the generator dies at 2am, there's no dedicated team to fix it. <strong>LCCS makes this a named node with its own staff, its own fuel tracking, and its own redundancy plan.</strong></div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Infrastructure</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Generator + Fuel</span>
+                  <span class="nd-tag">Starlink (LEO satellite)</span>
+                  <span class="nd-tag">VHF Radio</span>
+                  <span class="nd-tag">LoRa Mesh (offline)</span>
+                  <span class="nd-tag">Offline-First Sync</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Dependency note</div>
+                <div class="nd-text"><strong>Single point of failure.</strong> All 10 other nodes depend on this one. Redundancy is not optional — it is the entire design requirement of this node.</div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">All nodes</div><div class="ndf-what">— power, signal, connectivity</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-06 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-06</div>
+              <div class="nc-name">Triage & Medical</div>
+              <div class="nc-tag">Medical</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">Where survivors enter the system. Every person passing through triage is automatically registered — which means families can search for them the moment they're admitted.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">After Hurricane Katrina, hospitals had no unified list of who they'd admitted. Families called facility after facility. <strong>LCCS connects triage directly to People Registry — auto-register on intake. No extra step. No extra person needed.</strong></div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Functions</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">INSARAG Triage Tag</span>
+                  <span class="nd-tag">Medical Record</span>
+                  <span class="nd-tag">Medicine Dispense</span>
+                  <span class="fn-tag">Hospital Transfer</span>
+                  <span class="nd-tag">ER Coordination</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— survivors + field triage</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Inventory</div><div class="ndf-what">— medicine + equipment</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">People Registry</div><div class="ndf-what">— auto on intake</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Shelter</div><div class="ndf-what">— cleared patients</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-07 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-07</div>
+              <div class="nc-name">People Registry</div>
+              <div class="nc-tag">Public</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">The most human node. Status: safe, hospitalized, in shelter, missing. Anyone can search. No account needed. No phone call required.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">After every disaster, families flood hotlines asking "is my mother alive?" Staff spend hours on the phone giving the same answer to different people. <strong>This node answers that question automatically, without anyone picking up.</strong> It's the most public-facing piece of LCCS and the one that matters most to ordinary people.</div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Status types</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Safe (self-reported)</span>
+                  <span class="nd-tag">In Shelter</span>
+                  <span class="nd-tag">Hospitalized</span>
+                  <span class="nd-tag">Missing</span>
+                  <span class="nd-tag">Deceased</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Triage</div><div class="ndf-what">— auto-register on intake</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Shelter</div><div class="ndf-what">— check-in data</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Public</div><div class="ndf-what">— "I am safe" self-report</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Public portal</div><div class="ndf-what">— family search, no login needed</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— missing person count</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-08 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-08</div>
+              <div class="nc-name">Survivor Shelter</div>
+              <div class="nc-tag">Care</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">Where people wait, sleep, and recover. Capacity tracking prevents silent overflow. Registry link means families know exactly where their person is sleeping tonight.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">Shelter overflow is invisible until it becomes a crisis. A site rated for 200 people quietly reaches 350 and nobody alerts Command. <strong>This node gives Command a live number — and triggers a redirect before the threshold is crossed.</strong></div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Functions</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Check-in / Check-out</span>
+                  <span class="nd-tag">Capacity Live Count</span>
+                  <span class="nd-tag">Special Needs Flag</span>
+                  <span class="nd-tag">People Registry Sync</span>
+                  <span class="nd-tag">Overflow Alert</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Triage</div><div class="ndf-what">— cleared survivors</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Kitchen</div><div class="ndf-what">— meal delivery schedule</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">People Registry</div><div class="ndf-what">— location update</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— capacity status + overflow alert</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-09 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-09</div>
+              <div class="nc-name">Kitchen & Food</div>
+              <div class="nc-tag">Sustain</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">Rescuers can't work on empty stomachs. Neither can survivors. Food logistics is chaos without this node — donated food arrives in waves with no coordination and no count.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">Donations of food arrive whenever, in whatever quantities donors decide. Without this node, the kitchen doesn't know what's coming, what's left, or who gets fed first. <strong>This node turns chaotic generosity into a planned meal schedule with predictable restocking.</strong></div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Functions</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Meal Schedule</span>
+                  <span class="nd-tag">Live Stock Level</span>
+                  <span class="nd-tag">Dietary Needs</span>
+                  <span class="nd-tag">Low Stock Alert</span>
+                  <span class="nd-tag">Distribution Log</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Inventory</div><div class="ndf-what">— raw materials</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Shelter</div><div class="ndf-what">— meals on schedule</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— field rations</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Inventory</div><div class="ndf-what">— consumption data for restocking</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-10 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-10</div>
+              <div class="nc-name">Sanitation & Welfare</div>
+              <div class="nc-tag">Often Missed</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">The forgotten node. Toilets, clean water, waste management. By day 3 without this, disease spreads faster than any rescue team can handle. It is never in the initial plan. It should be.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">Sanitation is always added reactively — after the first person gets sick. <strong>LCCS puts it in the Day 1 setup checklist, not the Day 4 emergency list.</strong> Also houses psychosocial support: by Day 3, both survivors and responders are showing signs of trauma that need dedicated attention — not a triage nurse with 40 other patients.</div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Functions</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Portable Sanitation</span>
+                  <span class="nd-tag">Clean Water Supply</span>
+                  <span class="nd-tag">Waste Management</span>
+                  <span class="nd-tag">Psychosocial Support</span>
+                  <span class="nd-tag">Responder Welfare</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Note on timing</div>
+                <div class="nd-text">Merges with Medical on Day 1–2. Splits into its own node by Day 3 when psychosocial and hygiene loads each require dedicated staff.</div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— hygiene status</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Medical</div><div class="ndf-what">— disease risk flag</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- N-11 -->
+        <div class="branch-row">
+          <div class="h-line"></div>
+          <div class="ncard" onclick="tog(this)">
+            <div class="nc-header">
+              <div class="nc-num">N-11</div>
+              <div class="nc-name">External Coordination</div>
+              <div class="nc-tag">External</div>
+              <div class="nc-toggle">+</div>
+            </div>
+            <div class="nc-why">When the disaster exceeds what the country can handle alone, this node bridges to the world. Embassies, charter flights, international USAR teams, repatriation.</div>
+            <div class="nc-detail">
+              <div class="nd-block">
+                <div class="nd-label">The real problem it solves</div>
+                <div class="nd-text">International aid arrives with its own logistics, language, protocols, and equipment manifests. <strong>Without a dedicated node, foreign experts land at the airport and wait for hours while the site continues burning.</strong> This node is the escort — from the airport gate to the right team on site.</div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Functions</div>
+                <div class="nd-tags">
+                  <span class="nd-tag">Embassy Liaison</span>
+                  <span class="nd-tag">Charter Cargo Flight</span>
+                  <span class="nd-tag">Int'l USAR Integration</span>
+                  <span class="nd-tag">Repatriation</span>
+                  <span class="nd-tag">Aid Intake Protocol</span>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Receives from</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Command</div><div class="ndf-what">— international assistance request</div></div>
+                </div>
+              </div>
+              <div class="nd-block">
+                <div class="nd-label">Sends to</div>
+                <div class="nd-flows">
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Contact Center</div><div class="ndf-what">— incoming teams + ETA</div></div>
+                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Inventory</div><div class="ndf-what">— special equipment from abroad</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 05 FLOWS ── -->
+<div id="flows"></div>
+<div class="flows">
+  <div class="flows-label">05 — What breaks if a flow is cut</div>
+  <div class="flows-intro">Nodes don't work alone. The value of LCCS is in the connections — the automatic handoffs that currently require a phone call, a sticky note, or someone's memory.</div>
+
+  <div class="flow-row head">
+    <div class="fr-cell">From</div>
+    <div class="fr-cell">To</div>
+    <div class="fr-cell">What flows</div>
+    <div class="fr-cell">If this breaks</div>
+  </div>
+  <div class="flow-row"><div class="fr-cell fc-from">Command</div><div class="fr-cell fc-to">All nodes</div><div class="fr-cell fc-what">Orders, priorities, shift schedules, resource allocation</div><div class="fr-cell fc-broken">Teams work hard but not together. Duplication. Contradiction.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Ops Teams</div><div class="fr-cell fc-to">Command</div><div class="fr-cell fc-what">Field reports: damage, access routes, survivors found, hazards</div><div class="fr-cell fc-broken">Command makes decisions blind. Wrong team sent to wrong place.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Ops Teams</div><div class="fr-cell fc-to">Triage</div><div class="fr-cell fc-what">Survivors with field triage notes — injury type, location found, condition</div><div class="fr-cell fc-broken">Medical team unprepared. No continuity from field to facility.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Triage</div><div class="fr-cell fc-to">People Registry</div><div class="fr-cell fc-what">Auto-register on intake — name, status, location</div><div class="fr-cell fc-broken">Families can't find their person. Hotlines flood. Staff overwhelmed.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Inventory</div><div class="fr-cell fc-to">Kitchen / Medical</div><div class="fr-cell fc-what">Raw materials, medicine, equipment with asset log</div><div class="fr-cell fc-broken">Kitchen runs out silently. Medicine count lost. No warning.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Kitchen</div><div class="fr-cell fc-to">Inventory</div><div class="fr-cell fc-what">Consumption feedback — what was used, what remains</div><div class="fr-cell fc-broken">Can't forecast restocking. Over-order or under-order by Day 3.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Power & Comms</div><div class="fr-cell fc-to">All nodes</div><div class="fr-cell fc-what">Electricity, internet signal, radio connectivity</div><div class="fr-cell fc-broken">All digital systems dark. Entire operation reverts to paper and memory.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Shelter</div><div class="fr-cell fc-to">People Registry</div><div class="fr-cell fc-what">Location update — which site, which zone</div><div class="fr-cell fc-broken">Registry shows stale location. Families arrive at the wrong shelter.</div></div>
+  <div class="flow-row"><div class="fr-cell fc-from">Sanitation</div><div class="fr-cell fc-to">Medical</div><div class="fr-cell fc-what">Disease risk flag — water quality, waste overflow, early outbreak signal</div><div class="fr-cell fc-broken">Outbreak begins before medical team is aware. Response too late.</div></div>
+</div>
+
+<!-- ── 06 REFERENCE ── -->
+<div id="ref"></div>
+<div class="reference">
+  <div class="ref-label">06 — Research & alignment</div>
+
+  <div class="ref-grid">
+    <div class="ref-card">
+      <div class="rc-name">ICS</div>
+      <div class="rc-full">Incident Command System — US, 1970</div>
+      <div class="rc-desc">The standard for emergency command structure worldwide. LCCS mirrors its hierarchy: Command → Operations → Logistics → Medical. Developed after a catastrophic miscommunication during California wildfires.</div>
+    </div>
+    <div class="ref-card">
+      <div class="rc-name">NICS</div>
+      <div class="rc-full">Next-Generation Incident Command System — MIT Lincoln Lab</div>
+      <div class="rc-desc">Open-source web platform used by 40+ countries. Originally built for wildfire response. LCCS extends this concept with Thai-language support, offline-first mobile, and last-mile logistics tracking.</div>
+    </div>
+    <div class="ref-card">
+      <div class="rc-name">INSARAG</div>
+      <div class="rc-full">International Search and Rescue Advisory Group — UN</div>
+      <div class="rc-desc">Sets global standards for Urban Search & Rescue teams. The building marking system (triage cross on walls) and the two-wave search protocol (hasty + grid) in LCCS come directly from INSARAG guidelines.</div>
+    </div>
+  </div>
+
+  <div class="ref-note">
+    LCCS was designed independently — starting from watching the Tham Luang rescue and asking why it had to be so hard — before discovering that ICS, NICS, and INSARAG already existed. <strong>The fact that the design converged with global standards without referencing them is the most useful finding of this project.</strong> It suggests the problems LCCS addresses are universal, not Thai-specific. The gap it fills — Thai language, Thai infrastructure, last-mile field operations, volunteer identity — remains real and unaddressed by existing tools.
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="ft">LCCS — a concept by someone who thinks the people saving lives deserve to rest</div>
+  <div class="ft">ICS · NICS · INSARAG · Sahana aligned</div>
+</footer>
+
+<script>
+function tog(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.ncard.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    card.classList.add('open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+</script>
+</body>
+</html>

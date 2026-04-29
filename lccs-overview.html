@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LCCS — Life-Critical Command System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080808;
+  --bg2: #0f0f0f;
+  --bg3: #161616;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8e6e0;
+  --muted: rgba(232,230,224,0.45);
+  --dim: rgba(232,230,224,0.2);
+
+  --red: #ff4d3a;
+  --amber: #f5a623;
+  --green: #3dd68c;
+  --blue: #4d9fff;
+  --purple: #a78bfa;
+  --pink: #f472b6;
+  --teal: #2dd4bf;
+  --gray: #6b7280;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans Thai', 'DM Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.page { position: relative; z-index: 1; }
+
+/* ── HEADER ── */
+header {
+  padding: 48px 60px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  animation: fadeUp 0.8s ease both;
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 80px 60px 0;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.hero-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--red);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red);
+  animation: pulse 2s infinite;
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(42px, 6vw, 88px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 28px;
+}
+
+.hero-title .accent { color: var(--red); }
+
+.hero-sub {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* ── DIVIDER ── */
+.section-divider {
+  margin: 60px 60px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.section-divider .line { flex: 1; height: 1px; background: var(--border); }
+.section-divider .label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ── SYSTEM MAP ── */
+.system-map {
+  padding: 48px 60px;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.map-canvas {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+/* SVG connections */
+.connections {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Node layout */
+.nodes-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 0;
+  position: relative;
+  min-height: 680px;
+}
+
+.col { display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+.col-left { padding-right: 40px; align-items: flex-end; }
+.col-center { align-items: center; justify-content: center; position: relative; }
+.col-right { padding-left: 40px; align-items: flex-start; }
+
+/* CENTER NODE */
+.center-node {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 1px solid rgba(255,77,58,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: default;
+  box-shadow: 0 0 60px rgba(255,77,58,0.08), inset 0 0 40px rgba(255,77,58,0.03);
+  transition: box-shadow 0.3s;
+  z-index: 10;
+}
+.center-node::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,77,58,0.15);
+}
+.center-node::after {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,77,58,0.06);
+}
+.center-node:hover { box-shadow: 0 0 80px rgba(255,77,58,0.15), inset 0 0 40px rgba(255,77,58,0.05); }
+
+.center-node .cn-label {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red);
+  text-align: center;
+}
+.center-node .cn-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 4px;
+  letter-spacing: 0.1em;
+}
+
+/* PERIPHERAL NODES */
+.node {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  position: relative;
+  width: 100%;
+  max-width: 220px;
+}
+.node:hover {
+  border-color: var(--border2);
+  background: #1a1a1a;
+  transform: translateY(-2px);
+}
+.node.active { border-color: var(--node-color, var(--border2)); }
+
+.node-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--node-color, var(--dim));
+  margin-bottom: 8px;
+  box-shadow: 0 0 6px var(--node-color, transparent);
+}
+.node-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.node-sub {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-family: 'DM Mono', monospace;
+}
+.node-tag {
+  display: inline-block;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-top: 7px;
+  font-family: 'DM Mono', monospace;
+  border: 1px solid var(--node-color, var(--border));
+  color: var(--node-color, var(--muted));
+  opacity: 0.8;
+}
+
+/* STATUS BADGE */
+.status-bar {
+  display: flex;
+  gap: 20px;
+  margin: 32px 60px 0;
+  padding: 16px 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  animation: fadeUp 0.8s 0.5s ease both;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  border-right: 1px solid var(--border);
+  padding-right: 20px;
+}
+.stat:last-child { border-right: none; padding-right: 0; }
+.stat-val {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text);
+}
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* DETAIL PANEL */
+.detail-panel {
+  margin: 24px 60px;
+  padding: 20px 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: none;
+  animation: fadeUp 0.3s ease both;
+}
+.detail-panel.show { display: block; }
+.detail-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.detail-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.detail-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+
+/* TIMELINE */
+.timeline-section {
+  margin: 40px 60px 0;
+  animation: fadeUp 0.8s 0.6s ease both;
+}
+.timeline-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.timeline-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.tl-phase {
+  background: var(--bg2);
+  padding: 20px;
+  position: relative;
+}
+.tl-phase::before {
+  content: attr(data-day);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--dim);
+  display: block;
+  margin-bottom: 10px;
+  letter-spacing: 0.1em;
+}
+.tl-phase-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.tl-node {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.tl-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+/* FOOTER */
+footer {
+  margin: 60px 60px 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fadeUp 0.8s 0.7s ease both;
+}
+.footer-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+}
+.footer-links { display: flex; gap: 24px; }
+.footer-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-link:hover { color: var(--text); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="logo">LCCS — Life-Critical Command System</div>
+  <div class="badge">Concept · 2024</div>
+</header>
+
+<section class="hero">
+  <div class="hero-label">System Architecture Overview</div>
+  <h1 class="hero-title">
+    When chaos<br>needs a <span class="accent">spine.</span>
+  </h1>
+  <p class="hero-sub">
+    ระบบบริหารจัดการภัยพิบัติที่ออกแบบมาเพื่อช่วยให้คนที่กำลังช่วยชีวิตคนอื่น ได้พักบ้าง
+  </p>
+</section>
+
+<div class="section-divider">
+  <div class="line"></div>
+  <div class="label">Node Map — 11 Core Nodes</div>
+  <div class="line"></div>
+</div>
+
+<section class="system-map">
+  <div class="map-canvas">
+    <svg class="connections" id="svg-conn" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <div class="nodes-grid" id="nodes-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="col col-left">
+        <div class="node" data-id="cmd" style="--node-color:#ff4d3a" id="n-cmd"
+          onclick="selectNode('cmd','Command Center','ศูนย์บัญชาการหลัก รับข้อมูลจากทุก node ออกคำสั่ง และ ตัดสินใจ War Room อยู่ที่นี่','War Room,Decision Log,Shift Mgmt,Real-time Feed')">
+          <div class="node-dot"></div>
+          <div class="node-title">Command Center</div>
+          <div class="node-sub">War Room · ออกคำสั่ง · Decision log</div>
+          <span class="node-tag">CORE</span>
+        </div>
+
+        <div class="node" data-id="contact" style="--node-color:#4d9fff" id="n-contact"
+          onclick="selectNode('contact','Contact Center','หัวใจการประสานงาน รับแจ้ง inbound ประสานภายนอก logistics ขาเข้า hotline สาธารณะ','Inbound,Logistics Coord,Hotline,Ambassador Liaison')">
+          <div class="node-dot"></div>
+          <div class="node-title">Contact Center</div>
+          <div class="node-sub">ประสานงาน · Inbound · Logistics</div>
+          <span class="node-tag">COMMS</span>
+        </div>
+
+        <div class="node" data-id="power" style="--node-color:#f5a623" id="n-power"
+          onclick="selectNode('power','Power & Comms Infra','เครื่องปั่นไฟ fuel สายไฟ วิทยุ Starlink ถ้า node นี้ล้ม ทุก node หยุดพร้อมกัน Single Point of Failure','Generator,Fuel,Starlink,VHF Radio,LoRa Mesh')">
+          <div class="node-dot"></div>
+          <div class="node-title">Power & Comms</div>
+          <div class="node-sub">Infra · Starlink · Mesh radio</div>
+          <span class="node-tag">CRITICAL INFRA</span>
+        </div>
+
+        <div class="node" data-id="ext" style="--node-color:#a78bfa" id="n-ext"
+          onclick="selectNode('ext','External Coordination','ประสานสถานทูต เที่ยวบินขนสินค้า ผู้เชี่ยวชาญต่างชาติ อุปกรณ์พิเศษจากต่างประเทศ','Embassy,Charter Flight,USAR Teams,International Aid')">
+          <div class="node-dot"></div>
+          <div class="node-title">External Coord.</div>
+          <div class="node-sub">สถานทูต · เที่ยวบิน · ต่างประเทศ</div>
+          <span class="node-tag">EXTERNAL</span>
+        </div>
+      </div>
+
+      <!-- CENTER -->
+      <div class="col col-center">
+        <div class="center-node" id="center-node">
+          <div class="cn-label">WALLROOM</div>
+          <div class="cn-sub">Central Command</div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col col-right">
+        <div class="node" data-id="ops" style="--node-color:#3dd68c" id="n-ops"
+          onclick="selectNode('ops','Operation Teams','ทีม Recon SAR Evac Supply แยกย่อยตาม mission รายงานกลับ Command ผ่าน LCCS Op App','Recon Wave 1,SAR Grid,Evac,Supply Delivery,Zone Inspect')">
+          <div class="node-dot"></div>
+          <div class="node-title">Operation Teams</div>
+          <div class="node-sub">Recon · SAR · Evac · Supply</div>
+          <span class="node-tag">FIELD OPS</span>
+        </div>
+
+        <div class="node" data-id="inv" style="--node-color:#f5a623" id="n-inv"
+          onclick="selectNode('inv','Inventory & Equipment','คลังสินค้า เครื่องจักรกลาง อุปกรณ์ทีม track asset เข้า-ออก แยกประเภท ยืม-คืน ใช้แล้วทิ้ง','Asset Tracking,คลังแห้ง,คลังเย็น,เครื่องจักร,TV/Projector')">
+          <div class="node-dot"></div>
+          <div class="node-title">Inventory & Equipment</div>
+          <div class="node-sub">Asset track · คลัง · เครื่องจักร</div>
+          <span class="node-tag">LOGISTICS</span>
+        </div>
+
+        <div class="node" data-id="kitchen" style="--node-color:#2dd4bf" id="n-kitchen"
+          onclick="selectNode('kitchen','Kitchen & Food','รับวัตถุดิบจาก Inventory ผลิตอาหาร แจกจ่ายตาม schedule track ปริมาณและ stock','วัตถุดิบ,Production,Distribution,Stock Alert')">
+          <div class="node-dot"></div>
+          <div class="node-title">Kitchen & Food</div>
+          <div class="node-sub">อาหาร · แจกจ่าย · stock</div>
+          <span class="node-tag">SUSTAIN</span>
+        </div>
+
+        <div class="node" data-id="shelter" style="--node-color:#f472b6" id="n-shelter"
+          onclick="selectNode('shelter','Survivor Shelter','ความจุ check-in/out ความต้องการพิเศษ เชื่อมกับ People Registry โดยตรง','Check-in,ความจุ,Special Needs,Registry Link')">
+          <div class="node-dot"></div>
+          <div class="node-title">Survivor Shelter</div>
+          <div class="node-sub">ที่พัก · Check-in · Registry</div>
+          <span class="node-tag">CARE</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom row nodes -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px">
+    <div class="node" data-id="triage" style="--node-color:#ff4d3a;max-width:100%" id="n-triage"
+      onclick="selectNode('triage','Triage & Medical','Triage tag บันทึกเวช คลังยา ส่งต่อ รพ. เชื่อมกับ People Registry อัตโนมัติ','Triage Tag,เวชระเบียน,คลังยา,ส่งต่อ รพ.,ER')">
+      <div class="node-dot"></div>
+      <div class="node-title">Triage & Medical</div>
+      <div class="node-sub">คัดแยก · เวช · ยา · ส่งต่อ</div>
+      <span class="node-tag">MEDICAL</span>
+    </div>
+    <div class="node" data-id="registry" style="--node-color:#a78bfa;max-width:100%" id="n-registry"
+      onclick="selectNode('registry','People Registry','ผู้ประสบภัย สูญหาย ปลอดภัย รักษาตัว ญาติค้นหาได้ผ่าน public portal เชื่อม triage + shelter','ผู้ประสบภัย,สูญหาย,ปลอดภัย,Family Search,Public Portal')">
+      <div class="node-dot"></div>
+      <div class="node-title">People Registry</div>
+      <div class="node-sub">ผู้ประสบภัย · สูญหาย · Family Search</div>
+      <span class="node-tag">PUBLIC</span>
+    </div>
+    <div class="node" data-id="sanitation" style="--node-color:#6b7280;max-width:100%" id="n-sanitation"
+      onclick="selectNode('sanitation','Sanitation & Welfare','ห้องน้ำชั่วคราว น้ำสะอาด garbage Psychosocial support node ที่มักถูกลืมแต่ล้มเหลวเร็วที่สุดถ้าไม่มี','น้ำสะอาด,สุขาภิบาล,จิตวิทยา,Welfare')">
+      <div class="node-dot"></div>
+      <div class="node-title">Sanitation & Welfare</div>
+      <div class="node-sub">สุขาภิบาล · น้ำ · Psychosocial</div>
+      <span class="node-tag">OFTEN MISSED</span>
+    </div>
+  </div>
+</section>
+
+<!-- Detail panel -->
+<div class="detail-panel" id="detail-panel">
+  <div class="detail-title" id="d-title"></div>
+  <div class="detail-desc" id="d-desc"></div>
+  <div class="detail-chips" id="d-chips"></div>
+</div>
+
+<!-- Stats -->
+<div class="status-bar">
+  <div class="stat">
+    <div class="stat-val">11</div>
+    <div class="stat-label">Core Nodes</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">7</div>
+    <div class="stat-label">Day Coverage</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">4</div>
+    <div class="stat-label">KYC Tiers</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">3</div>
+    <div class="stat-label">Connectivity Modes</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">ICS</div>
+    <div class="stat-label">Framework Aligned</div>
+  </div>
+</div>
+
+<!-- Timeline -->
+<div class="timeline-section">
+  <div class="timeline-title">7-Day Activation Sequence</div>
+  <div class="timeline">
+    <div class="tl-phase" data-day="Day 1–2">
+      <div class="tl-phase-name">Establish</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#ff4d3a"></div>Command</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#3dd68c"></div>Ops Recon</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#ff4d3a"></div>Triage</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#a78bfa"></div>Registry</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#f5a623"></div>Power/Comms</div>
+    </div>
+    <div class="tl-phase" data-day="Day 2–3">
+      <div class="tl-phase-name">Deploy</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#3dd68c"></div>Ops SAR</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#2dd4bf"></div>Kitchen</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#f472b6"></div>Shelter</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#4d9fff"></div>Contact Ctr</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#f5a623"></div>Inventory</div>
+    </div>
+    <div class="tl-phase" data-day="Day 3–5">
+      <div class="tl-phase-name">Sustain</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#3dd68c"></div>Ops Evac</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#3dd68c"></div>Supply Delivery</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#6b7280"></div>Sanitation</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#a78bfa"></div>External Coord</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#a78bfa"></div>Registry ✦</div>
+    </div>
+    <div class="tl-phase" data-day="Day 5–7">
+      <div class="tl-phase-name">Stabilize</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#3dd68c"></div>Ops Recovery</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#ff4d3a"></div>Medical ✦</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#f472b6"></div>Shelter ✦</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#6b7280"></div>Psychosocial</div>
+      <div class="tl-node"><div class="tl-dot" style="background:#ff4d3a"></div>AAR Prep</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-text">LCCS — A concept for those who help, deserve rest too.</div>
+  <div class="footer-links">
+    <a class="footer-link" href="#">Overview</a>
+    <a class="footer-link" href="#">Deep Dives</a>
+    <a class="footer-link" href="#">Research</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const nodeData = {};
+
+function selectNode(id, title, desc, chips) {
+  const panel = document.getElementById('detail-panel');
+  document.getElementById('d-title').textContent = title;
+  document.getElementById('d-desc').textContent = desc;
+  document.getElementById('d-chips').innerHTML = chips.split(',').map(c =>
+    `<span class="chip">${c.trim()}</span>`
+  ).join('');
+  panel.classList.add('show');
+  document.querySelectorAll('.node').forEach(n => n.style.background = '');
+  const clicked = document.getElementById('n-' + id);
+  if (clicked) clicked.style.background = '#1d1d1d';
+}
+
+// Draw SVG connections
+function drawConnections() {
+  const svg = document.getElementById('svg-conn');
+  svg.innerHTML = '';
+  const center = document.getElementById('center-node');
+  if (!center) return;
+  const mapRect = document.querySelector('.map-canvas').getBoundingClientRect();
+  const cRect = center.getBoundingClientRect();
+  const cx = cRect.left - mapRect.left + cRect.width / 2;
+  const cy = cRect.top - mapRect.top + cRect.height / 2;
+
+  const nodeIds = ['cmd','contact','power','ext','ops','inv','kitchen','shelter'];
+  const colors = {
+    cmd:'#ff4d3a', contact:'#4d9fff', power:'#f5a623', ext:'#a78bfa',
+    ops:'#3dd68c', inv:'#f5a623', kitchen:'#2dd4bf', shelter:'#f472b6'
+  };
+
+  nodeIds.forEach(id => {
+    const el = document.getElementById('n-' + id);
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const nx = r.left - mapRect.left + r.width / 2;
+    const ny = r.top - mapRect.top + r.height / 2;
+    const color = colors[id] || '#444';
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+    line.setAttribute('stroke', color);
+    line.setAttribute('stroke-width', '0.5');
+    line.setAttribute('stroke-opacity', '0.25');
+    svg.appendChild(line);
+  });
+
+  // bottom row connections
+  ['triage','registry','sanitation'].forEach((id, i) => {
+    const colors2 = ['#ff4d3a','#a78bfa','#6b7280'];
+    const el = document.getElementById('n-' + id);
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const nx = r.left - mapRect.left + r.width / 2;
+    const ny = r.top - mapRect.top + r.height / 2;
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+    line.setAttribute('stroke', colors2[i]);
+    line.setAttribute('stroke-width', '0.5');
+    line.setAttribute('stroke-opacity', '0.2');
+    svg.appendChild(line);
+  });
+}
+
+setTimeout(drawConnections, 300);
+window.addEventListener('resize', drawConnections);
+</script>
+</body>
+</html>
