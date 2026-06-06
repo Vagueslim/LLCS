@@ -1,1100 +1,629 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LCCS — Life-Critical Command System</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #000;
-  --bg1: #0c0c0c;
-  --bg2: #141414;
-  --border: #222;
-  --border2: #333;
-  --text: #e8e6e0;
-  --muted: #777;
-  --dim: #444;
-  --mono: 'IBM Plex Mono', monospace;
-  --sans: 'IBM Plex Sans', sans-serif;
-}
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-/* NAV */
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 42px;
-  background: rgba(0,0,0,0.95);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center;
-  padding: 0 48px; gap: 32px; z-index: 100;
-}
-.nav-id { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
-.nav-sep { flex: 1; }
-.nav-links { display: flex; gap: 24px; }
-.nav-link { font-size: 10px; color: var(--muted); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color .15s; }
-.nav-link:hover { color: var(--text); }
-.nav-cta {
-  margin-left: 20px;
-  font-size: 10px; color: var(--bg); background: var(--text);
-  padding: 6px 14px; text-decoration: none;
-  font-family: var(--mono); font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  transition: opacity .15s; white-space: nowrap;
-}
-.nav-cta:hover { opacity: 0.85; }
-
-main { padding-top: 42px; }
-
-/* ── 01 ORIGIN ── */
-.origin {
-  padding: 96px 48px 80px;
-  border-bottom: 1px solid var(--border);
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.origin-label {
-  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
-  text-transform: uppercase; margin-bottom: 48px;
-  display: flex; align-items: center; gap: 12px;
-}
-.origin-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.origin-body {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
-}
-.origin-quote {
-  font-family: var(--mono); font-style: italic;
-  font-size: clamp(22px, 3vw, 36px); font-weight: 300;
-  line-height: 1.3; color: var(--text);
-  border-left: 1px solid var(--text); padding-left: 28px;
-}
-.origin-text {
-  font-family: var(--sans); font-size: 15px; font-weight: 300;
-  color: #aaa; line-height: 1.9;
-}
-.origin-text p + p { margin-top: 18px; }
-.origin-text strong { color: var(--text); font-weight: 400; }
-
-/* ── 02 WHAT IS LCCS ── */
-.what {
-  padding: 80px 48px;
-  border-bottom: 1px solid var(--border);
-  max-width: 1100px; margin: 0 auto;
-}
-.what-label {
-  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
-  text-transform: uppercase; margin-bottom: 48px;
-  display: flex; align-items: center; gap: 12px;
-}
-.what-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.what-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
-.what-block {
-  background: var(--bg); padding: 28px 24px;
-}
-.wb-num { font-size: 10px; color: var(--dim); margin-bottom: 14px; }
-.wb-title { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
-.wb-desc { font-family: var(--sans); font-size: 13px; color: #999; line-height: 1.8; font-weight: 300; }
-
-/* ── 03 CONTEXT ── */
-.context {
-  padding: 80px 48px;
-  border-bottom: 1px solid var(--border);
-  max-width: 1100px; margin: 0 auto;
-}
-.context-label {
-  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
-  text-transform: uppercase; margin-bottom: 48px;
-  display: flex; align-items: center; gap: 12px;
-}
-.context-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.context-row { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 28px 0; border-top: 1px solid var(--border); align-items: start; }
-.ctx-title { font-size: 12px; font-weight: 500; color: var(--text); }
-.ctx-body { font-family: var(--sans); font-size: 13px; color: #999; line-height: 1.8; font-weight: 300; }
-.ctx-body strong { color: var(--text); font-weight: 400; }
-
-/* ── 04 NODE MAP ── */
-.nodemap {
-  padding: 80px 48px;
-  border-bottom: 1px solid var(--border);
-  max-width: 1100px; margin: 0 auto;
-}
-.nodemap-label {
-  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
-  text-transform: uppercase; margin-bottom: 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-.nodemap-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.nodemap-intro {
-  font-family: var(--sans); font-size: 14px; color: #999;
-  font-weight: 300; max-width: 640px; line-height: 1.8; margin-bottom: 48px;
-}
-
-/* tree */
-.tree { display: flex; flex-direction: column; }
-.tree-root-node {
-  display: inline-flex; align-items: baseline; gap: 16px;
-  padding: 14px 20px;
-  background: var(--text); color: var(--bg);
-  font-weight: 600; font-size: 13px; letter-spacing: 0.08em;
-  width: fit-content; margin-bottom: 0;
-}
-.trn-sub { font-size: 10px; color: var(--dim); font-weight: 400; }
-
-.branch-wrap { display: flex; margin-left: 20px; }
-.v-line { width: 1px; background: var(--border2); flex-shrink: 0; }
-.branch-col { flex: 1; }
-
-.branch-row { display: flex; align-items: flex-start; }
-.h-line { width: 32px; height: 1px; background: var(--border2); margin-top: 28px; flex-shrink: 0; }
-
-.ncard {
-  flex: 1; border: 1px solid var(--border);
-  background: var(--bg1); margin: 6px 0;
-  cursor: pointer; transition: border-color .15s, background .15s;
-}
-.ncard:hover { border-color: var(--border2); background: var(--bg2); }
-.ncard.open { border-color: #555; }
-
-.nc-header {
-  display: flex; align-items: center; gap: 0;
-  padding: 14px 18px;
-}
-.nc-num { font-size: 10px; color: var(--dim); width: 36px; flex-shrink: 0; }
-.nc-name { font-size: 13px; font-weight: 500; flex: 1; }
-.nc-tag {
-  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--muted); border: 1px solid var(--border2); padding: 2px 8px; margin-right: 12px;
-}
-.nc-toggle { font-size: 13px; color: var(--dim); transition: transform .2s; }
-.ncard.open .nc-toggle { transform: rotate(45deg); }
-
-.nc-why {
-  padding: 0 18px 14px 54px;
-  font-family: var(--sans); font-size: 12px; color: var(--muted);
-  line-height: 1.7; font-weight: 300;
-}
-
-.nc-detail {
-  display: none; padding: 18px 18px 18px 54px;
-  border-top: 1px solid var(--border);
-}
-.ncard.open .nc-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
-
-.nd-block {}
-.nd-label {
-  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--dim); margin-bottom: 8px;
-}
-.nd-text { font-family: var(--sans); font-size: 12px; color: #999; line-height: 1.75; font-weight: 300; }
-.nd-text strong { color: var(--text); font-weight: 400; }
-
-.nd-flows { display: flex; flex-direction: column; gap: 5px; }
-.nd-flow { display: flex; align-items: baseline; gap: 8px; font-size: 11px; }
-.ndf-arrow { color: var(--dim); width: 14px; flex-shrink: 0; }
-.ndf-node { color: var(--text); font-family: var(--mono); font-size: 11px; }
-.ndf-what { color: var(--muted); font-family: var(--sans); font-size: 11px; font-weight: 300; }
-
-.nd-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-.nd-tag {
-  font-size: 10px; padding: 2px 8px;
-  border: 1px solid var(--border2); color: var(--muted);
-}
-
-/* ── 05 FLOW TABLE ── */
-.flows {
-  padding: 80px 48px;
-  border-bottom: 1px solid var(--border);
-  max-width: 1100px; margin: 0 auto;
-}
-.flows-label {
-  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
-  text-transform: uppercase; margin-bottom: 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-.flows-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.flows-intro {
-  font-family: var(--sans); font-size: 14px; color: #999;
-  font-weight: 300; max-width: 600px; line-height: 1.8; margin-bottom: 40px;
-}
-
-.flow-row {
-  display: grid; grid-template-columns: 140px 140px 1fr 160px;
-  gap: 0; border-bottom: 1px solid var(--border);
-  transition: background .12s;
-}
-.flow-row:first-of-type { border-top: 1px solid var(--border); }
-.flow-row:hover { background: var(--bg1); }
-.flow-row.head { background: var(--bg1); }
-
-.fr-cell {
-  padding: 12px 16px; font-size: 11px;
-  border-right: 1px solid var(--border);
-}
-.fr-cell:last-child { border-right: none; }
-.flow-row.head .fr-cell {
-  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--dim); font-weight: 400;
-}
-.fc-from { font-weight: 500; color: var(--text); }
-.fc-to { color: var(--muted); }
-.fc-what { font-family: var(--sans); color: #999; font-size: 12px; font-weight: 300; line-height: 1.5; }
-.fc-broken { font-family: var(--sans); color: var(--dim); font-size: 11px; font-weight: 300; line-height: 1.5; font-style: italic; }
-
-/* ── 06 REFERENCE ── */
-.reference {
-  padding: 80px 48px;
-  max-width: 1100px; margin: 0 auto;
-}
-.ref-label {
-  font-size: 10px; color: var(--muted); letter-spacing: 0.2em;
-  text-transform: uppercase; margin-bottom: 48px;
-  display: flex; align-items: center; gap: 12px;
-}
-.ref-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-bottom: 48px; }
-.ref-card { background: var(--bg); padding: 24px; }
-.rc-name { font-size: 12px; font-weight: 500; margin-bottom: 8px; }
-.rc-full { font-size: 10px; color: var(--dim); margin-bottom: 12px; letter-spacing: 0.05em; }
-.rc-desc { font-family: var(--sans); font-size: 12px; color: #999; line-height: 1.7; font-weight: 300; }
-
-.ref-note {
-  font-family: var(--sans); font-size: 13px; color: var(--muted);
-  line-height: 1.9; font-weight: 300; max-width: 720px;
-  border-left: 1px solid var(--border2); padding-left: 24px;
-}
-.ref-note strong { color: var(--text); font-weight: 400; }
-
-/* FOOTER */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 24px 48px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.ft { font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
-
-@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-section, .origin, .what, .context, .nodemap, .flows, .reference { animation: fadeIn .5s ease both; }
-
-/* ── 00 COVER ── */
-.cover {
-  border-bottom: 1px solid var(--border);
-  padding: 64px 48px 56px;
-  animation: fadeIn .5s ease both;
-}
-.cover-inner {
-  max-width: 1100px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 80px; align-items: start;
-}
-.cover-kicker {
-  font-size: 9px; color: var(--muted);
-  letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px;
-}
-.cover-title {
-  font-family: var(--mono); font-size: 64px; font-weight: 300;
-  line-height: 1; letter-spacing: -0.02em;
-  color: var(--text); margin-bottom: 8px;
-}
-.cover-full {
-  font-family: var(--sans); font-size: 16px; font-weight: 300;
-  color: var(--muted); margin-bottom: 4px;
-}
-.cover-tagline {
-  font-size: 11px; color: var(--dim);
-  letter-spacing: 0.08em; margin-bottom: 48px;
-}
-.cover-meta-row {
-  display: flex; flex-direction: column; gap: 14px;
-  border-top: 1px solid var(--border); padding-top: 24px;
-}
-.cover-meta-item { display: flex; gap: 20px; align-items: baseline; }
-.cmi-label {
-  font-size: 9px; color: var(--dim); letter-spacing: 0.15em;
-  text-transform: uppercase; width: 72px; flex-shrink: 0;
-}
-.cmi-val { font-size: 12px; color: var(--muted); }
-
-.cover-toc-label {
-  font-size: 9px; color: var(--dim);
-  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 12px;
-}
-.cover-toc { display: flex; flex-direction: column; border: 1px solid var(--border); }
-.ct-row {
-  display: grid; grid-template-columns: 28px 1fr;
-  grid-template-rows: auto auto; column-gap: 14px;
-  padding: 12px 16px; border-bottom: 1px solid var(--border);
-  text-decoration: none; color: inherit; transition: background .12s;
-}
-.ct-row:last-child { border-bottom: none; }
-.ct-row:hover { background: var(--bg1); }
-.ct-num { grid-row: 1/3; font-size: 9px; color: var(--dim); padding-top: 2px; }
-.ct-title { font-size: 12px; font-weight: 500; color: var(--text); }
-.ct-desc { font-family: var(--sans); font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.5; }
-
-.cover-other { display: flex; flex-direction: column; border: 1px solid var(--border); }
-.co-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 11px 16px; border-bottom: 1px solid var(--border);
-  text-decoration: none; transition: background .12s;
-}
-.co-row:last-child { border-bottom: none; }
-.co-row:hover { background: var(--bg1); }
-.co-title { font-size: 12px; color: var(--muted); }
-.co-arrow { font-size: 11px; color: var(--dim); }
-.co-proto { background: var(--bg1); }
-.co-proto .co-title { color: var(--text); font-weight: 500; }
-.co-proto:hover { background: var(--bg2); }
-
-@media (max-width: 768px) {
-  .cover { padding: 40px 20px; }
-  .cover-inner { grid-template-columns: 1fr; gap: 40px; }
-  .cover-title { font-size: 44px; }
-  nav { padding: 0 16px; }
-  .nav-links { gap: 14px; }
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="LCCS - Life Connection Crisis System prototype for disaster-response coordination.">
+  <title>LCCS - Life Connection Crisis System</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data/cases.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
 
-<nav>
-  <div class="nav-id">LCCS</div>
-  <div class="nav-sep"></div>
-  <div class="nav-links">
-    <a class="nav-link" href="#why">Why</a>
-    <a class="nav-link" href="#what">What</a>
-    <a class="nav-link" href="#nodes">Nodes</a>
-    <a class="nav-link" href="#flows">Flows</a>
-    <a class="nav-link" href="#ref">Research</a>
-    <a class="nav-link" href="lccs-overview.html">Overview</a>
-    <a class="nav-link" href="lccs-onboarding.html">Onboarding</a>
-  </div>
-  <a class="nav-cta" href="lccs-skill-coord.html">Prototype →</a>
-</nav>
+  <header class="site-header" data-header>
+    <nav class="top-nav" aria-label="เมนูหลัก">
+      <a class="brand" href="#hero" aria-label="LCCS home">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>
+          <strong>LCCS</strong>
+          <small>Life Connection Crisis System</small>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-controls="nav-menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="sr-only">เปิดเมนู</span>
+      </button>
+      <div class="nav-links" id="nav-menu">
+        <a href="#problem">ปัญหา</a>
+        <a href="#evidence">หลักฐาน</a>
+        <a href="#memory">ความทรงจำ</a>
+        <a href="#flow">ขั้นตอน</a>
+        <a href="#ecosystem">ผู้เกี่ยวข้อง</a>
+        <a href="#onboarding">ลงทะเบียน</a>
+        <a href="#shelter">ศูนย์พักพิง</a>
+        <a href="#finance">การเงิน</a>
+        <a href="#playground">ทดลองระบบ</a>
+        <a href="#mvp">MVP</a>
+      </div>
+    </nav>
+  </header>
 
-<main>
-
-<!-- ── 00 COVER ── -->
-<div class="cover">
-  <div class="cover-inner">
-
-    <div class="cover-left">
-      <div class="cover-kicker">Design Documentation · v0.4</div>
-      <h1 class="cover-title">LCCS</h1>
-      <p class="cover-full">Life-Critical Command System</p>
-      <p class="cover-tagline">Disaster Response Infrastructure — Thailand</p>
-
-      <div class="cover-meta-row">
-        <div class="cover-meta-item">
-          <div class="cmi-label">Alignment</div>
-          <div class="cmi-val">ICS · NICS · INSARAG · Sahana</div>
+  <main id="main">
+    <section class="hero section" id="hero" data-section>
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/placeholder-map.svg" alt="">
+      </div>
+      <div class="shell hero-grid">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">ต้นแบบระบบประสานงานภัยพิบัติ</p>
+          <h1>LCCS - Life Connection Crisis System</h1>
+          <p class="hero-subtitle">
+            ระบบที่เปลี่ยนสัญญาณกระจัดกระจายจากภัยพิบัติ ให้กลายเป็นภาพปฏิบัติการที่สั่งงาน ติดตาม และตรวจสอบได้
+          </p>
+          <p class="hero-text">
+            ในช่วงน้ำท่วม ข้อมูลไม่ได้หายไป แต่กระจายอยู่ในโทรศัพท์ แชต LINE ไฟล์ Excel เจ้าหน้าที่ท้องถิ่น ทีมกู้ภัย ศูนย์พักพิง ระบบจ่ายเงินช่วยเหลือ และระบบเคลมประกัน LCCS ทำหน้าที่เป็น Operational Memory ที่เชื่อมข้อมูลเหล่านี้ให้กลายเป็นภาพเดียวที่ใช้ช่วยชีวิตและฟื้นฟูหลังวิกฤตได้จริง
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#flow">ดูภาพรวมระบบ</a>
+            <a class="button ghost" href="#playground">เปิด Prototype</a>
+          </div>
+          <div class="hero-status" aria-label="สถานะตัวอย่าง">
+            <span><strong data-count="8">0</strong> โมดูล MVP</span>
+            <span><strong data-count="6">0</strong> live prototypes</span>
+            <span><strong data-count="17">0</strong> sections</span>
+          </div>
         </div>
-        <div class="cover-meta-item">
-          <div class="cmi-label">Nodes</div>
-          <div class="cmi-val">11 operational functions</div>
-        </div>
-        <div class="cover-meta-item">
-          <div class="cmi-label">Status</div>
-          <div class="cmi-val">Concept · Prototype ready</div>
+
+        <div class="command-visual" data-reveal aria-label="แผนภาพเครือข่ายวิกฤต LCCS">
+          <div class="visual-grid" aria-hidden="true"></div>
+          <div class="op-node center">
+            <span>Operational</span>
+            <strong>Picture</strong>
+          </div>
+          <div class="op-node people">People</div>
+          <div class="op-node command">Command</div>
+          <div class="op-node rescue">Rescue</div>
+          <div class="op-node shelter">Shelter</div>
+          <div class="op-node aid">Aid</div>
+          <div class="op-node insurance">Insurance</div>
+          <svg class="network-lines" viewBox="0 0 640 520" aria-hidden="true">
+            <path d="M320 260 112 100M320 260 520 90M320 260 90 400M320 260 535 410M320 260 320 66M320 260 320 460" />
+            <path class="pulse-line" d="M112 100C210 140 254 186 320 260S445 367 535 410" />
+            <circle cx="320" cy="260" r="178" />
+          </svg>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="cover-right">
-      <div class="cover-toc-label">Contents — this document</div>
-      <div class="cover-toc">
-        <a class="ct-row" href="#why">
-          <span class="ct-num">01</span>
-          <span class="ct-title">Why this exists</span>
-          <span class="ct-desc">The problem, the origin, what started this</span>
-        </a>
-        <a class="ct-row" href="#what">
-          <span class="ct-num">02</span>
-          <span class="ct-title">What LCCS is</span>
-          <span class="ct-desc">Command layer, ops backbone, degraded-condition design</span>
-        </a>
-        <a class="ct-row" href="#what">
-          <span class="ct-num">03</span>
-          <span class="ct-title">Where the idea comes from</span>
-          <span class="ct-desc">Tham Luang, ICS, NICS — and what the gap still is</span>
-        </a>
-        <a class="ct-row" href="#nodes">
-          <span class="ct-num">04</span>
-          <span class="ct-title">The 11 nodes</span>
-          <span class="ct-desc">Each function, why it exists, what breaks without it</span>
-        </a>
-        <a class="ct-row" href="#flows">
-          <span class="ct-num">05</span>
-          <span class="ct-title">What breaks if a flow is cut</span>
-          <span class="ct-desc">Node-to-node handoffs and failure consequences</span>
-        </a>
-        <a class="ct-row" href="#ref">
-          <span class="ct-num">06</span>
-          <span class="ct-title">Research &amp; alignment</span>
-          <span class="ct-desc">ICS, NICS, INSARAG — how this converged with global standards</span>
-        </a>
+    <section class="section problem-section" id="problem" data-section>
+      <div class="shell split-layout">
+        <div data-reveal>
+          <p class="eyebrow">ปัญหา</p>
+          <h2>ภัยพิบัติไม่ได้ขาดคนช่วย แต่ขาดภาพรวมที่เชื่อมกัน</h2>
+          <p>
+            เมื่อเกิดภัยพิบัติ สัญญาณความช่วยเหลือเกิดขึ้นพร้อมกันหลายทาง บางคนโทรแจ้ง บางคนส่งแชต บางคนโพสต์ในโซเชียล บางทีมกู้ภัยใช้วิทยุ บางหน่วยเก็บรายชื่อใน Excel และบางข้อมูลอยู่ในความจำของเจ้าหน้าที่พื้นที่
+          </p>
+        </div>
+        <div class="scattered-signals" data-reveal aria-label="สัญญาณข้อมูลที่กระจัดกระจาย">
+          <div class="signal-card cyan">Phone Calls</div>
+          <div class="signal-card green">LINE Chat</div>
+          <div class="signal-card red">Facebook Posts</div>
+          <div class="signal-card amber">Excel Files</div>
+          <div class="signal-card cyan">Rescue Radio</div>
+          <div class="signal-card green">Shelter Records</div>
+          <div class="signal-card amber">Insurance Claims</div>
+          <div class="signal-card red">Aid Payment</div>
+          <div class="missing-picture">Missing<br>Operational<br>Picture</div>
+        </div>
       </div>
+    </section>
 
-      <div class="cover-toc-label" style="margin-top:28px;">Other documents</div>
-      <div class="cover-other">
-        <a class="co-row" href="lccs-overview.html">
-          <span class="co-title">System Overview</span>
-          <span class="co-arrow">→</span>
-        </a>
-        <a class="co-row" href="lccs-onboarding.html">
-          <span class="co-title">Volunteer Onboarding</span>
-          <span class="co-arrow">→</span>
-        </a>
-        <a class="co-row co-proto" href="lccs-skill-coord.html">
-          <span class="co-title">▶ Open Prototype — Skill Coordinator view</span>
-          <span class="co-arrow">→</span>
-        </a>
+    <section class="section evidence-section" id="evidence" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Why Now / Scale of Impact</p>
+          <h2>ภัยพิบัติแต่ละครั้ง สร้างต้นทุนคนละรูปแบบ</h2>
+          <p>
+            LCCS ไม่ได้มองภัยพิบัติเป็นตัวเลขรวมก้อนเดียว แต่แยกให้เห็นว่าแต่ละเหตุการณ์สร้างต้นทุนหลายชั้นพร้อมกัน ทั้งความเสียหายจริง งบรัฐ เงินเยียวยา ความเสียหายภาคเอกชน สินไหมประกัน ครัวเรือนที่ได้รับผลกระทบ และกำลังคนที่ต้องลงพื้นที่
+          </p>
+        </div>
+
+        <div class="case-tabs" role="tablist" aria-label="Case evidence tabs" data-reveal>
+          <button id="tab-hatyai2568" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="case-panel" data-case="hatyai2568">หาดใหญ่ 2568</button>
+          <button id="tab-north2565to2568" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="north2565to2568">น้ำเหนือ 2565-2568</button>
+          <button id="tab-central2554" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="central2554">กรุงเทพฯ-ภาคกลาง 2554</button>
+          <button id="tab-compare" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="compare">เปรียบเทียบ</button>
+        </div>
+
+        <article class="case-panel" id="case-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-hatyai2568" data-reveal></article>
       </div>
-    </div>
+    </section>
 
-  </div>
-</div>
-
-<!-- ── 01 ORIGIN ── -->
-<div id="why"></div>
-<div class="origin">
-  <div class="origin-label">01 — Why this exists</div>
-  <div class="origin-body">
-    <div class="origin-quote">
-      "The people saving lives<br>shouldn't have to<br>work until they break."
-    </div>
-    <div class="origin-text">
-      <p>Every time a disaster happens in Thailand, the same images appear. Officials sleeping at the site. Staff writing notes on paper. Three people coordinating a hundred volunteers by phone, surviving on instant noodles and no sleep.</p>
-      <p>The problem is not that these people aren't capable. The problem is that <strong>there is no system to hold the information for them.</strong> So it all lives in their heads. And when they finally go to sleep, the knowledge goes with them — and the next shift starts from zero.</p>
-      <p>LCCS started as a question: <strong>what if the system remembered, so the humans didn't have to?</strong></p>
-      <p>What if a commander could hand off a shift and the next person could walk in, read a screen, and know exactly what's happening — without a 40-minute briefing?</p>
-      <p>What if a volunteer arriving at the site could be registered, assigned, and deployed in 3 minutes instead of standing in a confused crowd?</p>
-      <p>What if a family looking for their mother could just search a name — and get an answer — instead of calling 12 different hotlines?</p>
-      <p>LCCS is that system. Not to replace the humans. To give them rest.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ── 02 WHAT IS LCCS ── -->
-<div id="what"></div>
-<div class="what">
-  <div class="what-label">02 — What LCCS is</div>
-  <div class="what-grid">
-    <div class="what-block">
-      <div class="wb-num">01</div>
-      <div class="wb-title">A command layer</div>
-      <div class="wb-desc">LCCS sits above the chaos. It doesn't do the rescuing. It holds the map, the status, the resources, and the decisions — so the people doing the work don't have to hold it all in their heads.</div>
-    </div>
-    <div class="what-block">
-      <div class="wb-num">02</div>
-      <div class="wb-title">An operations backbone</div>
-      <div class="wb-desc">11 nodes, each covering a real function that happens at every disaster site: command, field ops, inventory, medical triage, survivor shelter, food, sanitation, communication, and people search.</div>
-    </div>
-    <div class="what-block">
-      <div class="wb-num">03</div>
-      <div class="wb-title">Designed for degraded conditions</div>
-      <div class="wb-desc">Disasters break infrastructure. LCCS works on Starlink, LoRa mesh radio, and offline-first mobile apps. If the internet dies, the system keeps running and syncs when connection returns.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ── 03 CONTEXT ── -->
-<div class="context">
-  <div class="context-label">03 — Where the idea comes from</div>
-
-  <div class="context-row">
-    <div class="ctx-title">The image that started it</div>
-    <div class="ctx-body">Tham Luang, 2018. The cave rescue that Thailand watched for 17 days. Officials on-site around the clock. Volunteers from 20 countries. A governor sleeping in a tent. Resources pouring in with no coordinated intake. <strong>It worked — because extraordinary people did extraordinary things under impossible pressure.</strong> But it shouldn't require that. It shouldn't cost that much of a person.</div>
-  </div>
-
-  <div class="context-row">
-    <div class="ctx-title">The research</div>
-    <div class="ctx-body">While designing LCCS from scratch, I discovered that the US has been running the <strong>Incident Command System (ICS)</strong> since 1970, and MIT Lincoln Laboratory built <strong>NICS</strong> — an open-source command platform used in 40+ countries. The Sahana Foundation built disaster management software after the 2004 Tsunami. What I had designed independently aligned with all of them. <strong>That meant the problem was real. And the gap — a system designed for Thai context, Thai language, Thai infrastructure — was also real.</strong></div>
-  </div>
-
-  <div class="context-row">
-    <div class="ctx-title">What LCCS adds</div>
-    <div class="ctx-body">ICS defines the structure. NICS provides the platform. But neither solves the last-mile problem: <strong>a volunteer who just arrived with no credentials, a family searching for a missing person in Thai, a field team reporting from a zone with no internet.</strong> LCCS is designed for those three people specifically.</div>
-  </div>
-</div>
-
-<!-- ── 04 NODE MAP ── -->
-<div id="nodes"></div>
-<div class="nodemap">
-  <div class="nodemap-label">04 — The 11 nodes</div>
-  <div class="nodemap-intro">Each node is a real function that happens at every disaster site. Most of them are currently handled by one exhausted person with a phone and a notebook. Click any node to see why it exists, what it does, and what happens if it breaks.</div>
-
-  <div class="tree">
-    <div class="tree-root-node">
-      WALLROOM — Central Command
-      <span class="trn-sub">all nodes report here</span>
-    </div>
-    <div class="branch-wrap">
-      <div class="v-line"></div>
-      <div class="branch-col">
-
-        <!-- N-01 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-01</div>
-              <div class="nc-name">Command Center</div>
-              <div class="nc-tag">Core</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">The brain. Every decision, every order, every shift handover lives here. Without this, each team operates in isolation — working hard but not together.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">In real disasters, commanders hold the entire operation in their memory. When they sleep or leave, continuity breaks. <strong>This node is institutional memory that doesn't need rest.</strong> Every decision is logged. Every shift handover is a 2-minute screen read, not a 40-minute briefing.</div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Functions</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Mission Dispatch</span>
-                  <span class="nd-tag">Decision Log</span>
-                  <span class="nd-tag">Shift Handover</span>
-                  <span class="nd-tag">Resource Override</span>
-                  <span class="nd-tag">Alert Broadcast</span>
-                  <span class="nd-tag">War Room Display</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">All nodes</div><div class="ndf-what">— status reports</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— field intelligence</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">All nodes</div><div class="ndf-what">— commands + priorities</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— mission cards</div></div>
-                </div>
-              </div>
+    <section class="section memory-section" id="memory" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">แนวคิดหลัก</p>
+          <h2>หนึ่งวิกฤต หนึ่งความทรงจำปฏิบัติการ</h2>
+          <p>
+            LCCS ไม่ใช่แค่ระบบรับแจ้งเหตุ แต่เป็นชั้นความทรงจำกลางของวิกฤต ระบบเชื่อมผู้ประสบภัย ครอบครัว หน่วยกู้ภัย เจ้าหน้าที่รัฐ ทรัพยากร ศูนย์พักพิง เงินช่วยเหลือ และประกันภัยเข้าด้วยกัน
+          </p>
+        </div>
+        <div class="memory-grid">
+          <div class="memory-copy" data-reveal>
+            <div class="memory-line"><span>01</span> ทุกสัญญาณกลายเป็น record ที่ค้นหาได้</div>
+            <div class="memory-line"><span>02</span> ทุก record สามารถกลายเป็น mission</div>
+            <div class="memory-line"><span>03</span> ทุก mission ทิ้ง audit trail ไว้ตรวจสอบ</div>
+            <div class="signal-chain" aria-label="Signal to audit flow">
+              <span>สัญญาณ</span>
+              <span>บันทึก</span>
+              <span>ตัดสินใจ</span>
+              <span>ปฏิบัติการ</span>
+              <span>ตรวจสอบ</span>
             </div>
           </div>
+          <figure class="reference-figure" data-reveal>
+            <img src="assets/placeholder-network.svg" alt="ภาพแนวคิด operational layer model ของ LCCS">
+            <figcaption>ชั้นข้อมูลร่วมและชั้นเฉพาะโดเมนต้องอยู่ใน event memory เดียวกัน</figcaption>
+          </figure>
         </div>
-
-        <!-- N-02 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-02</div>
-              <div class="nc-name">Contact Center</div>
-              <div class="nc-tag">Comms</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">The gate. Every person, donation, or shipment entering the operation passes through here first. It's also where the public calls when they're scared.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">Without a single intake point, international experts arrive at the airport with no one to meet them. Donated supplies pile up at the entrance with no one to record them. <strong>The Contact Center is the difference between "help arrived" and "help reached the right place."</strong></div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Functions</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Public Hotline</span>
-                  <span class="nd-tag">Logistics Coordination</span>
-                  <span class="nd-tag">Airport Escort</span>
-                  <span class="nd-tag">Donation Intake</span>
-                  <span class="nd-tag">Translator Pool</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Public</div><div class="ndf-what">— donation offers, inquiries</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">External Coord</div><div class="ndf-what">— incoming shipments</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Inventory</div><div class="ndf-what">— incoming stock manifest</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— logistics status updates</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-03 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-03</div>
-              <div class="nc-name">Operation Teams</div>
-              <div class="nc-tag">Field</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">The hands. The only node that physically touches survivors. Every other node exists to support this one. If Ops fails, nothing else matters.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">Field teams work disconnected from command — in rubble, in water, without signal. They need mission cards that work offline, and a way to report back that doesn't require a phone call. <strong>LCCS gives them a form that syncs when signal returns, and a mission card that tells them exactly where to go and what to bring.</strong></div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sub-teams</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Recon Wave 1 — hasty survey</span>
-                  <span class="nd-tag">SAR Grid — deep search</span>
-                  <span class="nd-tag">Evacuation</span>
-                  <span class="nd-tag">Supply Delivery</span>
-                  <span class="nd-tag">Zone Inspection</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Command</div><div class="ndf-what">— mission cards with route + gear list</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Inventory</div><div class="ndf-what">— equipment + tools</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— field reports, zone status, damage level</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Triage</div><div class="ndf-what">— survivors with field triage notes</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-04 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-04</div>
-              <div class="nc-name">Inventory & Equipment</div>
-              <div class="nc-tag">Logistics</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">The stockroom. Three asset types: things you consume, things you borrow and return, things you use once. Without this, supplies run out silently and equipment disappears.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">At Tham Luang, volunteers counted supplies manually. Nobody knew how much food was left until it was almost gone. <strong>This node gives every downstream node — kitchen, medical, field — a live count of what's available and warns before it hits zero.</strong></div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Asset categories</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Consumable</span>
-                  <span class="nd-tag">Borrow-Return</span>
-                  <span class="nd-tag">Disposable</span>
-                  <span class="nd-tag">Heavy Machinery</span>
-                  <span class="nd-tag">AV / Comms Gear</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Contact Center</div><div class="ndf-what">— incoming donations</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">External Coord</div><div class="ndf-what">— special equipment from abroad</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Kitchen</div><div class="ndf-what">— raw materials</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Medical</div><div class="ndf-what">— medicine + first aid</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— field equipment</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-05 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-05</div>
-              <div class="nc-name">Power & Comms Infra</div>
-              <div class="nc-tag">Critical</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">The one node that, if it fails, takes everything else down with it. Dedicated team, 24h. Not optional.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">Power and comms are always buried inside logistics — handled by whoever is around. That means when the generator dies at 2am, there's no dedicated team to fix it. <strong>LCCS makes this a named node with its own staff, its own fuel tracking, and its own redundancy plan.</strong></div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Infrastructure</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Generator + Fuel</span>
-                  <span class="nd-tag">Starlink (LEO satellite)</span>
-                  <span class="nd-tag">VHF Radio</span>
-                  <span class="nd-tag">LoRa Mesh (offline)</span>
-                  <span class="nd-tag">Offline-First Sync</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Dependency note</div>
-                <div class="nd-text"><strong>Single point of failure.</strong> All 10 other nodes depend on this one. Redundancy is not optional — it is the entire design requirement of this node.</div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">All nodes</div><div class="ndf-what">— power, signal, connectivity</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-06 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-06</div>
-              <div class="nc-name">Triage & Medical</div>
-              <div class="nc-tag">Medical</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">Where survivors enter the system. Every person passing through triage is automatically registered — which means families can search for them the moment they're admitted.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">After Hurricane Katrina, hospitals had no unified list of who they'd admitted. Families called facility after facility. <strong>LCCS connects triage directly to People Registry — auto-register on intake. No extra step. No extra person needed.</strong></div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Functions</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">INSARAG Triage Tag</span>
-                  <span class="nd-tag">Medical Record</span>
-                  <span class="nd-tag">Medicine Dispense</span>
-                  <span class="fn-tag">Hospital Transfer</span>
-                  <span class="nd-tag">ER Coordination</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— survivors + field triage</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Inventory</div><div class="ndf-what">— medicine + equipment</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">People Registry</div><div class="ndf-what">— auto on intake</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Shelter</div><div class="ndf-what">— cleared patients</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-07 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-07</div>
-              <div class="nc-name">People Registry</div>
-              <div class="nc-tag">Public</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">The most human node. Status: safe, hospitalized, in shelter, missing. Anyone can search. No account needed. No phone call required.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">After every disaster, families flood hotlines asking "is my mother alive?" Staff spend hours on the phone giving the same answer to different people. <strong>This node answers that question automatically, without anyone picking up.</strong> It's the most public-facing piece of LCCS and the one that matters most to ordinary people.</div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Status types</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Safe (self-reported)</span>
-                  <span class="nd-tag">In Shelter</span>
-                  <span class="nd-tag">Hospitalized</span>
-                  <span class="nd-tag">Missing</span>
-                  <span class="nd-tag">Deceased</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Triage</div><div class="ndf-what">— auto-register on intake</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Shelter</div><div class="ndf-what">— check-in data</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Public</div><div class="ndf-what">— "I am safe" self-report</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Public portal</div><div class="ndf-what">— family search, no login needed</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— missing person count</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-08 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-08</div>
-              <div class="nc-name">Survivor Shelter</div>
-              <div class="nc-tag">Care</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">Where people wait, sleep, and recover. Capacity tracking prevents silent overflow. Registry link means families know exactly where their person is sleeping tonight.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">Shelter overflow is invisible until it becomes a crisis. A site rated for 200 people quietly reaches 350 and nobody alerts Command. <strong>This node gives Command a live number — and triggers a redirect before the threshold is crossed.</strong></div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Functions</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Check-in / Check-out</span>
-                  <span class="nd-tag">Capacity Live Count</span>
-                  <span class="nd-tag">Special Needs Flag</span>
-                  <span class="nd-tag">People Registry Sync</span>
-                  <span class="nd-tag">Overflow Alert</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Triage</div><div class="ndf-what">— cleared survivors</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Kitchen</div><div class="ndf-what">— meal delivery schedule</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">People Registry</div><div class="ndf-what">— location update</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— capacity status + overflow alert</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-09 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-09</div>
-              <div class="nc-name">Kitchen & Food</div>
-              <div class="nc-tag">Sustain</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">Rescuers can't work on empty stomachs. Neither can survivors. Food logistics is chaos without this node — donated food arrives in waves with no coordination and no count.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">Donations of food arrive whenever, in whatever quantities donors decide. Without this node, the kitchen doesn't know what's coming, what's left, or who gets fed first. <strong>This node turns chaotic generosity into a planned meal schedule with predictable restocking.</strong></div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Functions</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Meal Schedule</span>
-                  <span class="nd-tag">Live Stock Level</span>
-                  <span class="nd-tag">Dietary Needs</span>
-                  <span class="nd-tag">Low Stock Alert</span>
-                  <span class="nd-tag">Distribution Log</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Inventory</div><div class="ndf-what">— raw materials</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Shelter</div><div class="ndf-what">— meals on schedule</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Ops Teams</div><div class="ndf-what">— field rations</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Inventory</div><div class="ndf-what">— consumption data for restocking</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-10 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-10</div>
-              <div class="nc-name">Sanitation & Welfare</div>
-              <div class="nc-tag">Often Missed</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">The forgotten node. Toilets, clean water, waste management. By day 3 without this, disease spreads faster than any rescue team can handle. It is never in the initial plan. It should be.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">Sanitation is always added reactively — after the first person gets sick. <strong>LCCS puts it in the Day 1 setup checklist, not the Day 4 emergency list.</strong> Also houses psychosocial support: by Day 3, both survivors and responders are showing signs of trauma that need dedicated attention — not a triage nurse with 40 other patients.</div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Functions</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Portable Sanitation</span>
-                  <span class="nd-tag">Clean Water Supply</span>
-                  <span class="nd-tag">Waste Management</span>
-                  <span class="nd-tag">Psychosocial Support</span>
-                  <span class="nd-tag">Responder Welfare</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Note on timing</div>
-                <div class="nd-text">Merges with Medical on Day 1–2. Splits into its own node by Day 3 when psychosocial and hygiene loads each require dedicated staff.</div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Command</div><div class="ndf-what">— hygiene status</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Medical</div><div class="ndf-what">— disease risk flag</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- N-11 -->
-        <div class="branch-row">
-          <div class="h-line"></div>
-          <div class="ncard" onclick="tog(this)">
-            <div class="nc-header">
-              <div class="nc-num">N-11</div>
-              <div class="nc-name">External Coordination</div>
-              <div class="nc-tag">External</div>
-              <div class="nc-toggle">+</div>
-            </div>
-            <div class="nc-why">When the disaster exceeds what the country can handle alone, this node bridges to the world. Embassies, charter flights, international USAR teams, repatriation.</div>
-            <div class="nc-detail">
-              <div class="nd-block">
-                <div class="nd-label">The real problem it solves</div>
-                <div class="nd-text">International aid arrives with its own logistics, language, protocols, and equipment manifests. <strong>Without a dedicated node, foreign experts land at the airport and wait for hours while the site continues burning.</strong> This node is the escort — from the airport gate to the right team on site.</div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Functions</div>
-                <div class="nd-tags">
-                  <span class="nd-tag">Embassy Liaison</span>
-                  <span class="nd-tag">Charter Cargo Flight</span>
-                  <span class="nd-tag">Int'l USAR Integration</span>
-                  <span class="nd-tag">Repatriation</span>
-                  <span class="nd-tag">Aid Intake Protocol</span>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Receives from</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">←</div><div class="ndf-node">Command</div><div class="ndf-what">— international assistance request</div></div>
-                </div>
-              </div>
-              <div class="nd-block">
-                <div class="nd-label">Sends to</div>
-                <div class="nd-flows">
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Contact Center</div><div class="ndf-what">— incoming teams + ETA</div></div>
-                  <div class="nd-flow"><div class="ndf-arrow">→</div><div class="ndf-node">Inventory</div><div class="ndf-what">— special equipment from abroad</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </div>
-</div>
+    </section>
 
-<!-- ── 05 FLOWS ── -->
-<div id="flows"></div>
-<div class="flows">
-  <div class="flows-label">05 — What breaks if a flow is cut</div>
-  <div class="flows-intro">Nodes don't work alone. The value of LCCS is in the connections — the automatic handoffs that currently require a phone call, a sticky note, or someone's memory.</div>
+    <section class="section flow-section" id="flow" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ขั้นตอนระบบ</p>
+          <h2>จากสัญญาณดิบสู่ภารกิจที่ตรวจสอบได้</h2>
+        </div>
+        <div class="pipeline" data-reveal aria-label="LCCS system flow">
+          <div class="flow-step">
+            <span>01</span>
+          <h3>รับสัญญาณ</h3>
+            <p>รับแจ้งจากโทรศัพท์ ลิงก์ ฟอร์ม เจ้าหน้าที่ และระบบภายนอก</p>
+          </div>
+          <div class="flow-step">
+            <span>02</span>
+          <h3>ตรวจสอบ</h3>
+            <p>ตรวจซ้ำ พิกัด ครัวเรือน ความเสี่ยง และความเร่งด่วน</p>
+          </div>
+          <div class="flow-step">
+            <span>03</span>
+          <h3>บันทึกวิกฤต</h3>
+            <p>ผูกข้อมูลเข้ากับ event ID และ household profile</p>
+          </div>
+          <div class="flow-step">
+            <span>04</span>
+          <h3>ตัดสินใจโดย ICP</h3>
+            <p>ศูนย์บัญชาการเห็น priority, route, capacity และ resource gap</p>
+          </div>
+          <div class="flow-step">
+            <span>05</span>
+          <h3>มอบหมายภารกิจ</h3>
+            <p>ส่งงานให้ทีมพร้อมเงื่อนไข fuel, route, access และ staging area</p>
+          </div>
+          <div class="flow-step">
+            <span>06</span>
+          <h3>ร่องรอยตรวจสอบ</h3>
+            <p>เก็บหลักฐานภารกิจ check-in เงินช่วยเหลือ และ claim signal</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <div class="flow-row head">
-    <div class="fr-cell">From</div>
-    <div class="fr-cell">To</div>
-    <div class="fr-cell">What flows</div>
-    <div class="fr-cell">If this breaks</div>
-  </div>
-  <div class="flow-row"><div class="fr-cell fc-from">Command</div><div class="fr-cell fc-to">All nodes</div><div class="fr-cell fc-what">Orders, priorities, shift schedules, resource allocation</div><div class="fr-cell fc-broken">Teams work hard but not together. Duplication. Contradiction.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Ops Teams</div><div class="fr-cell fc-to">Command</div><div class="fr-cell fc-what">Field reports: damage, access routes, survivors found, hazards</div><div class="fr-cell fc-broken">Command makes decisions blind. Wrong team sent to wrong place.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Ops Teams</div><div class="fr-cell fc-to">Triage</div><div class="fr-cell fc-what">Survivors with field triage notes — injury type, location found, condition</div><div class="fr-cell fc-broken">Medical team unprepared. No continuity from field to facility.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Triage</div><div class="fr-cell fc-to">People Registry</div><div class="fr-cell fc-what">Auto-register on intake — name, status, location</div><div class="fr-cell fc-broken">Families can't find their person. Hotlines flood. Staff overwhelmed.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Inventory</div><div class="fr-cell fc-to">Kitchen / Medical</div><div class="fr-cell fc-what">Raw materials, medicine, equipment with asset log</div><div class="fr-cell fc-broken">Kitchen runs out silently. Medicine count lost. No warning.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Kitchen</div><div class="fr-cell fc-to">Inventory</div><div class="fr-cell fc-what">Consumption feedback — what was used, what remains</div><div class="fr-cell fc-broken">Can't forecast restocking. Over-order or under-order by Day 3.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Power & Comms</div><div class="fr-cell fc-to">All nodes</div><div class="fr-cell fc-what">Electricity, internet signal, radio connectivity</div><div class="fr-cell fc-broken">All digital systems dark. Entire operation reverts to paper and memory.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Shelter</div><div class="fr-cell fc-to">People Registry</div><div class="fr-cell fc-what">Location update — which site, which zone</div><div class="fr-cell fc-broken">Registry shows stale location. Families arrive at the wrong shelter.</div></div>
-  <div class="flow-row"><div class="fr-cell fc-from">Sanitation</div><div class="fr-cell fc-to">Medical</div><div class="fr-cell fc-what">Disease risk flag — water quality, waste overflow, early outbreak signal</div><div class="fr-cell fc-broken">Outbreak begins before medical team is aware. Response too late.</div></div>
-</div>
+    <section class="section ecosystem-section" id="ecosystem" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ระบบผู้เกี่ยวข้อง</p>
+          <h2>LCCS เชื่อมทุกฝ่ายที่เกี่ยวข้องในวิกฤต</h2>
+        </div>
+        <div class="actor-grid" data-reveal>
+          <article class="actor-card"><span>01</span><h3>ผู้ประสบภัย</h3><p>ส่งสัญญาณความต้องการและสถานะความปลอดภัย</p></article>
+          <article class="actor-card"><span>02</span><h3>ครอบครัวนอกพื้นที่</h3><p>แจ้งแทนและค้นหาสถานะคนในครอบครัว</p></article>
+          <article class="actor-card"><span>03</span><h3>ผู้นำชุมชน</h3><p>รวมข้อมูลหลายหลังคาเรือนและยืนยันพื้นที่</p></article>
+          <article class="actor-card"><span>04</span><h3>นายอำเภอ / เจ้าหน้าที่พื้นที่</h3><p>ตัดสินใจตาม priority และทรัพยากรที่มีจริง</p></article>
+          <article class="actor-card"><span>05</span><h3>ปภ. / ศูนย์บัญชาการ</h3><p>เห็นภาพรวมภารกิจ งบ และข้อจำกัดภาคสนาม</p></article>
+          <article class="actor-card"><span>06</span><h3>หน่วยกู้ภัย</h3><p>รับ mission พร้อม route, staging และ safety gate</p></article>
+          <article class="actor-card"><span>07</span><h3>EMS / mobile clinic</h3><p>ติดตามผู้ป่วย กลุ่มเปราะบาง และการส่งต่อรักษา</p></article>
+          <article class="actor-card"><span>08</span><h3>ตำรวจ / ทหาร</h3><p>สนับสนุน route control, access pass และ evacuation</p></article>
+          <article class="actor-card"><span>09</span><h3>อปท. / หน่วยงานท้องถิ่น</h3><p>ดูแล shelter capacity และข้อมูลครัวเรือน</p></article>
+          <article class="actor-card"><span>10</span><h3>บริษัทเอกชน / supplier</h3><p>เสนอทรัพยากรพร้อมข้อจำกัดการใช้งาน</p></article>
+          <article class="actor-card"><span>11</span><h3>บริษัทประกันภัย</h3><p>เชื่อม claim signal กับ disaster event ID</p></article>
+          <article class="actor-card"><span>12</span><h3>อาสาสมัคร / ผู้เชี่ยวชาญ</h3><p>เข้าร่วมด้วย profile ทักษะและ availability</p></article>
+        </div>
+      </div>
+    </section>
 
-<!-- ── 06 REFERENCE ── -->
-<div id="ref"></div>
-<div class="reference">
-  <div class="ref-label">06 — Research & alignment</div>
+    <section class="section onboarding-section" id="onboarding" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">การลงทะเบียนและนำเข้า</p>
+          <h2>ไม่ใช่ทุกคนควรเข้าสู่ระบบด้วยวิธีเดียวกัน</h2>
+          <p>ช่องทางลงทะเบียนต้องแยกตามความน่าเชื่อถือ ความเร่งด่วน และความพร้อมของผู้แจ้ง</p>
+        </div>
+        <div class="golap-grid" data-reveal>
+          <article class="golap-card"><strong>G</strong><h3>Government Console / API</h3><p>เชื่อมข้อมูลหน่วยงานรัฐและ command center</p></article>
+          <article class="golap-card"><strong>O</strong><h3>Organization / Unit Bulk</h3><p>เพิ่มทีม หน่วยงาน หรือทรัพยากรจำนวนมาก</p></article>
+          <article class="golap-card"><strong>L</strong><h3>Official Link / Chat Form</h3><p>รับแจ้งจากลิงก์ทางการหรือช่องทางแชต</p></article>
+          <article class="golap-card"><strong>A</strong><h3>App / QR Self Registration</h3><p>ให้ประชาชนหรืออาสาเข้าระบบด้วยตัวเอง</p></article>
+          <article class="golap-card"><strong>P</strong><h3>Phone Intake Exception</h3><p>โทรศัพท์เป็น signal collector ไม่ใช่ full registration channel</p></article>
+        </div>
+      </div>
+    </section>
 
-  <div class="ref-grid">
-    <div class="ref-card">
-      <div class="rc-name">ICS</div>
-      <div class="rc-full">Incident Command System — US, 1970</div>
-      <div class="rc-desc">The standard for emergency command structure worldwide. LCCS mirrors its hierarchy: Command → Operations → Logistics → Medical. Developed after a catastrophic miscommunication during California wildfires.</div>
-    </div>
-    <div class="ref-card">
-      <div class="rc-name">NICS</div>
-      <div class="rc-full">Next-Generation Incident Command System — MIT Lincoln Lab</div>
-      <div class="rc-desc">Open-source web platform used by 40+ countries. Originally built for wildfire response. LCCS extends this concept with Thai-language support, offline-first mobile, and last-mile logistics tracking.</div>
-    </div>
-    <div class="ref-card">
-      <div class="rc-name">INSARAG</div>
-      <div class="rc-full">International Search and Rescue Advisory Group — UN</div>
-      <div class="rc-desc">Sets global standards for Urban Search & Rescue teams. The building marking system (triage cross on walls) and the two-wave search protocol (hasty + grid) in LCCS come directly from INSARAG guidelines.</div>
-    </div>
-  </div>
+    <section class="section board-section" id="rapid-board" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">กระดานนำเข้าทรัพยากรเร็ว</p>
+          <h2>ทรัพยากรต้องเห็นทั้งความตั้งใจและความพร้อมใช้งานจริง</h2>
+        </div>
+        <div class="kanban-board" data-reveal aria-label="Rapid onboarding kanban board">
+          <section class="kanban-column" aria-labelledby="col-new">
+            <h3 id="col-new">รับเข้าใหม่</h3>
+            <article class="task-card">
+              <strong>ทีมเรือชุมชน 3 ลำ</strong>
+              <p>แจ้งพร้อมช่วย แต่ต้องยืนยันคนขับและจุดลงเรือ</p>
+              <div class="tags"><span>operator</span><span>staging area</span></div>
+            </article>
+            <article class="task-card">
+              <strong>น้ำดื่ม 1,200 ขวด</strong>
+              <p>พร้อมส่งจากคลังเอกชน</p>
+              <div class="tags"><span>loading staff</span><span>route</span></div>
+            </article>
+          </section>
+          <section class="kanban-column" aria-labelledby="col-support">
+            <h3 id="col-support">ต้องให้ ICP ช่วยก่อน</h3>
+            <article class="task-card warning">
+              <strong>รถบรรทุกสูง 2 คัน</strong>
+              <p>ต้องการ fuel, access pass และ local guide</p>
+              <div class="tags"><span>fuel</span><span>access pass</span><span>local guide</span></div>
+            </article>
+            <article class="task-card warning">
+              <strong>เครื่องปั่นไฟ 30 kVA</strong>
+              <p>รอรถยกและจุดติดตั้งปลอดภัย</p>
+              <div class="tags"><span>operator</span><span>staging area</span></div>
+            </article>
+          </section>
+          <section class="kanban-column" aria-labelledby="col-ready">
+            <h3 id="col-ready">พร้อมมอบหมาย</h3>
+            <article class="task-card ready">
+              <strong>อาสาแพทย์ฉุกเฉิน</strong>
+              <p>ทีม 5 คน พร้อม mobile kit</p>
+              <div class="tags"><span>ready</span><span>route</span></div>
+            </article>
+          </section>
+          <section class="kanban-column" aria-labelledby="col-assigned">
+            <h3 id="col-assigned">มอบหมายแล้ว / ปฏิบัติการ</h3>
+            <article class="task-card active">
+              <strong>ทีมขนส่งอาหาร</strong>
+              <p>รับ mission ส่งอาหารไปศูนย์พักพิงชุมชน</p>
+              <div class="tags"><span>assigned</span><span>route</span></div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </section>
 
-  <div class="ref-note">
-    LCCS was designed independently — starting from watching the Tham Luang rescue and asking why it had to be so hard — before discovering that ICS, NICS, and INSARAG already existed. <strong>The fact that the design converged with global standards without referencing them is the most useful finding of this project.</strong> It suggests the problems LCCS addresses are universal, not Thai-specific. The gap it fills — Thai language, Thai infrastructure, last-mile field operations, volunteer identity — remains real and unaddressed by existing tools.
-  </div>
-</div>
+    <section class="section safety-section" id="safety" data-section>
+      <div class="shell safety-grid">
+        <div data-reveal>
+          <p class="eyebrow">Needs-first / Safety Gate</p>
+          <h2>ทรัพยากรบางอย่าง “พร้อม” ก็ต่อเมื่อได้รับการสนับสนุนก่อน</h2>
+          <p>
+            LCCS ป้องกันไม่ให้ผู้ช่วยและทรัพย์สินกลายเป็นผู้ประสบภัยเพิ่ม ด้วยการเปิด needs-first tags ก่อน assign ภารกิจ
+          </p>
+          <div class="readiness-flow" aria-label="Willing to operationally ready">
+            <span>พร้อมช่วย</span>
+            <span>พร้อมปฏิบัติการ</span>
+          </div>
+        </div>
+        <div class="tag-cloud" data-reveal aria-label="needs-first tags">
+          <span>fuel</span>
+          <span>route confirmation</span>
+          <span>staging area</span>
+          <span>access pass</span>
+          <span>radio channel</span>
+          <span>loading staff</span>
+          <span>operator</span>
+          <span>local guide</span>
+          <span>storage area</span>
+          <span>transport support</span>
+        </div>
+      </div>
+    </section>
 
-</main>
+    <section class="section phone-section" id="phone" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">แจ้งผ่านโทรศัพท์ / สัญญาณที่แจ้งง่าย</p>
+          <h2>สัญญาณที่ส่งได้ง่ายช่วยประหยัดเวลาชีวิต</h2>
+        </div>
+        <div class="phone-grid" data-reveal>
+          <article class="phone-mock">
+            <span>สายเข้า 07:18</span>
+            <p>ผู้สูงอายุแจ้งว่าออกจากบ้านไม่ได้ 3 คน</p>
+            <strong>ตีความเป็น rescue signal</strong>
+          </article>
+          <article class="phone-mock">
+            <span>แชต 07:24</span>
+            <p>ลูกสาวอยู่นอกพื้นที่แจ้งแทนพ่อแม่</p>
+            <strong>ผูกกับ household match</strong>
+          </article>
+          <article class="phone-mock">
+            <span>อสม. 07:35</span>
+            <p>รายงานบ้านหลายหลังในซอยเดียวกัน</p>
+            <strong>สร้าง cluster request</strong>
+          </article>
+          <article class="phone-mock">
+            <span>แก้ไข 07:41</span>
+            <p>ผู้แจ้งตกใจ กรอกผิด แล้วแก้ข้อมูลใหม่</p>
+            <strong>เก็บ version history</strong>
+          </article>
+        </div>
+        <p class="output-line" data-reveal>เหตุการณ์ดิบที่ไม่สมบูรณ์ ถูกตีความเป็นสัญญาณกู้ภัยที่ใช้งานได้</p>
+      </div>
+    </section>
 
-<footer>
-  <div class="ft">LCCS — a concept by someone who thinks the people saving lives deserve to rest</div>
-  <div class="ft">ICS · NICS · INSARAG · Sahana aligned</div>
-</footer>
+    <section class="section shelter-section" id="shelter" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Shelter & Family Search</p>
+          <h2>จาก “ติดต่อครอบครัวไม่ได้” สู่สถานะที่ค้นหาได้</h2>
+        </div>
+        <div class="family-search" data-reveal>
+          <div class="search-panel">
+            <label for="family-search-input">ค้นหาด้วยนามสกุล</label>
+            <div class="search-box">
+              <input id="family-search-input" type="search" value="ศรีคลอง" aria-label="ค้นหาด้วยนามสกุล">
+              <button type="button">Search</button>
+            </div>
+            <div class="match-list">
+              <div><span>Household match</span><strong>บ้านเลขที่ 18/4 หมู่ 3</strong></div>
+              <div><span>Shelter check-in status</span><strong class="safe">Checked-in at วัดริมคลอง</strong></div>
+              <div><span>Mission status</span><strong>Picked up by Rescue Boat R-12</strong></div>
+            </div>
+          </div>
+          <div class="movement-timeline" aria-label="movement timeline">
+            <span class="done">Reported</span>
+            <span class="done">Assigned</span>
+            <span class="done">Picked up</span>
+            <span class="done">Shelter Check-in</span>
+            <span class="done">Safe</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<script>
-function tog(card) {
-  const isOpen = card.classList.contains('open');
-  document.querySelectorAll('.ncard.open').forEach(c => c.classList.remove('open'));
-  if (!isOpen) {
-    card.classList.add('open');
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-}
-</script>
+    <section class="section capacity-section" id="capacity" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ความจุศูนย์พักพิง</p>
+          <h2>ศูนย์พักพิงคือ node ความจุที่ต้องอัปเดตสด</h2>
+        </div>
+        <div class="shelter-grid" data-reveal>
+          <article class="shelter-card ready" style="--capacity:68%">
+            <div><h3>วัดริมคลอง</h3><span>พร้อมรับเพิ่ม</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>136</strong> / 200 คน</p>
+            <ul>
+              <li>medical support: มี</li>
+              <li>kitchen: เปิด</li>
+              <li>water: เพียงพอ</li>
+              <li>electricity: ปกติ</li>
+              <li>supply gap: ผ้าอ้อมผู้ใหญ่</li>
+            </ul>
+          </article>
+          <article class="shelter-card warning" style="--capacity:86%">
+            <div><h3>โรงเรียนบ้านเหนือ</h3><span>ใกล้เต็ม</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>258</strong> / 300 คน</p>
+            <ul>
+              <li>medical support: mobile clinic</li>
+              <li>kitchen: เปิด</li>
+              <li>water: ต้องเติมคืนนี้</li>
+              <li>electricity: generator</li>
+              <li>supply gap: ยาโรคเรื้อรัง</li>
+            </ul>
+          </article>
+          <article class="shelter-card danger" style="--capacity:96%">
+            <div><h3>อบต.กลางน้ำ</h3><span>จำกัดรับ</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>144</strong> / 150 คน</p>
+            <ul>
+              <li>medical support: ไม่มีประจำ</li>
+              <li>kitchen: เปิดบางช่วง</li>
+              <li>water: ต่ำ</li>
+              <li>electricity: ไม่เสถียร</li>
+              <li>supply gap: น้ำดื่มและไฟสำรอง</li>
+            </ul>
+          </article>
+          <article class="shelter-card ready" style="--capacity:42%">
+            <div><h3>ศูนย์พักพิงชุมชน</h3><span>พร้อมรับต่อ</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>84</strong> / 200 คน</p>
+            <ul>
+              <li>medical support: อสม.</li>
+              <li>kitchen: พร้อม</li>
+              <li>water: เพียงพอ</li>
+              <li>electricity: ปกติ</li>
+              <li>supply gap: เตียงสนาม</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section finance-section" id="finance" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ชั้นการเงินและประกันภัย</p>
+          <h2>การฟื้นฟูหลังภัยพิบัติต้องเห็นเส้นทางการเงินด้วย</h2>
+          <p>ใช้ “reported claims / insured-loss estimate” แทน “final paid amount” เว้นแต่มีข้อมูลจ่ายจริงแล้ว</p>
+        </div>
+        <div class="finance-grid" data-reveal>
+          <article class="finance-layer">
+            <span>01</span>
+            <h3>Government Aid Payment</h3>
+            <p>ผูกครัวเรือน ภารกิจ หลักฐานความเสียหาย และสถานะจ่ายเงินเข้าด้วยกัน</p>
+          </article>
+          <article class="finance-layer">
+            <span>02</span>
+            <h3>Insurance Claim Signal</h3>
+            <p>claim ไม่ใช่แค่เรื่องหลังเหตุการณ์ แต่เป็นหลักฐานว่าพื้นที่และทรัพย์สินเสียหายจริง</p>
+          </article>
+          <article class="finance-layer">
+            <span>03</span>
+            <h3>Donation / Supply Support</h3>
+            <p>เห็นของบริจาคเป็น supply node ที่มีแหล่งที่มา สถานะ และ audit trail</p>
+          </article>
+        </div>
+        <div class="claim-schema" data-reveal>
+          <h3>Claim data fields</h3>
+          <div>
+            <span>policy holder</span>
+            <span>asset type</span>
+            <span>damaged location</span>
+            <span>disaster event ID</span>
+            <span>claim status</span>
+            <span>adjuster status</span>
+            <span>estimated loss</span>
+            <span>approved payout</span>
+            <span>final paid amount</span>
+            <span>required evidence</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section playground-section" id="playground" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">พื้นที่ทดลอง Prototype</p>
+          <h2>ดู prototype ย่อยจากหน้าเดียว</h2>
+          <p>เลือก prototype ทางซ้ายเพื่อ preview ใน iframe ทางขวา หรือเปิดแยกในแท็บใหม่</p>
+        </div>
+        <div class="prototype-playground" data-reveal>
+          <div class="prototype-list" aria-label="Prototype list">
+            <button class="prototype-card active" type="button" data-title="Rapid Onboarding Board" data-src="prototypes/LCCS_Rapid_Onboarding_MCP.html">
+              <span>01</span>
+              <strong>Rapid Onboarding Board</strong>
+              <small>LCCS_Rapid_Onboarding_MCP.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Stakeholder Registration ORC" data-src="prototypes/LCCS_Stakeholder_Registration_ORC_Chart.html">
+              <span>02</span>
+              <strong>Stakeholder Registration ORC</strong>
+              <small>LCCS_Stakeholder_Registration_ORC_Chart.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Onboarding Activity Diagrams" data-src="prototypes/LCCS_Onboarding_Activity_Diagrams.html">
+              <span>03</span>
+              <strong>Onboarding Activity Diagrams</strong>
+              <small>LCCS_Onboarding_Activity_Diagrams.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Government Console / API Journey" data-src="prototypes/LCCS_Government_Console_API_User_Journey.html">
+              <span>04</span>
+              <strong>Government Console / API Journey</strong>
+              <small>LCCS_Government_Console_API_User_Journey.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Phone Alert Simulation" data-src="prototypes/lccs_phone_simulation_actors.html">
+              <span>05</span>
+              <strong>Phone Alert Simulation</strong>
+              <small>lccs_phone_simulation_actors.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Shelter Check-in & Family Search" data-src="prototypes/lccs_shelter_checkin_family_search.html">
+              <span>06</span>
+              <strong>Shelter Check-in & Family Search</strong>
+              <small>lccs_shelter_checkin_family_search.html</small>
+            </button>
+          </div>
+          <div class="prototype-preview">
+            <div class="prototype-toolbar">
+              <h3 id="prototype-title">Rapid Onboarding Board</h3>
+              <a class="button small" id="prototype-open" href="prototypes/LCCS_Rapid_Onboarding_MCP.html" target="_blank" rel="noopener">เปิด prototype ในแท็บใหม่</a>
+            </div>
+            <div class="iframe-shell">
+              <iframe id="prototype-frame" src="prototypes/LCCS_Rapid_Onboarding_MCP.html" title="Rapid Onboarding Board preview" loading="lazy"></iframe>
+              <div class="iframe-fallback" id="prototype-fallback" hidden>
+                Prototype file not found. Add this file to /prototypes/ to enable live preview.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section value-section" id="value" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">คุณค่าที่เปลี่ยนไป</p>
+          <h2>เมื่อมี LCCS สิ่งที่เปลี่ยนไปคืออะไร</h2>
+        </div>
+        <div class="before-after" data-reveal>
+          <article>
+            <h3>ก่อนมี LCCS</h3>
+            <ul>
+              <li>ข้อมูลกระจัดกระจายอยู่ในโทรศัพท์ แชต และ Excel</li>
+              <li>รายงานซ้ำและจัดลำดับความสำคัญยาก</li>
+              <li>ไม่เห็น shelter capacity แบบ real-time</li>
+              <li>ไม่รู้ว่าทรัพยากรไหนพร้อมใช้จริง</li>
+              <li>หลักฐานภารกิจไม่เชื่อมกับเงินช่วยเหลือ</li>
+              <li>สินไหมประกันแยกจาก event ที่เกิดขึ้นจริง</li>
+            </ul>
+          </article>
+          <article>
+            <h3>หลังมี LCCS</h3>
+            <ul>
+              <li>มี crisis memory กลาง</li>
+              <li>ศูนย์บัญชาการเห็น resource board</li>
+              <li>ค้นหาครอบครัวและสถานะผู้ประสบภัยได้</li>
+              <li>เห็น shelter capacity และ supply gap</li>
+              <li>เชื่อม aid / payment trace กับหลักฐานภาคสนาม</li>
+              <li>เห็น insurance claim signal ผูกกับ disaster event ID</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mvp-section" id="mvp" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ขอบเขต MVP</p>
+          <h2>เริ่มเล็ก พิสูจน์ผลกระทบให้เร็ว</h2>
+          <p>อย่าสร้างเกินจำเป็น เริ่มจากการตอบสนองน้ำท่วมก่อน</p>
+        </div>
+        <div class="mvp-grid" data-reveal>
+          <article><span>01</span><h3>Crisis Event Setup</h3></article>
+          <article><span>02</span><h3>Rapid Onboarding</h3></article>
+          <article><span>03</span><h3>Phone / Link Signal Intake</h3></article>
+          <article><span>04</span><h3>ICP Resource Board</h3></article>
+          <article><span>05</span><h3>Shelter Check-in</h3></article>
+          <article><span>06</span><h3>Family Search</h3></article>
+          <article><span>07</span><h3>Mission Movement Log</h3></article>
+          <article><span>08</span><h3>Aid / Insurance Tracking Layer</h3></article>
+        </div>
+        <div class="roadmap" data-reveal>
+          <div><span>Phase 1</span><strong>Intake + Resource Board</strong></div>
+          <div><span>Phase 2</span><strong>Shelter + Family Search</strong></div>
+          <div><span>Phase 3</span><strong>Aid + Insurance Layer</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section closing-section" id="closing" data-section>
+      <div class="shell closing-grid">
+        <div data-reveal>
+          <p class="eyebrow">สรุป</p>
+          <h2>LCCS คือชั้นความทรงจำสำหรับการประสานงานมนุษย์</h2>
+          <p>
+            เมื่อวิกฤตทำให้โครงสร้างปกติพังลง สิ่งที่สำคัญที่สุดคือการรักษาการเชื่อมต่อระหว่างคน ข้อมูล ทรัพยากร และการตัดสินใจ
+          </p>
+          <p>
+            LCCS ทำให้สัญญาณเล็ก ๆ จากผู้ประสบภัย กลายเป็นภารกิจ ทำให้ความตั้งใจช่วยเหลือ กลายเป็นทรัพยากรที่พร้อมใช้ ทำให้การ check-in กลายเป็นหลักฐานความปลอดภัย และทำให้การฟื้นฟูหลังภัยพิบัติมีข้อมูลที่ตรวจสอบได้
+          </p>
+          <blockquote>When crisis breaks the normal structure, LCCS keeps the connections alive.</blockquote>
+          <a class="button primary" href="#playground">เริ่ม prototype จาก ICP Resource Board + Shelter / Family Search</a>
+        </div>
+        <figure class="reference-figure compact" data-reveal>
+          <img src="assets/placeholder-map.svg" alt="ภาพ LCCS Operational GIS coordination layer">
+          <figcaption>GIS ไม่ใช่แค่แผนที่ แต่เป็น coordination layer สำหรับภาคสนาม</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="กลับขึ้นด้านบน" data-back-top>↑</button>
 </body>
 </html>

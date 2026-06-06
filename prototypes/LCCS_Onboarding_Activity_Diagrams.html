@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LCCS Onboarding Activity Diagrams</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --ink: #17201d;
+      --muted: #5d675f;
+      --line: #d8ded6;
+      --panel: #ffffff;
+      --soft: #eef3ee;
+      --green: #2f6f4e;
+      --green-soft: #dff0e5;
+      --teal: #176b73;
+      --teal-soft: #dceff0;
+      --blue: #315f91;
+      --blue-soft: #e0ecf8;
+      --amber: #9b6716;
+      --amber-soft: #fff0cc;
+      --red: #9c3535;
+      --red-soft: #f7dddd;
+      --violet: #65508a;
+      --violet-soft: #ece6f3;
+      --shadow: 0 10px 28px rgba(28, 39, 33, .08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.9), rgba(247,248,245,.96)),
+        repeating-linear-gradient(90deg, rgba(47,111,78,.035) 0 1px, transparent 1px 64px),
+        repeating-linear-gradient(0deg, rgba(47,111,78,.03) 0 1px, transparent 1px 64px),
+        var(--bg);
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(1560px, 100%);
+      margin: 0 auto;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      padding: 18px 0 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 980px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.06;
+      font-weight: 780;
+    }
+
+    .subtitle {
+      max-width: 1060px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .mode-card {
+      min-width: 280px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      text-align: right;
+    }
+
+    .mode-card b {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .mode-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--green);
+      font-size: 22px;
+      font-weight: 780;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    .panel {
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(238,243,238,.72);
+    }
+
+    .panel-head h2 {
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .panel-head span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .matrix-item {
+      min-height: 132px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .matrix-item .case-no {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--green);
+      font-weight: 820;
+    }
+
+    .matrix-item:nth-child(2) .case-no {
+      background: var(--teal);
+    }
+
+    .matrix-item:nth-child(3) .case-no {
+      background: var(--blue);
+    }
+
+    .matrix-item:nth-child(4) .case-no {
+      background: var(--amber);
+    }
+
+    .matrix-item b {
+      display: block;
+      margin-top: 10px;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .matrix-item p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .warning {
+      display: grid;
+      gap: 12px;
+    }
+
+    .warning-box {
+      padding: 12px;
+      border: 1px solid #e2bdba;
+      border-radius: var(--radius);
+      background: var(--red-soft);
+      color: #6f2828;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .warning-box b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .chip.green {
+      color: #244c34;
+      background: var(--green-soft);
+      border-color: #bfdcc9;
+    }
+
+    .chip.teal {
+      color: #16525a;
+      background: var(--teal-soft);
+      border-color: #b8dadd;
+    }
+
+    .chip.blue {
+      color: #254e7b;
+      background: var(--blue-soft);
+      border-color: #bdd4ea;
+    }
+
+    .chip.amber {
+      color: #745017;
+      background: var(--amber-soft);
+      border-color: #ead19a;
+    }
+
+    .chip.red {
+      color: #7d2929;
+      background: var(--red-soft);
+      border-color: #e1b6b6;
+    }
+
+    .chip.violet {
+      color: #53406f;
+      background: var(--violet-soft);
+      border-color: #d6c7e4;
+    }
+
+    .cases {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .case {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.9);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .case-title {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 15px 16px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .badge {
+      min-width: 52px;
+      height: 52px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--green);
+      font-size: 18px;
+      font-weight: 840;
+    }
+
+    .badge.teal {
+      background: var(--teal);
+    }
+
+    .badge.blue {
+      background: var(--blue);
+    }
+
+    .badge.amber {
+      background: var(--amber);
+    }
+
+    .badge.violet {
+      background: var(--violet);
+    }
+
+    .case-title h2 {
+      font-size: 21px;
+      line-height: 1.25;
+    }
+
+    .case-title p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .case-status {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .diagram {
+      padding: 16px;
+      overflow-x: auto;
+    }
+
+    .swim {
+      min-width: 980px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .swim.five {
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+    }
+
+    .swim.six {
+      grid-template-columns: repeat(6, minmax(145px, 1fr));
+    }
+
+    .lane-head {
+      min-height: 42px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      color: #24332c;
+      font-size: 12px;
+      font-weight: 780;
+      text-align: center;
+      display: grid;
+      place-items: center;
+    }
+
+    .activity {
+      min-height: 86px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--green);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 5px 12px rgba(31,43,36,.05);
+      position: relative;
+    }
+
+    .activity.teal {
+      border-left-color: var(--teal);
+    }
+
+    .activity.blue {
+      border-left-color: var(--blue);
+    }
+
+    .activity.amber {
+      border-left-color: var(--amber);
+    }
+
+    .activity.red {
+      border-left-color: var(--red);
+    }
+
+    .activity.violet {
+      border-left-color: var(--violet);
+    }
+
+    .activity.muted {
+      border-left-color: #8a948d;
+      background: #fafbf9;
+    }
+
+    .activity b {
+      display: block;
+      font-size: 13px;
+      line-height: 1.28;
+    }
+
+    .activity span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .activity small {
+      display: inline-flex;
+      margin-top: 8px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: #425149;
+      font-size: 11px;
+      font-weight: 720;
+    }
+
+    .arrow-down {
+      display: grid;
+      place-items: center;
+      color: #89948d;
+      min-height: 22px;
+      font-size: 18px;
+      font-weight: 760;
+    }
+
+    .handoff {
+      min-height: 58px;
+      padding: 10px;
+      border: 1px dashed #aeb8b1;
+      border-radius: var(--radius);
+      background: rgba(238,243,238,.55);
+      color: #405049;
+      font-size: 12px;
+      line-height: 1.35;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .decision {
+      min-height: 92px;
+      padding: 12px;
+      border: 1px solid #e2bdba;
+      border-left: 5px solid var(--red);
+      border-radius: var(--radius);
+      background: var(--red-soft);
+      color: #672525;
+      position: relative;
+    }
+
+    .decision b {
+      display: block;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .decision span {
+      display: block;
+      margin-top: 4px;
+      color: #744242;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .output-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0 16px 16px;
+    }
+
+    .output-item {
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfa;
+      min-height: 74px;
+    }
+
+    .output-item b {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .output-item span {
+      display: block;
+      margin-top: 5px;
+      font-size: 14px;
+      font-weight: 760;
+      line-height: 1.28;
+    }
+
+    .note {
+      margin: 0 16px 16px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid #d6c49a;
+      background: #fff9e8;
+      color: #604718;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .note b {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      background: #17201d;
+      color: #eef3ee;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .footer b {
+      display: block;
+      font-size: 15px;
+    }
+
+    .footer span {
+      display: block;
+      margin-top: 4px;
+      color: #c8d5cd;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .footer .chip {
+      border-color: rgba(255,255,255,.2);
+    }
+
+    @media (max-width: 1180px) {
+      .summary-grid,
+      .matrix {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-card {
+        min-width: 0;
+      }
+
+      .output-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 14px;
+      }
+
+      header,
+      .case-title,
+      .footer {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-card,
+      .case-status {
+        text-align: left;
+      }
+
+      .diagram {
+        padding: 12px;
+      }
+
+      .swim,
+      .swim.five,
+      .swim.six {
+        min-width: 0;
+        display: block;
+      }
+
+      .lane-head {
+        margin-top: 10px;
+        text-align: left;
+        justify-items: start;
+      }
+
+      .activity,
+      .decision,
+      .handoff,
+      .arrow-down {
+        margin-top: 8px;
+      }
+
+      .output-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <header>
+        <div>
+          <h1>LCCS Onboarding Activity Diagrams</h1>
+          <p class="subtitle">แยก flow ตาม case และ actor เพื่อเห็นว่าใครเป็นคนเริ่ม ใครกรอก ใครยืนยันตัวตน ใครรวบรวมเป็นกลุ่ม และระบบส่งอะไรขึ้น ICP Resource Board</p>
+        </div>
+        <div class="mode-card">
+          <b>View</b>
+          <span>Case / Actor Flow</span>
+        </div>
+      </header>
+
+      <div class="summary-grid">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Case Map</h2>
+            <span>ช่องทางรับทรัพยากร</span>
+          </div>
+          <div class="panel-body">
+            <div class="matrix">
+              <div class="matrix-item">
+                <span class="case-no">1</span>
+                <b>Phone Call Intake</b>
+                <p>คลาสสิคแต่แพง ต้องใช้เจ้าหน้าที่ 1 คน และเหมาะแค่เก็บข้อมูลขั้นต่ำ</p>
+              </div>
+              <div class="matrix-item">
+                <span class="case-no">2</span>
+                <b>Chat / Official Command</b>
+                <p>ประกาศคำสั่งพิเศษหรือ link เพื่อเรียก form และเชื่อม identity ผ่านโทรศัพท์หรือ app</p>
+              </div>
+              <div class="matrix-item">
+                <span class="case-no">3</span>
+                <b>Self Registration</b>
+                <p>จากประกาศหรือ QR ให้ download app และยืนยันตัวตนทันที</p>
+              </div>
+              <div class="matrix-item">
+                <span class="case-no">4</span>
+                <b>Government Direct Contact</b>
+                <p>รัฐติดต่อเอกชน ผู้เชี่ยวชาญ หรือเจ้าของ asset แล้ว onboard ผ่าน console/API</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Design Warning</h2>
+            <span>อย่าให้โทรศัพท์กินกำลังคน</span>
+          </div>
+          <div class="panel-body">
+            <div class="warning">
+              <div class="warning-box">
+                <b>Case 1 อาจได้ไม่คุ้มเสีย</b>
+                การดูโทรศัพท์และตอบโต้ได้ระดับหนึ่งเป็นความสามารถขั้นต่ำ แต่ยังยืนยันตัวตนยาก หาสมาชิกไม่เจอ และใช้เวลาของ ICP มากเกินไป
+              </div>
+              <div class="legend">
+                <span class="chip green">helper</span>
+                <span class="chip teal">local delegate</span>
+                <span class="chip blue">LCCS system</span>
+                <span class="chip amber">government</span>
+                <span class="chip violet">API / central DB</span>
+                <span class="chip red">risk / decision</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="cases">
+        <section class="case">
+          <div class="case-title">
+            <div class="badge">1</div>
+            <div>
+              <h2>Phone Call Intake</h2>
+              <p>ใช้โทรศัพท์เพื่อจับสัญญาณแรกเท่านั้น แล้วผลักภาระการลงทะเบียนเต็มไปยัง link, local delegate หรือการลงทะเบียนเป็นกลุ่ม</p>
+            </div>
+            <div class="case-status">Primary risk: staff bottleneck</div>
+          </div>
+          <div class="diagram">
+            <div class="swim five">
+              <div class="lane-head">ผู้เสนอความช่วยเหลือ</div>
+              <div class="lane-head">เจ้าหน้าที่รับสาย</div>
+              <div class="lane-head">ระบบ LCCS</div>
+              <div class="lane-head">หน่วยงานย่อย / Local Delegate</div>
+              <div class="lane-head">ICP Resource Board</div>
+
+              <div class="activity green" style="grid-column:1;grid-row:2;">
+                <b>โทรเข้าศูนย์</b>
+                <span>บอกชื่อ องค์กร เบอร์ ประเภทความช่วยเหลือ ที่อยู่ และหมายเหตุด่วน</span>
+                <small>voice signal</small>
+              </div>
+              <div class="handoff" style="grid-column:1 / span 2;grid-row:3;">ส่งต่อข้อมูลด้วยเสียง อาจตกหล่นและยืนยันตัวตนยาก</div>
+              <div class="activity amber" style="grid-column:2;grid-row:4;">
+                <b>กรอกข้อมูลขั้นต่ำ</b>
+                <span>ไม่ทำ full profile ทางโทรศัพท์ เก็บเฉพาะข้อมูลที่พอสร้าง temporary record</span>
+                <small>minimum intake</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:5;">
+                <b>สร้าง Temporary Helper ID</b>
+                <span>ส่ง SMS หรือ email link ให้ผู้ช่วยเติมข้อมูลเองภายหลัง</span>
+                <small>H-temp / U-temp</small>
+              </div>
+              <div class="decision" style="grid-column:2 / span 2;grid-row:6;">
+                <b>คุ้มที่จะใช้เจ้าหน้าที่ต่อหรือไม่</b>
+                <span>ถ้าเป็นข้อมูลรายคนจำนวนมาก ให้หยุดกรอกทางโทรศัพท์และส่งไปลงทะเบียนแบบกลุ่ม</span>
+              </div>
+              <div class="activity teal" style="grid-column:4;grid-row:7;">
+                <b>รวบรวมแทนเป็นกลุ่ม</b>
+                <span>ผู้ดูแลท้องถิ่น อปท. บริษัท หรือมูลนิธิรวบรวมรายชื่อ/asset แล้ว upload แทน</span>
+                <small>delegated assistance</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:8;">
+                <b>ตรวจซ้ำ / รวม record</b>
+                <span>จับเบอร์ซ้ำ ชื่อองค์กรซ้ำ และส่ง confirmation link</span>
+                <small>duplicate warning</small>
+              </div>
+              <div class="activity green" style="grid-column:5;grid-row:9;">
+                <b>แสดงบน board</b>
+                <span>สถานะเป็น New Intake, Need Review หรือ Need ICP Support First</span>
+                <small>resource visibility</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>โทรศัพท์ + ข้อมูลขั้นต่ำ</span></div>
+            <div class="output-item"><b>Best Output</b><span>Temporary ID + link เติม profile</span></div>
+            <div class="output-item"><b>Fallback</b><span>ส่งให้หน่วยงานย่อยรวบรวมเป็นชุด</span></div>
+            <div class="output-item"><b>Board Status</b><span>Need Review / Support First</span></div>
+          </div>
+          <div class="note">
+            <b>หลักปฏิบัติ</b>
+            โทรศัพท์เหมาะกับเคสด่วนและการเริ่มต้น record แต่ไม่ควรเป็นช่องทางหลักของ full registration เพราะกินเจ้าหน้าที่และสร้างข้อมูลไม่สมบูรณ์
+          </div>
+        </section>
+
+        <section class="case">
+          <div class="case-title">
+            <div class="badge teal">2</div>
+            <div>
+              <h2>Chat / Official Announcement Command</h2>
+              <p>หน่วยงานประกาศว่าใช้คำสั่งพิเศษหรือ link ใน chat เพื่อเรียก form ลงทะเบียน โดยเชื่อมกับการระบุตัวตนผ่านเครือข่ายโทรศัพท์และ application</p>
+            </div>
+            <div class="case-status">Primary channel: scalable self-entry</div>
+          </div>
+          <div class="diagram">
+            <div class="swim five">
+              <div class="lane-head">หน่วยงานประกาศ</div>
+              <div class="lane-head">ผู้เสนอความช่วยเหลือ</div>
+              <div class="lane-head">Chat / Link</div>
+              <div class="lane-head">Identity Layer</div>
+              <div class="lane-head">LCCS / ICP Board</div>
+
+              <div class="activity amber" style="grid-column:1;grid-row:2;">
+                <b>ประกาศคำสั่งพิเศษ</b>
+                <span>เช่น พิมพ์คำสั่งใน chat หรือกด link/QR เพื่อเรียกแบบฟอร์ม</span>
+                <small>official source</small>
+              </div>
+              <div class="activity green" style="grid-column:2;grid-row:3;">
+                <b>กด link หรือส่ง command</b>
+                <span>เลือกลงทะเบียนบุคคล ทีม asset หรือ donation lot</span>
+                <small>self-start</small>
+              </div>
+              <div class="activity teal" style="grid-column:3;grid-row:4;">
+                <b>เปิด form พร้อม metadata</b>
+                <span>บันทึกว่ามาจากประกาศใด เขตใด และ channel ใด</span>
+                <small>channel trace</small>
+              </div>
+              <div class="activity violet" style="grid-column:4;grid-row:5;">
+                <b>ยืนยันตัวตน</b>
+                <span>ใช้ OTP เบอร์โทร การติดตั้ง app หรือ account ที่หน่วยงานรองรับ</span>
+                <small>phone / app identity</small>
+              </div>
+              <div class="activity blue" style="grid-column:5;grid-row:6;">
+                <b>สร้าง Resource Card</b>
+                <span>ใส่ capability tags, needs-first tags, verification status และ assignment status</span>
+                <small>Phone/App Confirmed</small>
+              </div>
+              <div class="activity green" style="grid-column:5;grid-row:7;">
+                <b>ICP review</b>
+                <span>พร้อม review, โทรยืนยันเฉพาะรายการสำคัญ และ assign mission ได้เร็วขึ้น</span>
+                <small>ready pipeline</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>official chat command / link</span></div>
+            <div class="output-item"><b>Identity</b><span>phone network / app / OTP</span></div>
+            <div class="output-item"><b>Output</b><span>Resource Card with source trace</span></div>
+            <div class="output-item"><b>Board Status</b><span>New Intake → Ready Review</span></div>
+          </div>
+        </section>
+
+        <section class="case">
+          <div class="case-title">
+            <div class="badge blue">3</div>
+            <div>
+              <h2>Self Registration via App / QR</h2>
+              <p>จากประกาศมีช่องทาง download application หรือ QR ให้ผู้ช่วยยืนยันตัวตนและลงทะเบียนได้ด้วยตนเองทันที</p>
+            </div>
+            <div class="case-status">Primary strength: verified profile</div>
+          </div>
+          <div class="diagram">
+            <div class="swim five">
+              <div class="lane-head">ผู้เสนอความช่วยเหลือ</div>
+              <div class="lane-head">ประกาศ / QR</div>
+              <div class="lane-head">Application</div>
+              <div class="lane-head">LCCS Profile</div>
+              <div class="lane-head">ICP Board</div>
+
+              <div class="activity green" style="grid-column:1;grid-row:2;">
+                <b>เห็นประกาศและต้องการช่วย</b>
+                <span>บุคคล ทีม องค์กร หรือเจ้าของทรัพยากรเริ่มเองโดยไม่ใช้เจ้าหน้าที่รับสาย</span>
+                <small>self-registration</small>
+              </div>
+              <div class="activity amber" style="grid-column:2;grid-row:3;">
+                <b>กด download app / QR</b>
+                <span>เข้าสู่ channel ที่ผูกกับเหตุการณ์และพื้นที่ประกาศ</span>
+                <small>official entry</small>
+              </div>
+              <div class="activity violet" style="grid-column:3;grid-row:4;">
+                <b>ยืนยันตัวตนทันที</b>
+                <span>เบอร์โทร อุปกรณ์ หรือ account ที่เชื่อถือได้ตามระดับที่ระบบรองรับ</span>
+                <small>verified start</small>
+              </div>
+              <div class="activity blue" style="grid-column:4;grid-row:5;">
+                <b>เลือก onboarding type</b>
+                <span>Individual, Team, Asset, Donation หรือข้อมูลอื่นที่ระบบเปิดไว้</span>
+                <small>A-D</small>
+              </div>
+              <div class="activity blue" style="grid-column:4;grid-row:6;">
+                <b>กรอก fast profile</b>
+                <span>location, ETA, capacity, contact, needs first และ consent</span>
+                <small>rapid profile</small>
+              </div>
+              <div class="activity green" style="grid-column:5;grid-row:7;">
+                <b>พร้อมขึ้น board</b>
+                <span>เห็นได้ว่าใครพร้อมใช้ ใครต้องการ fuel, route, staging area หรือ access pass ก่อน</span>
+                <small>operational visibility</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>QR / app download</span></div>
+            <div class="output-item"><b>Identity</b><span>verified immediately</span></div>
+            <div class="output-item"><b>Output</b><span>Helper / Unit / Asset / Supply Card</span></div>
+            <div class="output-item"><b>Board Status</b><span>Ready Review / Ready Assignment</span></div>
+          </div>
+        </section>
+
+        <section class="case">
+          <div class="case-title">
+            <div class="badge amber">4</div>
+            <div>
+              <h2>Government Direct Contact Overview</h2>
+              <p>ภาครัฐขอสนับสนุนจากหน่วยงานเอกชน ผู้เชี่ยวชาญอิสระ หรือเจ้าของ asset โดยมีหน้าจอ onboard และดึงข้อมูลจากฐานข้อมูลกลาง/API ได้</p>
+            </div>
+            <div class="case-status">Primary strength: authoritative request</div>
+          </div>
+          <div class="diagram">
+            <div class="swim six">
+              <div class="lane-head">เจ้าพนักงานรัฐ</div>
+              <div class="lane-head">เอกชน / ผู้เชี่ยวชาญ</div>
+              <div class="lane-head">Onboard Console</div>
+              <div class="lane-head">Central DB / API</div>
+              <div class="lane-head">LCCS Record</div>
+              <div class="lane-head">ICP Board</div>
+
+              <div class="activity amber" style="grid-column:1;grid-row:2;">
+                <b>เปิด task ขอสนับสนุน</b>
+                <span>ระบุประเภทความช่วยเหลือที่ต้องการและผู้ติดต่อเป้าหมาย</span>
+                <small>official request</small>
+              </div>
+              <div class="activity green" style="grid-column:2;grid-row:3;">
+                <b>รับสาย / ยืนยันความร่วมมือ</b>
+                <span>ตอบรับ ปฏิเสธ หรือขอรายละเอียดภารกิจก่อนตัดสินใจ</span>
+                <small>phone confirm</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:4;">
+                <b>เลือก onboarding route</b>
+                <span>single, company list, special equipment หรือ donation lot</span>
+                <small>4.1-4.4</small>
+              </div>
+              <div class="activity violet" style="grid-column:4;grid-row:5;">
+                <b>ดึงข้อมูลกลางถ้ามี</b>
+                <span>ทะเบียนองค์กร รายชื่อ ผู้เชี่ยวชาญ ทรัพยากร หรือ asset ที่เคยขึ้นทะเบียน</span>
+                <small>API pull</small>
+              </div>
+              <div class="activity blue" style="grid-column:5;grid-row:6;">
+                <b>สร้างหรือ update record</b>
+                <span>บันทึก participation response, capability, availability, logistics และ needs first</span>
+                <small>resource / asset update</small>
+              </div>
+              <div class="activity green" style="grid-column:6;grid-row:7;">
+                <b>ขึ้น ICP Board</b>
+                <span>แสดงสถานะ review, confirmed, ready, assigned หรือ unavailable</span>
+                <small>command visibility</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>official call / request task</span></div>
+            <div class="output-item"><b>Support</b><span>API / central database</span></div>
+            <div class="output-item"><b>Route</b><span>4.1, 4.2, 4.3, 4.4</span></div>
+            <div class="output-item"><b>Board Status</b><span>Confirmed / Ready / Needs First</span></div>
+          </div>
+        </section>
+
+        <section class="case">
+          <div class="case-title">
+            <div class="badge amber">4.1</div>
+            <div>
+              <h2>Single Registration by Government Officer</h2>
+              <p>เจ้าหน้าที่รัฐโทรขอความช่วยเหลือรายบุคคล สร้าง ID ทันที และส่ง link ให้เติมข้อมูลเชิงลึกเพื่อ update profile</p>
+            </div>
+            <div class="case-status">Use when: individual expert / one contact</div>
+          </div>
+          <div class="diagram">
+            <div class="swim five">
+              <div class="lane-head">เจ้าหน้าที่รัฐ</div>
+              <div class="lane-head">ผู้ช่วย / ผู้เชี่ยวชาญ</div>
+              <div class="lane-head">Onboard Console</div>
+              <div class="lane-head">Messaging</div>
+              <div class="lane-head">ICP Board</div>
+
+              <div class="activity amber" style="grid-column:1;grid-row:2;">
+                <b>โทรขอความช่วยเหลือ</b>
+                <span>ถามข้อมูลพื้นฐานและสถานะเข้าร่วม</span>
+                <small>call confirm</small>
+              </div>
+              <div class="activity green" style="grid-column:2;grid-row:3;">
+                <b>ตอบรับ / ขอรายละเอียด / ปฏิเสธ</b>
+                <span>คำตอบถูกบันทึกเป็น participation response</span>
+                <small>response</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:4;">
+                <b>สร้าง Helper ID</b>
+                <span>บันทึก skill, location, availability, transport ability และ contact</span>
+                <small>H-ID</small>
+              </div>
+              <div class="activity violet" style="grid-column:4;grid-row:5;">
+                <b>ส่ง link เติม profile</b>
+                <span>SMS หรือ email เพื่อ update ข้อมูลลึกหลังสร้าง ID แล้ว</span>
+                <small>profile link</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:6;">
+                <b>รองรับ Excel list</b>
+                <span>ถ้าเจ้าหน้าที่มี list มาก่อน ให้อัปโหลดและแยกผลตอบรับรายบุคคล</span>
+                <small>bulk assist</small>
+              </div>
+              <div class="activity green" style="grid-column:5;grid-row:7;">
+                <b>เห็นผลบน board</b>
+                <span>Accepted, Pending, Declined, Need Info หรือ Ready for Mission</span>
+                <small>response tracking</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>phone confirm / Excel list</span></div>
+            <div class="output-item"><b>Record</b><span>Helper ID + response status</span></div>
+            <div class="output-item"><b>Follow-up</b><span>SMS/email profile link</span></div>
+            <div class="output-item"><b>Board Status</b><span>Pending → Ready / Declined</span></div>
+          </div>
+        </section>
+
+        <section class="case">
+          <div class="case-title">
+            <div class="badge teal">4.2</div>
+            <div>
+              <h2>Company / Organization List Submission</h2>
+              <p>บริษัทหรือองค์กรรวบรวมรายชื่อ ความสามารถ และทรัพยากรเอง แล้ว submit ผ่าน web เพื่อให้ระบบ pull เข้าสู่ resource and asset</p>
+            </div>
+            <div class="case-status">Use when: many people from one organization</div>
+          </div>
+          <div class="diagram">
+            <div class="swim five">
+              <div class="lane-head">บริษัท / องค์กร</div>
+              <div class="lane-head">Web Submission</div>
+              <div class="lane-head">LCCS Import</div>
+              <div class="lane-head">Central DB / API</div>
+              <div class="lane-head">ICP Board</div>
+
+              <div class="activity green" style="grid-column:1;grid-row:2;">
+                <b>รวบรวมรายชื่อและ capability</b>
+                <span>ผู้ประสานงานองค์กรทำหน้าที่แทนเจ้าพนักงานรัฐ</span>
+                <small>delegated workload</small>
+              </div>
+              <div class="activity teal" style="grid-column:2;grid-row:3;">
+                <b>submit ผ่านเว็บ</b>
+                <span>Excel, CSV, web table หรือ API import</span>
+                <small>bulk upload</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:4;">
+                <b>ตรวจ missing / duplicate</b>
+                <span>เช็คเบอร์ซ้ำ ชื่อซ้ำ ข้อมูลขาด และส่ง confirmation link</span>
+                <small>data quality</small>
+              </div>
+              <div class="activity violet" style="grid-column:4;grid-row:5;">
+                <b>pull / match ข้อมูลกลาง</b>
+                <span>จับคู่กับฐานข้อมูลสมาชิก หน่วยงาน หรือ asset เดิมถ้ามี</span>
+                <small>match</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:6;">
+                <b>อัปเดต resource and asset</b>
+                <span>สร้าง Unit, Helper, Asset หรือ Supply records ตามประเภทข้อมูล</span>
+                <small>imported records</small>
+              </div>
+              <div class="activity green" style="grid-column:5;grid-row:7;">
+                <b>สรุปกำลังสนับสนุน</b>
+                <span>คน รถ อุปกรณ์ เวลาออกปฏิบัติการ และ needs first ขององค์กร</span>
+                <small>resource summary</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>Excel / CSV / web table / API</span></div>
+            <div class="output-item"><b>Checks</b><span>duplicate + missing warnings</span></div>
+            <div class="output-item"><b>Output</b><span>imported records + confirmations</span></div>
+            <div class="output-item"><b>Board Status</b><span>Review batch / Ready group</span></div>
+          </div>
+        </section>
+
+        <section class="case">
+          <div class="case-title">
+            <div class="badge blue">4.3</div>
+            <div>
+              <h2>Special Equipment Registration</h2>
+              <p>ลงทะเบียนเครื่องมือพิเศษจากเอกชนหรือรัฐ โดย task ควรเริ่มจากส่วนกลาง/ICP ก่อนส่งคำขอ และต้องระบุ operator, วิธีดูแล, ขนย้าย, เวลา และวิธีรับส่ง</p>
+            </div>
+            <div class="case-status">Use when: asset needs handling rules</div>
+          </div>
+          <div class="diagram">
+            <div class="swim six">
+              <div class="lane-head">ICP / ส่วนกลาง</div>
+              <div class="lane-head">เจ้าของอุปกรณ์</div>
+              <div class="lane-head">ผู้เชี่ยวชาญ / Operator</div>
+              <div class="lane-head">Logistics</div>
+              <div class="lane-head">LCCS Asset Record</div>
+              <div class="lane-head">ICP Board</div>
+
+              <div class="activity amber" style="grid-column:1;grid-row:2;">
+                <b>สร้าง task ขอเครื่องมือ</b>
+                <span>ระบุภารกิจ ประเภทอุปกรณ์ จำนวน และพื้นที่ต้องใช้</span>
+                <small>equipment request</small>
+              </div>
+              <div class="activity green" style="grid-column:2;grid-row:3;">
+                <b>ยืนยัน availability</b>
+                <span>พร้อมให้ยืม ให้ใช้ร่วม หรือส่งเจ้าหน้าที่มาคุมเครื่อง</span>
+                <small>owner confirm</small>
+              </div>
+              <div class="activity teal" style="grid-column:3;grid-row:4;">
+                <b>ระบุ operator / handling</b>
+                <span>ต้องมีผู้เชี่ยวชาญมาด้วยหรือไม่ วิธีดูแลรักษาและข้อควรระวัง</span>
+                <small>safe use</small>
+              </div>
+              <div class="activity violet" style="grid-column:4;grid-row:5;">
+                <b>กำหนด transport plan</b>
+                <span>ขนย้ายอย่างไร รับเองหรือจัดส่ง ระบุวันและช่วงเวลา เช้า บ่าย ค่ำ</span>
+                <small>pickup / delivery</small>
+              </div>
+              <div class="activity blue" style="grid-column:5;grid-row:6;">
+                <b>สร้าง Asset Card</b>
+                <span>บันทึก type, quantity, location, operator required, maintenance notes และ logistics requirement</span>
+                <small>A-ID</small>
+              </div>
+              <div class="decision" style="grid-column:4 / span 2;grid-row:7;">
+                <b>พร้อมใช้งานหรือยัง</b>
+                <span>ถ้ายังขาด operator, รถขนย้าย, fuel, access pass หรือ staging area ให้ค้างไว้ที่ Need ICP Support First</span>
+              </div>
+              <div class="activity green" style="grid-column:6;grid-row:8;">
+                <b>พร้อม assign หรือรอ support</b>
+                <span>Asset พร้อม mission assignment หรือรอ logistics requirement</span>
+                <small>asset readiness</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>central/ICP equipment request</span></div>
+            <div class="output-item"><b>Required</b><span>operator + handling + transport</span></div>
+            <div class="output-item"><b>Output</b><span>Asset Card + logistics requirement</span></div>
+            <div class="output-item"><b>Board Status</b><span>Ready / Need Support First</span></div>
+          </div>
+        </section>
+
+        <section class="case">
+          <div class="case-title">
+            <div class="badge violet">4.4</div>
+            <div>
+              <h2>Donation / Supply Lot</h2>
+              <p>ลงทะเบียนของบริจาคเป็น lot โดยระบุประเภท ปริมาณ วิธีขนส่ง ของใช้ ของกิน อุปกรณ์สนับสนุน วันพร้อมส่ง และเงื่อนไขจัดเก็บ</p>
+            </div>
+            <div class="case-status">Use when: supplies must be matched and moved</div>
+          </div>
+          <div class="diagram">
+            <div class="swim five">
+              <div class="lane-head">ICP Need / ประกาศรับ</div>
+              <div class="lane-head">ผู้บริจาค / องค์กร</div>
+              <div class="lane-head">Supply Form / Officer</div>
+              <div class="lane-head">Logistics / Warehouse</div>
+              <div class="lane-head">ICP Board</div>
+
+              <div class="activity amber" style="grid-column:1;grid-row:2;">
+                <b>ระบุ need หรือเปิดรับ donation</b>
+                <span>อาหาร น้ำ อุปกรณ์สนับสนุน ของใช้ ทางการแพทย์ หรือวัสดุเฉพาะ</span>
+                <small>need signal</small>
+              </div>
+              <div class="activity green" style="grid-column:2;grid-row:3;">
+                <b>แจ้ง supply lot</b>
+                <span>donor, ประเภท, quantity, unit, location, ready time และ recipient preference</span>
+                <small>lot offer</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:4;">
+                <b>บันทึก handling notes</b>
+                <span>วันหมดอายุ เงื่อนไขจัดเก็บ เปราะบาง ต้องแช่เย็น หรือแบ่ง lot ได้ไหม</span>
+                <small>quality / expiry</small>
+              </div>
+              <div class="activity violet" style="grid-column:4;grid-row:5;">
+                <b>กำหนด delivery method</b>
+                <span>ผู้บริจาคส่งเอง ICP ไปรับ ต้องการ loading staff หรือ storage area</span>
+                <small>movement</small>
+              </div>
+              <div class="activity blue" style="grid-column:3;grid-row:6;">
+                <b>สร้าง Supply Lot ID</b>
+                <span>matching status และ delivery status ถูกสร้างพร้อมกัน</span>
+                <small>S-ID</small>
+              </div>
+              <div class="activity green" style="grid-column:5;grid-row:7;">
+                <b>จับคู่กับ unmet needs</b>
+                <span>เห็น supply ที่พร้อมส่ง กำลังขนส่ง หรือรอพื้นที่เก็บ/เส้นทาง</span>
+                <small>matching</small>
+              </div>
+            </div>
+          </div>
+          <div class="output-strip">
+            <div class="output-item"><b>Input</b><span>donation lot / supply offer</span></div>
+            <div class="output-item"><b>Required</b><span>quantity + unit + handling + delivery</span></div>
+            <div class="output-item"><b>Output</b><span>Supply Card + matching status</span></div>
+            <div class="output-item"><b>Board Status</b><span>Matched / In Transit / Waiting Storage</span></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="footer">
+        <div>
+          <b>Operational Rule</b>
+          <span>Phone call is a signal collector, not a full registration channel. The scalable path is verified self-entry, delegated group registration, and government-initiated onboarding through console/API.</span>
+        </div>
+        <div class="legend">
+          <span class="chip green">Resource Card</span>
+          <span class="chip red">Risk Gate</span>
+          <span class="chip blue">System Record</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

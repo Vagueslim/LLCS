@@ -1,0 +1,1113 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LCCS Rapid Onboarding MCP</title>
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --ink: #17201d;
+      --muted: #5a665f;
+      --line: #d9ded7;
+      --panel: #ffffff;
+      --panel-2: #eef3ee;
+      --green: #2f6f4e;
+      --green-2: #dff0e5;
+      --teal: #176b73;
+      --teal-2: #dceff0;
+      --amber: #9b6716;
+      --amber-2: #fff0cc;
+      --red: #9c3535;
+      --red-2: #f7dddd;
+      --blue: #315f91;
+      --blue-2: #e0ecf8;
+      --purple: #6d518f;
+      --purple-2: #ece5f4;
+      --shadow: 0 10px 24px rgba(30, 38, 33, .08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.82), rgba(246,247,244,.94)),
+        repeating-linear-gradient(90deg, rgba(47,111,78,.04) 0 1px, transparent 1px 56px),
+        repeating-linear-gradient(0deg, rgba(47,111,78,.035) 0 1px, transparent 1px 56px),
+        var(--bg);
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(1500px, 100%);
+      margin: 0 auto;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      padding: 18px 0 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.06;
+      font-weight: 760;
+      max-width: 920px;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+      max-width: 980px;
+    }
+
+    .timestamp {
+      min-width: 260px;
+      padding: 14px 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: right;
+    }
+
+    .timestamp b {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .timestamp span {
+      display: block;
+      margin-top: 4px;
+      font-size: 22px;
+      font-weight: 760;
+      color: var(--green);
+    }
+
+    .status-bar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 18px;
+    }
+
+    .metric {
+      min-height: 94px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .metric .value {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 30px;
+      font-weight: 780;
+    }
+
+    .metric .value small {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .metric .hint {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr) 350px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    section {
+      min-width: 0;
+    }
+
+    .panel {
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(238,243,238,.7);
+    }
+
+    .panel-header h2 {
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .panel-header .mini {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .panel-body {
+      padding: 14px 16px 16px;
+    }
+
+    .activation {
+      display: grid;
+      gap: 10px;
+    }
+
+    .law-chip {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #213f2e;
+      background: var(--green-2);
+      border: 1px solid #b8dcc5;
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .flow {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .step-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--green);
+      font-weight: 760;
+    }
+
+    .flow-step:nth-child(2) .step-icon {
+      background: var(--teal);
+    }
+
+    .flow-step:nth-child(3) .step-icon {
+      background: var(--blue);
+    }
+
+    .flow-step:nth-child(4) .step-icon {
+      background: var(--amber);
+    }
+
+    .step-text {
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .flow-step:last-child .step-text {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-text b {
+      display: block;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .step-text span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .intake-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .intake-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .intake-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--panel-2);
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .intake-item b {
+      display: block;
+      font-size: 13px;
+    }
+
+    .intake-item span {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(145px, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .lane {
+      min-height: 550px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .lane-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+
+    .lane-title b {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .count {
+      min-width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .cards {
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .resource-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--green);
+      border-radius: var(--radius);
+      padding: 11px;
+      box-shadow: 0 6px 14px rgba(30,38,33,.06);
+    }
+
+    .resource-card.team {
+      border-left-color: var(--teal);
+    }
+
+    .resource-card.asset {
+      border-left-color: var(--blue);
+    }
+
+    .resource-card.supply {
+      border-left-color: var(--amber);
+    }
+
+    .resource-card.alert {
+      border-left-color: var(--red);
+    }
+
+    .card-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: start;
+      gap: 10px;
+    }
+
+    .card-top b {
+      display: block;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .id {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .meta {
+      margin-top: 8px;
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      background: var(--green-2);
+      color: #244c34;
+    }
+
+    .chip.teal {
+      color: #16525a;
+      background: var(--teal-2);
+      border-color: #b8dadd;
+    }
+
+    .chip.blue {
+      color: #254e7b;
+      background: var(--blue-2);
+      border-color: #bdd4ea;
+    }
+
+    .chip.amber {
+      color: #745017;
+      background: var(--amber-2);
+      border-color: #ead19a;
+    }
+
+    .chip.red {
+      color: #7d2929;
+      background: var(--red-2);
+      border-color: #e1b6b6;
+    }
+
+    .chip.purple {
+      color: #594276;
+      background: var(--purple-2);
+      border-color: #d6c7e4;
+    }
+
+    .mission-map {
+      display: grid;
+      grid-template-columns: 1fr 42px 1fr 42px 1fr;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .map-node {
+      min-height: 82px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .map-node b {
+      display: block;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .map-node span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .arrow {
+      height: 2px;
+      background: var(--line);
+      position: relative;
+    }
+
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -5px;
+      border-left: 8px solid var(--line);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+
+    .right-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .type-grid {
+      display: grid;
+      gap: 9px;
+    }
+
+    .type-row {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .type-letter {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--green);
+      font-size: 18px;
+      font-weight: 820;
+    }
+
+    .type-row:nth-child(2) .type-letter {
+      background: var(--teal);
+    }
+
+    .type-row:nth-child(3) .type-letter {
+      background: var(--blue);
+    }
+
+    .type-row:nth-child(4) .type-letter {
+      background: var(--amber);
+    }
+
+    .type-row:nth-child(5) .type-letter {
+      background: var(--purple);
+    }
+
+    .type-row b {
+      font-size: 13px;
+      display: block;
+    }
+
+    .type-row span {
+      margin-top: 2px;
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .script-box {
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid #cbd8cc;
+      background: #f8fbf7;
+      color: #2f4237;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .script-box b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .safety-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .safety-list div {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 8px;
+      align-items: start;
+      font-size: 13px;
+      color: #2b3932;
+      line-height: 1.35;
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-2);
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .footer-band {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      background: #17201d;
+      color: #eef3ee;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .footer-band b {
+      font-size: 15px;
+    }
+
+    .footer-band span {
+      display: block;
+      margin-top: 3px;
+      color: #c8d5cd;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 1240px) {
+      .main-grid {
+        grid-template-columns: 300px minmax(0, 1fr);
+      }
+
+      .right-stack {
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .right-stack .panel:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        padding: 14px;
+      }
+
+      header,
+      .main-grid,
+      .status-bar,
+      .right-stack,
+      .footer-band {
+        grid-template-columns: 1fr;
+      }
+
+      .timestamp {
+        text-align: left;
+        min-width: 0;
+      }
+
+      .board {
+        grid-template-columns: 1fr;
+      }
+
+      .lane {
+        min-height: 0;
+      }
+
+      .mission-map {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        width: 2px;
+        height: 28px;
+        justify-self: center;
+      }
+
+      .arrow::after {
+        right: -5px;
+        top: 20px;
+        border-top: 8px solid var(--line);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 0;
+      }
+
+      .legend {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <header>
+        <div>
+          <h1>LCCS Rapid Onboarding MCP</h1>
+          <p class="subtitle">ภาพรวมการรับทรัพยากรช่วยเหลือเข้าสู่ ICP หลัง ปภ. เรียกประชุมตั้งศูนย์บัญชาการเหตุการณ์ ใช้เพื่อเห็นความช่วยเหลือที่พร้อมใช้ ก่อนข้อมูลกระจายไปอยู่ในโทรศัพท์ แชท Excel และความจำรายบุคคล</p>
+        </div>
+        <div class="timestamp" aria-label="activation status">
+          <b>Activation</b>
+          <span>ICP Intake Live</span>
+        </div>
+      </header>
+
+      <div class="status-bar" aria-label="operational summary">
+        <div class="metric">
+          <div class="label">New Incoming</div>
+          <div class="value">42 <small>records</small></div>
+          <div class="hint">เข้ามาทางโทรศัพท์ link และ bulk list</div>
+        </div>
+        <div class="metric">
+          <div class="label">Ready for Mission</div>
+          <div class="value">18 <small>resources</small></div>
+          <div class="hint">ติดต่อได้ มี ETA และผ่าน safety gate</div>
+        </div>
+        <div class="metric">
+          <div class="label">Need ICP Support First</div>
+          <div class="value">13 <small>waiting</small></div>
+          <div class="hint">รอ fuel, route, staging area หรือ access pass</div>
+        </div>
+        <div class="metric">
+          <div class="label">Unmet Need Signals</div>
+          <div class="value">9 <small>tags</small></div>
+          <div class="hint">สิ่งที่ต้องตัดสินใจใน ICP ก่อนปล่อยภารกิจ</div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <section class="panel" aria-labelledby="activation-title">
+          <div class="panel-header">
+            <h2 id="activation-title">Activation Flow</h2>
+            <span class="mini">0-30 นาทีแรก</span>
+          </div>
+          <div class="panel-body">
+            <div class="activation">
+              <span class="law-chip">พ.ร.บ. ป้องกันฯ 2550 ม.21-27</span>
+              <p class="subtitle" style="font-size: 13px;">คำถามหลัก: มีความช่วยเหลืออะไรอยู่ที่ไหน จะใช้ได้เมื่อไร และต้องการอะไรจาก ICP ก่อนเริ่มงานอย่างปลอดภัย</p>
+            </div>
+
+            <div class="flow" aria-label="rapid onboarding flow">
+              <div class="flow-step">
+                <div class="step-icon">1</div>
+                <div class="step-text">
+                  <b>Official Call for Support</b>
+                  <span>ประกาศ link, QR, เบอร์โทร และช่องทาง bulk upload</span>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="step-icon">2</div>
+                <div class="step-text">
+                  <b>Fast Intake</b>
+                  <span>เก็บแค่ identity, contact, location, ETA, capacity, needs first</span>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="step-icon">3</div>
+                <div class="step-text">
+                  <b>Resource Card</b>
+                  <span>ออก ID และแปลงเป็น card ที่ ICP เห็นได้ทันที</span>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="step-icon">4</div>
+                <div class="step-text">
+                  <b>Mission Decision</b>
+                  <span>review, verify, support first หรือ assign to mission</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="height: 16px;"></div>
+            <div class="panel" style="box-shadow:none;">
+              <div class="panel-header">
+                <h2 style="font-size:15px;">Entry Channels</h2>
+                <span class="mini">รับเข้าระบบ</span>
+              </div>
+              <div class="panel-body">
+                <div class="intake-list">
+                  <div class="intake-item">
+                    <div class="intake-icon">T</div>
+                    <div><b>Phone Call Intake</b><span>เหมาะกับเคสด่วน เก็บข้อมูลสั้นแล้วส่ง link เติมต่อ</span></div>
+                  </div>
+                  <div class="intake-item">
+                    <div class="intake-icon">L</div>
+                    <div><b>Official Link / Chat</b><span>รองรับ self-registration จากประกาศทางการ</span></div>
+                  </div>
+                  <div class="intake-item">
+                    <div class="intake-icon">Q</div>
+                    <div><b>QR / Web Form</b><span>สร้าง operational record ก่อน profile ลึก</span></div>
+                  </div>
+                  <div class="intake-item">
+                    <div class="intake-icon">G</div>
+                    <div><b>Government-Initiated</b><span>เจ้าหน้าที่ลงทะเบียนเดี่ยวหรือ upload เป็นชุด</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="board-title">
+          <div class="panel">
+            <div class="panel-header">
+              <h2 id="board-title">ICP Resource Intake Board</h2>
+              <span class="mini">Resource cards by operational state</span>
+            </div>
+            <div class="panel-body">
+              <div class="board">
+                <div class="lane">
+                  <div class="lane-title"><b>New Intake</b><span class="count">7</span></div>
+                  <div class="cards">
+                    <article class="resource-card">
+                      <div class="card-top">
+                        <b>อาสาแพทย์ฉุกเฉิน</b>
+                        <span class="id">H-20260530-0041</span>
+                      </div>
+                      <div class="meta">
+                        <span>Location: อ.เมือง</span>
+                        <span>Available: 45 นาที</span>
+                        <span>Contact: phone confirmed pending</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip">medical</span>
+                        <span class="chip amber">mission assignment</span>
+                      </div>
+                    </article>
+
+                    <article class="resource-card team">
+                      <div class="card-top">
+                        <b>ทีมเรือชุมชน 3 ลำ</b>
+                        <span class="id">U-20260530-0019</span>
+                      </div>
+                      <div class="meta">
+                        <span>ETA: 1 ชม. 20 นาที</span>
+                        <span>Capacity: 12 คนต่อรอบ</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip teal">boat</span>
+                        <span class="chip teal">evacuation</span>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
+                <div class="lane">
+                  <div class="lane-title"><b>Need ICP Support First</b><span class="count">5</span></div>
+                  <div class="cards">
+                    <article class="resource-card asset alert">
+                      <div class="card-top">
+                        <b>รถบรรทุกสูง 2 คัน</b>
+                        <span class="id">A-20260530-0008</span>
+                      </div>
+                      <div class="meta">
+                        <span>Location: คลังเทศบาล</span>
+                        <span>Needs: fuel + route confirmation</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip blue">truck</span>
+                        <span class="chip red">fuel</span>
+                        <span class="chip red">delivery route</span>
+                      </div>
+                    </article>
+
+                    <article class="resource-card supply">
+                      <div class="card-top">
+                        <b>น้ำดื่ม 1,200 ขวด</b>
+                        <span class="id">S-20260530-0012</span>
+                      </div>
+                      <div class="meta">
+                        <span>Ready: ตอนนี้</span>
+                        <span>Needs: loading staff + storage area</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip amber">water</span>
+                        <span class="chip red">loading staff</span>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
+                <div class="lane">
+                  <div class="lane-title"><b>Ready for Assignment</b><span class="count">9</span></div>
+                  <div class="cards">
+                    <article class="resource-card team">
+                      <div class="card-top">
+                        <b>มูลนิธิกู้ภัย ชุดที่ 2</b>
+                        <span class="id">U-20260530-0011</span>
+                      </div>
+                      <div class="meta">
+                        <span>People: 14</span>
+                        <span>Self-sustain: 18 ชม.</span>
+                        <span>Status: Officer Confirmed</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip teal">rescue</span>
+                        <span class="chip teal">4x4</span>
+                        <span class="chip">ready</span>
+                      </div>
+                    </article>
+
+                    <article class="resource-card asset">
+                      <div class="card-top">
+                        <b>เครื่องปั่นไฟ 5 kW</b>
+                        <span class="id">A-20260530-0015</span>
+                      </div>
+                      <div class="meta">
+                        <span>Owner: บริษัทเอกชน</span>
+                        <span>Delivery: ส่งได้เอง</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip blue">generator</span>
+                        <span class="chip">ready</span>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
+                <div class="lane">
+                  <div class="lane-title"><b>Assigned / Operating</b><span class="count">4</span></div>
+                  <div class="cards">
+                    <article class="resource-card team">
+                      <div class="card-top">
+                        <b>ทีมขนส่งอาหาร</b>
+                        <span class="id">U-20260530-0005</span>
+                      </div>
+                      <div class="meta">
+                        <span>Mission: จุดพักพิง A</span>
+                        <span>Status: En Route</span>
+                        <span>Last update: 06:15</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip amber">food</span>
+                        <span class="chip purple">assigned</span>
+                      </div>
+                    </article>
+
+                    <article class="resource-card asset">
+                      <div class="card-top">
+                        <b>ปั๊มน้ำเคลื่อนที่</b>
+                        <span class="id">A-20260530-0003</span>
+                      </div>
+                      <div class="meta">
+                        <span>Mission: โรงพยาบาลชุมชน</span>
+                        <span>Status: On Scene</span>
+                      </div>
+                      <div class="chips">
+                        <span class="chip blue">pump</span>
+                        <span class="chip purple">operating</span>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mission-map" aria-label="mission map">
+                <div class="map-node">
+                  <b>1. Intake Signal</b>
+                  <span>โทรศัพท์ link QR bulk upload</span>
+                </div>
+                <div class="arrow"></div>
+                <div class="map-node">
+                  <b>2. Resource Card</b>
+                  <span>ID, location, ETA, capacity, needs first</span>
+                </div>
+                <div class="arrow"></div>
+                <div class="map-node">
+                  <b>3. ICP Mission Use</b>
+                  <span>review, verify, support, assign, track</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="right-stack" aria-label="operational reference">
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Onboarding Types</h2>
+              <span class="mini">A-E</span>
+            </div>
+            <div class="panel-body">
+              <div class="type-grid">
+                <div class="type-row">
+                  <div class="type-letter">A</div>
+                  <div><b>Individual Helper</b><span>อาสาเดี่ยว ผู้เชี่ยวชาญอิสระ</span></div>
+                </div>
+                <div class="type-row">
+                  <div class="type-letter">B</div>
+                  <div><b>Team / Organization</b><span>ทีมกู้ภัย มูลนิธิ บริษัท อปท.</span></div>
+                </div>
+                <div class="type-row">
+                  <div class="type-letter">C</div>
+                  <div><b>Asset / Equipment</b><span>รถ เรือ เครื่องมือหนัก อุปกรณ์สื่อสาร</span></div>
+                </div>
+                <div class="type-row">
+                  <div class="type-letter">D</div>
+                  <div><b>Donation / Supply Lot</b><span>อาหาร น้ำ ยา วัสดุสิ้นเปลือง</span></div>
+                </div>
+                <div class="type-row">
+                  <div class="type-letter">E</div>
+                  <div><b>Bulk List Upload</b><span>Excel CSV web table หรือ API import</span></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Phone Intake Script</h2>
+              <span class="mini">พูดให้สั้น</span>
+            </div>
+            <div class="panel-body">
+              <div class="script-box">
+                <b>ขอเก็บข้อมูลสั้น ๆ เพื่อให้ ICP เห็นทรัพยากรที่พร้อมใช้งานครับ/ค่ะ</b>
+                ชื่อและองค์กร, เบอร์ติดต่อ, สนับสนุนอะไรได้, อยู่ที่ไหน, เริ่มได้เมื่อไร, มีจำนวนคน รถ เรือ อุปกรณ์ หรือของเท่าไร, และต้องการอะไรจาก ICP ก่อนเริ่มงาน
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Needs First Tags</h2>
+              <span class="mini">ก่อน assign</span>
+            </div>
+            <div class="panel-body">
+              <div class="tags">
+                <span class="chip red">staging area</span>
+                <span class="chip red">fuel</span>
+                <span class="chip amber">food for team</span>
+                <span class="chip blue">transport support</span>
+                <span class="chip red">delivery route</span>
+                <span class="chip teal">local guide</span>
+                <span class="chip purple">radio channel</span>
+                <span class="chip red">access pass</span>
+                <span class="chip amber">loading staff</span>
+                <span class="chip blue">power supply</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Safety Gate</h2>
+              <span class="mini">ก่อนมอบภารกิจ</span>
+            </div>
+            <div class="panel-body">
+              <div class="safety-list">
+                <div><span class="check">✓</span><span>ติดต่อได้จริง และมี contact สำรองเมื่อเป็นทีมใหญ่</span></div>
+                <div><span class="check">✓</span><span>location และ ETA เชื่อถือได้พอสำหรับการสั่งงาน</span></div>
+                <div><span class="check">✓</span><span>capacity ตรงกับภารกิจ ไม่ทำให้ทีมกลายเป็นผู้ประสบภัยเพิ่ม</span></div>
+                <div><span class="check">✓</span><span>เคลียร์ operator, guide, route, fuel, radio channel และ access pass แล้ว</span></div>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <div class="footer-band">
+        <div>
+          <b>Design Principle</b>
+          <span>Rapid Onboarding should not slow people down. It converts willingness into operational visibility.</span>
+        </div>
+        <div class="legend" aria-label="card legend">
+          <span class="chip">helper</span>
+          <span class="chip teal">team</span>
+          <span class="chip blue">asset</span>
+          <span class="chip amber">supply</span>
+          <span class="chip red">needs first</span>
+          <span class="chip purple">assigned</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

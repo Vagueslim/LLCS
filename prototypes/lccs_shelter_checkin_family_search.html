@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#0d1117;--s1:#161b22;--s2:#1c2333;--s3:#21262d;
+    --border:#30363d;--accent:#58a6ff;--amber:#e3b341;
+    --danger:#f85149;--success:#3fb950;--purple:#bc8cff;
+    --text:#e6edf3;--muted:#8b949e;
+    --font:'IBM Plex Sans Thai',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  body{background:var(--bg);color:var(--text);font-family:var(--font);
+    padding:16px;display:flex;flex-direction:column;gap:14px;align-items:center;}
+
+  .wrapper{width:100%;max-width:860px;display:flex;flex-direction:column;gap:14px;}
+
+  /* tabs */
+  .tabs{display:flex;gap:6px;border-bottom:1px solid var(--border);padding-bottom:0;}
+  .tab{padding:7px 16px;border-radius:6px 6px 0 0;font-size:12px;cursor:pointer;
+    background:var(--s2);color:var(--muted);border:1px solid var(--border);border-bottom:none;
+    transition:all .2s;font-family:var(--font);}
+  .tab.active{background:var(--s1);color:var(--text);border-color:var(--accent);font-weight:600;}
+
+  .panel{display:none;} .panel.active{display:flex;flex-direction:column;gap:12px;}
+
+  /* section header */
+  .sec-head{font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1.5px;
+    text-transform:uppercase;padding:4px 0;}
+
+  /* shelter capacity grid */
+  .shelter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;}
+  .shelter-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;
+    padding:12px;cursor:pointer;transition:all .2s;}
+  .shelter-card:hover{border-color:var(--accent);}
+  .shelter-card.full{border-color:var(--danger);opacity:.7;}
+  .shelter-card.warn{border-color:var(--amber);}
+  .shelter-card.ok{border-color:var(--success);}
+  .sc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+  .sc-name{font-size:13px;font-weight:600;}
+  .sc-type{font-size:10px;color:var(--muted);}
+  .cap-bar{height:6px;border-radius:3px;background:var(--s3);margin:6px 0;}
+  .cap-fill{height:6px;border-radius:3px;transition:width .5s;}
+  .cap-fill.ok{background:var(--success);}
+  .cap-fill.warn{background:var(--amber);}
+  .cap-fill.full{background:var(--danger);}
+  .cap-nums{font-family:var(--mono);font-size:10px;color:var(--muted);}
+  .badge{font-size:9px;padding:2px 7px;border-radius:4px;font-family:var(--mono);}
+  .badge.ok{background:rgba(63,185,80,.15);color:#7ee787;}
+  .badge.warn{background:rgba(227,179,65,.15);color:#f0c060;}
+  .badge.full{background:rgba(248,81,73,.15);color:#ffa198;}
+  .sc-flags{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;}
+  .flag{font-size:9px;padding:2px 6px;border-radius:4px;background:var(--s2);color:var(--muted);}
+
+  /* checkin form */
+  .form-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+  .form-row.single{grid-template-columns:1fr;}
+  .field label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px;}
+  .field input, .field select{width:100%;background:var(--s2);border:1px solid var(--border);
+    border-radius:6px;padding:7px 10px;color:var(--text);font-family:var(--mono);font-size:12px;
+    outline:none;transition:border .2s;}
+  .field input:focus,.field select:focus{border-color:var(--accent);}
+  .field select option{background:var(--s2);}
+
+  .submit-btn{width:100%;padding:10px;border-radius:7px;background:var(--accent);
+    color:var(--bg);font-family:var(--font);font-size:13px;font-weight:600;
+    border:none;cursor:pointer;transition:all .2s;}
+  .submit-btn:hover{background:#79c0ff;}
+
+  /* result card */
+  .result-card{background:var(--s2);border:1px solid var(--success);border-radius:8px;
+    padding:12px;display:none;animation:fadeIn .4s;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+  .result-row{display:flex;justify-content:space-between;font-size:12px;
+    padding:4px 0;border-bottom:1px solid var(--border);}
+  .result-row:last-child{border:none;}
+  .result-key{color:var(--muted);}
+  .result-val{font-family:var(--mono);color:var(--text);}
+  .result-val.hi{color:var(--success);}
+
+  /* family search */
+  .search-box{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .search-input-row{display:flex;gap:8px;margin-bottom:12px;}
+  .search-input{flex:1;background:var(--s2);border:1px solid var(--border);border-radius:6px;
+    padding:8px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;}
+  .search-input:focus{border-color:var(--accent);}
+  .search-btn{padding:8px 16px;background:var(--accent);color:var(--bg);border:none;
+    border-radius:6px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;}
+
+  .search-tabs{display:flex;gap:6px;margin-bottom:12px;}
+  .search-tab{padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;
+    background:var(--s2);color:var(--muted);border:1px solid var(--border);font-family:var(--font);}
+  .search-tab.active{background:rgba(88,166,255,.15);color:var(--accent);border-color:rgba(88,166,255,.4);}
+
+  .person-card{background:var(--s2);border:1px solid var(--border);border-radius:8px;
+    padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+  .person-avatar{width:36px;height:36px;border-radius:8px;background:var(--s3);
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .person-info{flex:1;}
+  .person-name{font-size:13px;font-weight:600;}
+  .person-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+  .person-location{text-align:right;}
+  .person-loc-name{font-size:12px;font-weight:500;color:var(--accent);}
+  .person-loc-time{font-size:10px;color:var(--muted);}
+  .person-status{display:inline-block;font-size:9px;padding:2px 7px;border-radius:4px;margin-top:4px;}
+  .ps-safe{background:rgba(63,185,80,.15);color:#7ee787;}
+  .ps-transit{background:rgba(227,179,65,.15);color:#f0c060;}
+  .ps-unknown{background:rgba(139,148,158,.15);color:#8b949e;}
+
+  /* movement log */
+  .move-log{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;}
+  .move-entry{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(48,54,61,.5);}
+  .move-entry:last-child{border:none;}
+  .move-time{font-family:var(--mono);font-size:10px;color:var(--muted);width:48px;flex-shrink:0;margin-top:1px;}
+  .move-line{flex:1;font-size:12px;}
+  .move-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+  .dot-green{background:var(--success);}
+  .dot-amber{background:var(--amber);}
+  .dot-blue{background:var(--accent);}
+
+  /* insight box */
+  .insight{background:rgba(88,166,255,.06);border:1px solid rgba(88,166,255,.2);
+    border-radius:8px;padding:12px;font-size:12px;line-height:1.7;color:var(--muted);}
+  .insight strong{color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div style="font-size:15px;font-weight:600;">LCCS — Shelter Check-in & Family Search</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('capacity')">📍 Capacity Map</button>
+    <button class="tab" onclick="switchTab('checkin')">✅ Check-in</button>
+    <button class="tab" onclick="switchTab('family')">🔍 Family Search</button>
+    <button class="tab" onclick="switchTab('log')">📋 Movement Log</button>
+  </div>
+
+  <!-- ── PANEL 1: Capacity ── -->
+  <div class="panel active" id="panel-capacity">
+    <div class="sec-head">สถานที่พักพิงในพื้นที่ — live capacity</div>
+    <div class="shelter-grid">
+      <div class="shelter-card warn" onclick="selectShelter('วัดหาดใหญ่ใน')">
+        <div class="sc-top">
+          <div><div class="sc-name">⛩ วัดหาดใหญ่ใน</div><div class="sc-type">วัด · ต.หาดใหญ่</div></div>
+          <span class="badge warn">82%</span>
+        </div>
+        <div class="cap-bar"><div class="cap-fill warn" style="width:82%"></div></div>
+        <div class="cap-nums">247 / 300 คน</div>
+        <div class="sc-flags">
+          <span class="flag">🍚 ครัว</span>
+          <span class="flag">💊 พยาบาล</span>
+          <span class="flag">⚡ ไฟฟ้า</span>
+        </div>
+      </div>
+      <div class="shelter-card full" onclick="selectShelter('โรงเรียนหาดใหญ่วิทยาลัย')">
+        <div class="sc-top">
+          <div><div class="sc-name">🏫 ร.ร.หาดใหญ่วิทยาลัย</div><div class="sc-type">โรงเรียน · ชั้น 2-3</div></div>
+          <span class="badge full">เต็ม</span>
+        </div>
+        <div class="cap-bar"><div class="cap-fill full" style="width:100%"></div></div>
+        <div class="cap-nums">500 / 500 คน</div>
+        <div class="sc-flags">
+          <span class="flag">🚿 น้ำ</span>
+          <span class="flag" style="color:#f85149;">⛔ เต็มแล้ว</span>
+        </div>
+      </div>
+      <div class="shelter-card ok" onclick="selectShelter('อาคาร อบต.คอหงส์')">
+        <div class="sc-top">
+          <div><div class="sc-name">🏛 อาคาร อบต.คอหงส์</div><div class="sc-type">อาคารรัฐ · ชั้น 2</div></div>
+          <span class="badge ok">41%</span>
+        </div>
+        <div class="cap-bar"><div class="cap-fill ok" style="width:41%"></div></div>
+        <div class="cap-nums">82 / 200 คน</div>
+        <div class="sc-flags">
+          <span class="flag">📻 วิทยุ</span>
+          <span class="flag">🏥 ICP</span>
+        </div>
+      </div>
+      <div class="shelter-card ok" onclick="selectShelter('จุดรวมพล หน้าตลาดสด')">
+        <div class="sc-top">
+          <div><div class="sc-name">🏘 หน้าตลาดสด (informal)</div><div class="sc-type">จุดรวมพล · ชุมชน</div></div>
+          <span class="badge ok">พบ 23:12</span>
+        </div>
+        <div class="cap-bar"><div class="cap-fill ok" style="width:35%"></div></div>
+        <div class="cap-nums">~67 คน (ประมาณ)</div>
+        <div class="sc-flags">
+          <span class="flag">⚠️ ไม่เป็นทางการ</span>
+          <span class="flag">📦 ขาด supply</span>
+        </div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>วิธีที่ระบบรู้ capacity real-time:</strong> เมื่อมีคน check-in ผ่าน USSD หรือเจ้าหน้าที่สแกนบัตรที่จุด — ตัวเลขขึ้นอัตโนมัติ · informal shelter เกิดจาก signal กลุ่มในพิกัดเดียวกัน · ICP เห็น supply gap ทันที
+    </div>
+  </div>
+
+  <!-- ── PANEL 2: Check-in ── -->
+  <div class="panel" id="panel-checkin">
+    <div class="sec-head">check-in เข้าศูนย์พักพิง</div>
+    <div class="form-card">
+      <div class="form-row">
+        <div class="field">
+          <label>เลขบัตรประชาชน / บัตรต่างด้าว</label>
+          <input type="text" id="idcard" placeholder="1-2345-67890-12-3" maxlength="17"
+            oninput="this.value=this.value.replace(/[^0-9-]/g,'')"/>
+        </div>
+        <div class="field">
+          <label>ศูนย์พักพิงที่เข้า</label>
+          <select id="shelter-select">
+            <option>⛩ วัดหาดใหญ่ใน</option>
+            <option>🏛 อาคาร อบต.คอหงส์</option>
+            <option>🏘 หน้าตลาดสด (informal)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>จำนวนคนในกลุ่ม (รวมตัวเอง)</label>
+          <input type="number" id="groupcount" placeholder="3" min="1" max="50"/>
+        </div>
+        <div class="field">
+          <label>ผู้ต้องการดูแลพิเศษ</label>
+          <select id="special">
+            <option value="none">ไม่มี</option>
+            <option value="elderly">ผู้สูงอายุ</option>
+            <option value="patient">ผู้ป่วยติดเตียง</option>
+            <option value="child">เด็กเล็ก</option>
+            <option value="disabled">ผู้พิการ</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="field">
+          <label>สถานะการเดินทาง</label>
+          <select id="transit">
+            <option value="arrived">ถึงแล้ว — อยู่ที่นี่</option>
+            <option value="enroute">กำลังเดินทางมา</option>
+            <option value="leaving">กำลังออกไปที่อื่น</option>
+          </select>
+        </div>
+      </div>
+      <button class="submit-btn" onclick="doCheckin()">✓ Check-in เข้าระบบ</button>
+    </div>
+
+    <div class="result-card" id="checkin-result">
+      <div class="sec-head" style="margin-bottom:8px;color:var(--success);">✓ check-in สำเร็จ</div>
+      <div class="result-row"><span class="result-key">Check-in ID</span><span class="result-val hi" id="r-id"></span></div>
+      <div class="result-row"><span class="result-key">สถานที่</span><span class="result-val" id="r-shelter"></span></div>
+      <div class="result-row"><span class="result-key">กลุ่ม</span><span class="result-val" id="r-group"></span></div>
+      <div class="result-row"><span class="result-key">นามสกุล (จาก ID)</span><span class="result-val" id="r-surname"></span></div>
+      <div class="result-row"><span class="result-key">ระบบแจ้งญาติที่นามสกุลเดียวกัน</span><span class="result-val hi">✓ อัตโนมัติ</span></div>
+      <div class="result-row"><span class="result-key">ครัวเรือนเดียวกัน (DOPA)</span><span class="result-val hi" id="r-household"></span></div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 3: Family Search ── -->
+  <div class="panel" id="panel-family">
+    <div class="sec-head">ค้นหาคนที่คุณตามหา</div>
+
+    <div class="search-box">
+      <div class="search-tabs">
+        <button class="search-tab active" onclick="setSearchMode(this,'surname')">นามสกุล</button>
+        <button class="search-tab" onclick="setSearchMode(this,'id')">เลขบัตร</button>
+        <button class="search-tab" onclick="setSearchMode(this,'house')">ทะเบียนบ้าน</button>
+      </div>
+      <div class="search-input-row">
+        <input class="search-input" id="search-input" placeholder="ใส่นามสกุล เช่น สมิทธิ์..." />
+        <button class="search-btn" onclick="doSearch()">ค้นหา</button>
+      </div>
+      <div class="insight" style="margin-bottom:0;">
+        <strong>2 เงื่อนไขที่ระบบใช้จับคู่:</strong><br>
+        ① <strong>นามสกุลเดียวกัน</strong> — มีโอกาสสูงที่เป็นญาติ<br>
+        ② <strong>ทะเบียนบ้านเดียวกัน</strong> (เลข 13 หลักต้นกัน) — คือครอบครัวเดียวกัน<br>
+        ระบบแสดงทั้งคนที่ check-in แล้ว และคนที่ยัง "ไม่มีเสียง"
+      </div>
+    </div>
+
+    <div id="search-results" style="display:none">
+      <div class="sec-head">ผลการค้นหา — นามสกุล "สมิทธิ์"</div>
+
+      <div class="person-card">
+        <div class="person-avatar">👩</div>
+        <div class="person-info">
+          <div class="person-name">นางสาวมาลี สมิทธิ์</div>
+          <div class="person-meta">อายุ 34 · บ้านเลขที่ 47/2 ซ.นิพัทธ์อุทิศ 3</div>
+          <span class="person-status ps-safe">✓ check-in แล้ว</span>
+        </div>
+        <div class="person-location">
+          <div class="person-loc-name">วัดหาดใหญ่ใน</div>
+          <div class="person-loc-time">23:47 น.</div>
+        </div>
+      </div>
+
+      <div class="person-card">
+        <div class="person-avatar">👴</div>
+        <div class="person-info">
+          <div class="person-name">นายแดง สมิทธิ์</div>
+          <div class="person-meta">อายุ 71 · บ้านเลขที่ 47/2 ซ.นิพัทธ์อุทิศ 3</div>
+          <span class="person-status ps-unknown">⚠ ยังไม่มีข้อมูล</span>
+        </div>
+        <div class="person-location">
+          <div class="person-loc-name" style="color:var(--amber)">USSD 23:04</div>
+          <div class="person-loc-time">ออกไม่ได้ · 3 คน</div>
+        </div>
+      </div>
+
+      <div class="person-card">
+        <div class="person-avatar">👵</div>
+        <div class="person-info">
+          <div class="person-name">นางจันทร์ สมิทธิ์</div>
+          <div class="person-meta">อายุ 68 · บ้านเลขที่ 47/2 ซ.นิพัทธ์อุทิศ 3</div>
+          <span class="person-status ps-unknown">⚠ ยังไม่มีข้อมูล</span>
+        </div>
+        <div class="person-location">
+          <div class="person-loc-name" style="color:var(--amber)">บ้านเดียวกัน</div>
+          <div class="person-loc-time">ทะเบียนบ้าน DOPA</div>
+        </div>
+      </div>
+
+      <div class="person-card">
+        <div class="person-avatar">🧑</div>
+        <div class="person-info">
+          <div class="person-name">นายปิติ สมิทธิ์</div>
+          <div class="person-meta">อายุ 28 · บ้านเลขที่ 47/2 ซ.นิพัทธ์อุทิศ 3</div>
+          <span class="person-status ps-transit">🚤 กำลังเดินทาง</span>
+        </div>
+        <div class="person-location">
+          <div class="person-loc-name" style="color:var(--purple)">Mission M-0089</div>
+          <div class="person-loc-time">ทีมช่วยเหลือ 01:30</div>
+        </div>
+      </div>
+
+      <div class="insight">
+        <strong>สิ่งที่หลานสาวเห็นได้ทันที:</strong> ตาและยายยังอยู่บ้าน (USSD 23:04) · ยังไม่มีการ check-in · Mission M-0089 กำลังเดินทางไปหา · มาลีอยู่วัดหาดใหญ่ใน
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 4: Movement Log ── -->
+  <div class="panel" id="panel-log">
+    <div class="sec-head">movement log — ครอบครัวสมิทธิ์</div>
+    <div class="move-log">
+      <div class="move-entry">
+        <div class="move-time">22:58</div>
+        <div class="move-dot dot-amber"></div>
+        <div class="move-line">📡 SMS broadcast ส่งถึงพื้นที่ อ.หาดใหญ่</div>
+      </div>
+      <div class="move-entry">
+        <div class="move-time">23:04</div>
+        <div class="move-dot dot-amber"></div>
+        <div class="move-line">📱 <strong>นายแดง สมิทธิ์</strong> กด *1669*2*3# — ออกไม่ได้ 3 คน · cell HAT-NORTH-07</div>
+      </div>
+      <div class="move-entry">
+        <div class="move-time">23:12</div>
+        <div class="move-dot dot-blue"></div>
+        <div class="move-line">🔍 หลานสาวค้นหานามสกุล "สมิทธิ์" — พบ signal ตา</div>
+      </div>
+      <div class="move-entry">
+        <div class="move-time">23:47</div>
+        <div class="move-dot dot-green"></div>
+        <div class="move-line">✅ <strong>นางสาวมาลี สมิทธิ์</strong> check-in วัดหาดใหญ่ใน · กลุ่ม 1 คน</div>
+      </div>
+      <div class="move-entry">
+        <div class="move-time">00:15</div>
+        <div class="move-dot dot-blue"></div>
+        <div class="move-line">📋 ICP assign <strong>Mission M-0089</strong> — บ้านเลขที่ 47/2 · HDC flag ผู้ป่วยติดเตียง</div>
+      </div>
+      <div class="move-entry">
+        <div class="move-time">01:30</div>
+        <div class="move-dot dot-green"></div>
+        <div class="move-line">🚤 ทีมร่วมกตัญญูถึงหน้าบ้าน — พบ 3 คน ตรงกับ signal</div>
+      </div>
+      <div class="move-entry">
+        <div class="move-time">02:05</div>
+        <div class="move-dot dot-green"></div>
+        <div class="move-line">✅ <strong>นายแดง · นางจันทร์ · นายปิติ สมิทธิ์</strong> check-in วัดหาดใหญ่ใน · Mission completed</div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>สิ่งที่ log นี้พิสูจน์:</strong> จาก USSD 23:04 ถึง check-in 02:05 ใช้เวลา <strong>3 ชั่วโมง 1 นาที</strong> · ระบบรู้ทุก step โดยไม่มีใครต้องโทรหากัน · ข้อมูลนี้คือ audit trail สำหรับการจ่ายเงินช่วยเหลือด้วย
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    t.classList.toggle('active', t.getAttribute('onclick').includes(id));
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+}
+
+function selectShelter(name){
+  switchTab('checkin');
+  document.getElementById('shelter-select').value = name.includes('วัด') ? '⛩ วัดหาดใหญ่ใน' :
+    name.includes('อบต') ? '🏛 อาคาร อบต.คอหงส์' : '🏘 หน้าตลาดสด (informal)';
+}
+
+function doCheckin(){
+  const id = document.getElementById('idcard').value.replace(/-/g,'');
+  const shelter = document.getElementById('shelter-select').value;
+  const group = document.getElementById('groupcount').value || '1';
+  if(id.length < 10){ alert('กรุณาใส่เลขบัตร'); return; }
+
+  // simulate surname lookup from ID prefix
+  const surnames = {1:'สมิทธิ์',2:'จันทรา',3:'พงษ์ไพร',4:'ศิริวัฒน์',5:'รัตนกุล'};
+  const sn = surnames[id[0]] || 'ไม่พบในฐาน';
+  const houseMatch = id.length >= 13 ? `พบ ${Math.floor(Math.random()*3)+2} คน ทะเบียนบ้านเดียวกัน` : 'ต้องใช้เลข 13 หลัก';
+  const checkinId = 'CI-'+Date.now().toString(36).toUpperCase().slice(-6);
+
+  document.getElementById('r-id').textContent = checkinId;
+  document.getElementById('r-shelter').textContent = shelter.replace(/^[^\s]+ /,'');
+  document.getElementById('r-group').textContent = group + ' คน';
+  document.getElementById('r-surname').textContent = sn;
+  document.getElementById('r-household').textContent = houseMatch;
+  document.getElementById('checkin-result').style.display = 'block';
+}
+
+function setSearchMode(el, mode){
+  document.querySelectorAll('.search-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const hints = {surname:'ใส่นามสกุล เช่น สมิทธิ์...', id:'เลขบัตรประชาชน 13 หลัก', house:'เลขที่บ้าน + ตำบล'};
+  document.getElementById('search-input').placeholder = hints[mode];
+}
+
+function doSearch(){
+  document.getElementById('search-results').style.display = 'block';
+  document.getElementById('search-results').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

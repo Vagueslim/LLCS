@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LCCS Stakeholder Registration ORC Chart</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --ink: #17201d;
+      --muted: #5b665f;
+      --line: #d7ddd5;
+      --panel: #ffffff;
+      --soft: #eef3ee;
+      --gov: #9b6716;
+      --gov-soft: #fff0cc;
+      --org: #176b73;
+      --org-soft: #dceff0;
+      --self: #2f6f4e;
+      --self-soft: #dff0e5;
+      --app: #315f91;
+      --app-soft: #e0ecf8;
+      --phone: #9c3535;
+      --phone-soft: #f7dddd;
+      --violet: #65508a;
+      --violet-soft: #ece6f3;
+      --shadow: 0 10px 26px rgba(28, 39, 33, .08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(247,248,245,.96)),
+        repeating-linear-gradient(90deg, rgba(47,111,78,.035) 0 1px, transparent 1px 64px),
+        repeating-linear-gradient(0deg, rgba(47,111,78,.03) 0 1px, transparent 1px 64px),
+        var(--bg);
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(1500px, 100%);
+      margin: 0 auto;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      padding: 18px 0 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 980px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.06;
+      font-weight: 780;
+    }
+
+    .subtitle {
+      max-width: 1050px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .mode-card {
+      min-width: 250px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      text-align: right;
+    }
+
+    .mode-card b {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .mode-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--self);
+      font-size: 22px;
+      font-weight: 780;
+    }
+
+    .rule {
+      margin: 18px 0;
+      padding: 14px 16px;
+      border: 1px solid #dfc79a;
+      border-radius: var(--radius);
+      background: #fff8e7;
+      color: #614715;
+      box-shadow: var(--shadow);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .rule b {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 15px;
+    }
+
+    .topology {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .root {
+      padding: 18px;
+      border-radius: var(--radius);
+      background: #17201d;
+      color: #eef3ee;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .root b {
+      display: block;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .root span {
+      display: block;
+      margin-top: 5px;
+      color: #cbd7cf;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .channels {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .channel {
+      min-height: 154px;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .channel::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: -14px;
+      height: 14px;
+      border-left: 2px solid var(--line);
+      border-right: 2px solid transparent;
+    }
+
+    .channel.gov {
+      border-top: 5px solid var(--gov);
+    }
+
+    .channel.org {
+      border-top: 5px solid var(--org);
+    }
+
+    .channel.self {
+      border-top: 5px solid var(--self);
+    }
+
+    .channel.app {
+      border-top: 5px solid var(--app);
+    }
+
+    .channel.phone {
+      border-top: 5px solid var(--phone);
+    }
+
+    .channel h2 {
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .channel p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.43;
+    }
+
+    .channel .count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 9px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 820;
+    }
+
+    .gov .count {
+      background: var(--gov);
+    }
+
+    .org .count {
+      background: var(--org);
+    }
+
+    .self .count {
+      background: var(--self);
+    }
+
+    .app .count {
+      background: var(--app);
+    }
+
+    .phone .count {
+      background: var(--phone);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 720;
+      white-space: normal;
+    }
+
+    .chip.gov {
+      color: #765017;
+      background: var(--gov-soft);
+      border-color: #ead19a;
+    }
+
+    .chip.org {
+      color: #16525a;
+      background: var(--org-soft);
+      border-color: #b8dadd;
+    }
+
+    .chip.self {
+      color: #244c34;
+      background: var(--self-soft);
+      border-color: #bfdcc9;
+    }
+
+    .chip.app {
+      color: #254e7b;
+      background: var(--app-soft);
+      border-color: #bdd4ea;
+    }
+
+    .chip.phone {
+      color: #7d2929;
+      background: var(--phone-soft);
+      border-color: #e1b6b6;
+    }
+
+    .chip.violet {
+      color: #53406f;
+      background: var(--violet-soft);
+      border-color: #d6c7e4;
+    }
+
+    .map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stakeholder {
+      min-height: 178px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+    }
+
+    .stakeholder h3 {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .stakeholder h3 span {
+      min-width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--violet);
+      font-size: 12px;
+      font-weight: 820;
+    }
+
+    .stakeholder p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .route-row {
+      margin-top: 10px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .route {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 8px;
+      align-items: start;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #2f3b35;
+    }
+
+    .route b {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 20px 0 12px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-title h2 {
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 1.1fr repeat(5, minmax(88px, .7fr));
+      gap: 1px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .cell {
+      min-height: 48px;
+      padding: 10px;
+      background: var(--panel);
+      font-size: 13px;
+      line-height: 1.35;
+      display: grid;
+      align-items: center;
+    }
+
+    .cell.head {
+      background: var(--soft);
+      font-weight: 780;
+      color: #26352d;
+      text-align: center;
+    }
+
+    .cell.role {
+      font-weight: 760;
+    }
+
+    .mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      justify-self: center;
+      color: #fff;
+      font-weight: 850;
+      font-size: 13px;
+    }
+
+    .mark.primary {
+      background: var(--self);
+    }
+
+    .mark.secondary {
+      background: var(--app);
+    }
+
+    .mark.exception {
+      background: var(--phone);
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      background: #17201d;
+      color: #eef3ee;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .footer b {
+      display: block;
+      font-size: 15px;
+    }
+
+    .footer span {
+      display: block;
+      margin-top: 4px;
+      color: #c8d5cd;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1180px) {
+      .channels,
+      .map {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .matrix {
+        grid-template-columns: 1.2fr repeat(5, minmax(72px, .6fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 14px;
+      }
+
+      header,
+      .footer {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-card {
+        text-align: left;
+        min-width: 0;
+      }
+
+      .channels,
+      .map {
+        grid-template-columns: 1fr;
+      }
+
+      .channel::before {
+        display: none;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title span {
+        display: block;
+        margin-top: 5px;
+        text-align: left;
+      }
+
+      .matrix {
+        display: block;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .cell.head {
+        display: none;
+      }
+
+      .cell {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        margin-bottom: 8px;
+        min-height: 0;
+      }
+
+      .cell.role {
+        background: var(--soft);
+        margin-top: 12px;
+        margin-bottom: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <header>
+        <div>
+          <h1>LCCS Stakeholder Registration ORC Chart</h1>
+          <p class="subtitle">ตั้งต้นจากผู้เกี่ยวข้องก่อน แล้วค่อยกำหนดช่องทางลงทะเบียนที่เหมาะสม: ใครควรเข้าระบบผ่านรัฐ ใครผ่านหน่วยงานต้นสังกัด ใคร self-register และโทรศัพท์ควรเป็นทางฉุกเฉินเท่านั้น</p>
+        </div>
+        <div class="mode-card">
+          <b>Channels</b>
+          <span>5 ช่องทางหลัก</span>
+        </div>
+      </header>
+
+      <div class="rule">
+        <b>หลักตั้งต้น</b>
+        กลุ่มที่มี chain of command หรือมีองค์กรต้นสังกัด ไม่ควรลงทะเบียนรายคนผ่านโทรศัพท์เป็นหลัก ให้ใช้ Government Console/API หรือ Unit Coordinator Bulk ส่วนประชาชนและผู้เชี่ยวชาญอิสระใช้ Official Link, App/QR และยืนยันตัวตนด้วยเบอร์โทรหรือ application
+      </div>
+
+      <section class="topology" aria-label="registration channel org chart">
+        <div class="root">
+          <b>LCCS Rapid Onboarding</b>
+          <span>เปลี่ยนผู้เกี่ยวข้องให้เป็น Resource / Unit / Asset / Supply Card ที่ ICP ใช้สั่งงานได้</span>
+        </div>
+
+        <div class="channels">
+          <article class="channel gov">
+            <span class="count">G</span>
+            <h2>Government Console / API</h2>
+            <p>เจ้าหน้าที่รัฐหรือ ICP เปิด task, ดึงฐานข้อมูลกลาง, โทร confirm และสร้าง record แบบมีอำนาจสั่งการ</p>
+            <div class="legend"><span class="chip gov">รัฐเป็นผู้เริ่ม</span></div>
+          </article>
+
+          <article class="channel org">
+            <span class="count">O</span>
+            <h2>Organization / Unit Bulk</h2>
+            <p>ผู้ประสานงานหน่วย ท้องถิ่น บริษัท มูลนิธิ หรือคลังสินค้า upload รายชื่อ กำลังคน asset และ capability</p>
+            <div class="legend"><span class="chip org">delegate กรอกแทน</span></div>
+          </article>
+
+          <article class="channel self">
+            <span class="count">L</span>
+            <h2>Official Link / Chat Form</h2>
+            <p>ประกาศทางการหรือ chat bot เปิด form ให้ลงทะเบียนและเก็บ source trace ของประกาศ/พื้นที่</p>
+            <div class="legend"><span class="chip self">self-entry เร็ว</span></div>
+          </article>
+
+          <article class="channel app">
+            <span class="count">A</span>
+            <h2>App / QR Self Registration</h2>
+            <p>download app หรือสแกน QR เพื่อยืนยันตัวตนด้วยเบอร์โทร อุปกรณ์ หรือ account แล้วสร้าง profile</p>
+            <div class="legend"><span class="chip app">identity ดีกว่า</span></div>
+          </article>
+
+          <article class="channel phone">
+            <span class="count">P</span>
+            <h2>Phone Intake Exception</h2>
+            <p>ใช้เมื่อจำเป็นเท่านั้น เก็บข้อมูลขั้นต่ำ สร้าง Temporary ID แล้วส่ง link หรือส่งต่อให้หน่วยงานย่อยรวบรวม</p>
+            <div class="legend"><span class="chip phone">ไม่ใช่ช่องทางหลัก</span></div>
+          </article>
+        </div>
+      </section>
+
+      <div class="section-title">
+        <h2>Stakeholder → Registration Route</h2>
+        <span>Primary = ช่องทางหลัก, Secondary = ใช้เสริม, Exception = เฉพาะจำเป็น</span>
+      </div>
+
+      <section class="map" aria-label="stakeholder route cards">
+        <article class="stakeholder">
+          <h3>ทหาร <span>01</span></h3>
+          <p>เป็นหน่วยมี chain of command ชัด ควรเข้าด้วยคำสั่ง/การประสานทางการ ไม่ใช่ self-register รายคน</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip gov">Government Console / API</span></div>
+            <div class="route"><b>Secondary</b><span class="chip org">Unit Bulk จาก liaison</span></div>
+            <div class="route"><b>Exception</b><span class="chip phone">โทรเฉพาะ contact point</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>ตำรวจ <span>02</span></h3>
+          <p>เหมือนทหาร ข้อมูลควรมาจากศูนย์ประสานหรือผู้แทนหน่วย เพื่อรักษาความถูกต้องของกำลังและพื้นที่รับผิดชอบ</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip gov">Government Console / API</span></div>
+            <div class="route"><b>Secondary</b><span class="chip org">Unit Bulk / roster</span></div>
+            <div class="route"><b>Exception</b><span class="chip phone">โทร confirm เฉพาะหัวหน้าชุด</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>หน่วยกู้ภัย / ผจญเพลิง <span>03</span></h3>
+          <p>มีทั้งองค์กรและทีมอิสระบางส่วน เหมาะกับ unit bulk จากมูลนิธิ/สถานี และ link สำหรับทีมที่เข้ามาเอง</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip org">Organization / Unit Bulk</span></div>
+            <div class="route"><b>Secondary</b><span class="chip gov">Government Console</span> <span class="chip self">Official Link</span></div>
+            <div class="route"><b>Exception</b><span class="chip phone">โทรเมื่อเข้าพื้นที่แล้ว</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>EMS / แพทย์ฉุกเฉิน / Mobile Clinic <span>04</span></h3>
+          <p>ต้องคุมคุณสมบัติและความปลอดภัยสูง ควรเข้าผ่านหน่วยงานสุขภาพ โรงพยาบาล หรือคำขอจากรัฐ</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip gov">Government / Health Console</span></div>
+            <div class="route"><b>Secondary</b><span class="chip org">Hospital / clinic bulk</span></div>
+            <div class="route"><b>Open</b><span class="chip app">App สำหรับบุคลากรอิสระที่ยืนยันตัวตนได้</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>เจ้าหน้าที่ท้องถิ่น <span>05</span></h3>
+          <p>ควรเป็น delegate สำคัญ เพราะกระจายภาระจาก ICP ไปยัง อปท. หมู่บ้าน ชุมชน และศูนย์ย่อย</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip org">Local Delegate / Bulk</span></div>
+            <div class="route"><b>Secondary</b><span class="chip gov">Government Console / API</span></div>
+            <div class="route"><b>Use</b><span class="chip self">Official Link สำหรับทีมชุมชน</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>อาสาสมัครประชาชน <span>06</span></h3>
+          <p>กลุ่มนี้ควร self-register เป็นหลัก และถ้ามาเป็นกลุ่มให้ local delegate รวบรวมแทน</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip app">App / QR Self Registration</span></div>
+            <div class="route"><b>Secondary</b><span class="chip self">Official Link / Chat Form</span></div>
+            <div class="route"><b>Group</b><span class="chip org">Local Delegate Bulk</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>วิศวกร / ช่างโครงสร้าง / ไฟฟ้า / ประปา <span>07</span></h3>
+          <p>เป็นผู้เชี่ยวชาญที่ต้องจับคู่ภารกิจให้ถูก ควรมีทั้ง self-entry และการรวบรวมผ่านสมาคม/บริษัท</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip app">App / QR + skill verification</span></div>
+            <div class="route"><b>Secondary</b><span class="chip org">Professional / company bulk</span></div>
+            <div class="route"><b>Request</b><span class="chip gov">รัฐติดต่อ expert โดยตรง</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>นักจิตวิทยา <span>08</span></h3>
+          <p>ต้องแยก credential และพื้นที่ให้บริการ ควรผ่านองค์กรวิชาชีพ หน่วยสุขภาพ หรือ self-register แบบยืนยันตัวตน</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip org">Professional / health org bulk</span></div>
+            <div class="route"><b>Secondary</b><span class="chip app">App verified profile</span></div>
+            <div class="route"><b>Request</b><span class="chip gov">Government direct contact</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>ทีม ICT & สื่อสาร <span>09</span></h3>
+          <p>อาจเป็นทีมบริษัท วิทยุสมัครเล่น ผู้ดูแล network หรือทีมเฉพาะกิจ ต้องจับ capability กับพื้นที่และอุปกรณ์</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip org">Team / company bulk</span></div>
+            <div class="route"><b>Secondary</b><span class="chip app">App / QR สำหรับรายบุคคล</span></div>
+            <div class="route"><b>Request</b><span class="chip gov">รัฐขอสนับสนุนเฉพาะทาง</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>สื่อมวลชน / ประชาสัมพันธ์ <span>10</span></h3>
+          <p>ควรแยกจาก resource field operation เป็น media accreditation และ public information support</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip self">Official Media Link / Form</span></div>
+            <div class="route"><b>Secondary</b><span class="chip org">สำนักข่าว / ทีมประชาสัมพันธ์ bulk</span></div>
+            <div class="route"><b>Control</b><span class="chip gov">PIO / Government approval</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>ผู้ประเมินพื้นที่ / สำรวจความเสียหาย <span>11</span></h3>
+          <p>ต้องผูกกับพื้นที่สำรวจและมาตรฐานรายงาน ควรใช้ app/form ที่เก็บ location และข้อมูลเชิงโครงสร้างได้</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip app">App / QR + geo form</span></div>
+            <div class="route"><b>Secondary</b><span class="chip org">หน่วยสำรวจ / องค์กร bulk</span></div>
+            <div class="route"><b>Request</b><span class="chip gov">ICP assign survey task</span></div>
+          </div>
+        </article>
+
+        <article class="stakeholder">
+          <h3>ภาคเอกชน / คลังสินค้า / ซัพพลายเออร์ <span>12</span></h3>
+          <p>เหมาะกับ organization account, API หรือ bulk list เพราะมีสินค้า asset ปริมาณ รอบส่ง และ logistics condition</p>
+          <div class="route-row">
+            <div class="route"><b>Primary</b><span class="chip org">Company / warehouse bulk</span></div>
+            <div class="route"><b>Secondary</b><span class="chip gov">Government request / API</span></div>
+            <div class="route"><b>Open</b><span class="chip self">Official supply form</span></div>
+          </div>
+        </article>
+      </section>
+
+      <div class="section-title">
+        <h2>Quick Matrix</h2>
+        <span>● primary, ◐ secondary, ! exception</span>
+      </div>
+
+      <section class="matrix" aria-label="registration channel matrix">
+        <div class="cell head">ผู้เกี่ยวข้อง</div>
+        <div class="cell head">G รัฐ/API</div>
+        <div class="cell head">O หน่วย/องค์กร</div>
+        <div class="cell head">L Link/Chat</div>
+        <div class="cell head">A App/QR</div>
+        <div class="cell head">P โทรศัพท์</div>
+
+        <div class="cell role">ทหาร</div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div><div class="cell"></div><div class="cell"><span class="mark exception">!</span></div>
+        <div class="cell role">ตำรวจ</div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div><div class="cell"></div><div class="cell"><span class="mark exception">!</span></div>
+        <div class="cell role">กู้ภัย / ผจญเพลิง</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark exception">!</span></div>
+        <div class="cell role">EMS / แพทย์ / Mobile Clinic</div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div>
+        <div class="cell role">เจ้าหน้าที่ท้องถิ่น</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell role">อาสาสมัครประชาชน</div><div class="cell"></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark exception">!</span></div>
+        <div class="cell role">วิศวกร / ช่าง</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"></div>
+        <div class="cell role">นักจิตวิทยา</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div>
+        <div class="cell role">ICT & สื่อสาร</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div>
+        <div class="cell role">สื่อมวลชน / PR</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell role">ผู้ประเมินพื้นที่ / damage survey</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"></div>
+        <div class="cell role">เอกชน / คลังสินค้า / ซัพพลายเออร์</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div><div class="cell"></div>
+      </section>
+
+      <div class="footer">
+        <div>
+          <b>ORC Decision</b>
+          <span>ตอนนี้มี 5 registration channels. ใช้โทรศัพท์เป็น exception, ใช้ bulk/delegate สำหรับหน่วยที่มีองค์กร, ใช้ app/link สำหรับประชาชนและผู้เชี่ยวชาญอิสระ, และใช้รัฐ/API สำหรับหน่วยที่มีอำนาจสั่งการหรือฐานข้อมูลกลาง</span>
+        </div>
+        <div class="legend">
+          <span class="chip gov">G</span>
+          <span class="chip org">O</span>
+          <span class="chip self">L</span>
+          <span class="chip app">A</span>
+          <span class="chip phone">P</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

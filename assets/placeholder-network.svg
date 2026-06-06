@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" role="img" aria-labelledby="title desc">
+  <title id="title">LCCS placeholder network</title>
+  <desc id="desc">Network diagram placeholder showing command, rescue, shelter, aid, insurance and audit nodes.</desc>
+  <rect width="1000" height="720" fill="#071018"/>
+  <g stroke="#1fbad6" stroke-width="2" opacity=".3">
+    <path d="M500 360 180 170M500 360 810 160M500 360 180 540M500 360 830 540M500 360 500 100M500 360 500 620"/>
+    <circle cx="500" cy="360" r="170" fill="none"/>
+    <circle cx="500" cy="360" r="260" fill="none" stroke-dasharray="8 12"/>
+  </g>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <circle cx="500" cy="360" r="92" fill="#0c2732" stroke="#7ee7ff" stroke-width="3"/>
+    <text x="500" y="350" fill="#ffffff" font-size="28" font-weight="700">Operational</text>
+    <text x="500" y="384" fill="#91dff0" font-size="24">Picture</text>
+    <g fill="#0c1721" stroke-width="3">
+      <circle cx="180" cy="170" r="56" stroke="#7ee7ff"/>
+      <circle cx="810" cy="160" r="56" stroke="#f0b84a"/>
+      <circle cx="180" cy="540" r="56" stroke="#69e29a"/>
+      <circle cx="830" cy="540" r="56" stroke="#ff675f"/>
+      <circle cx="500" cy="100" r="56" stroke="#7ee7ff"/>
+      <circle cx="500" cy="620" r="56" stroke="#f0b84a"/>
+    </g>
+    <g fill="#e6f7fb" font-size="20" font-weight="700">
+      <text x="180" y="176">People</text>
+      <text x="810" y="166">Command</text>
+      <text x="180" y="546">Shelter</text>
+      <text x="830" y="546">Rescue</text>
+      <text x="500" y="106">Aid</text>
+      <text x="500" y="626">Audit</text>
+    </g>
+  </g>
+</svg>

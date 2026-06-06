@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LCCS Government Console / API User Journey</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --ink: #17201d;
+      --muted: #5b665f;
+      --line: #d8ded6;
+      --panel: #ffffff;
+      --soft: #eef3ee;
+      --dark: #17201d;
+      --gov: #9b6716;
+      --gov-soft: #fff0cc;
+      --green: #2f6f4e;
+      --green-soft: #dff0e5;
+      --teal: #176b73;
+      --teal-soft: #dceff0;
+      --blue: #315f91;
+      --blue-soft: #e0ecf8;
+      --red: #9c3535;
+      --red-soft: #f7dddd;
+      --violet: #65508a;
+      --violet-soft: #ece6f3;
+      --shadow: 0 10px 26px rgba(28, 39, 33, .08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(247,248,245,.96)),
+        repeating-linear-gradient(90deg, rgba(47,111,78,.035) 0 1px, transparent 1px 64px),
+        repeating-linear-gradient(0deg, rgba(47,111,78,.03) 0 1px, transparent 1px 64px),
+        var(--bg);
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(1500px, 100%);
+      margin: 0 auto;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      padding: 18px 0 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 1050px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.06;
+      font-weight: 780;
+    }
+
+    .subtitle {
+      max-width: 1060px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .mode-card {
+      min-width: 270px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      text-align: right;
+    }
+
+    .mode-card b {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .mode-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--gov);
+      font-size: 22px;
+      font-weight: 780;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.9);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(238,243,238,.75);
+    }
+
+    .panel-head h2 {
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .panel-head span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+      text-align: right;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .scenario {
+      min-height: 100%;
+      display: grid;
+      gap: 12px;
+    }
+
+    .scenario-main {
+      padding: 16px;
+      border-radius: var(--radius);
+      background: var(--dark);
+      color: #eef3ee;
+    }
+
+    .scenario-main b {
+      display: block;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .scenario-main span {
+      display: block;
+      margin-top: 6px;
+      color: #cbd7cf;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mini {
+      min-height: 94px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .mini b {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .mini span {
+      display: block;
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 780;
+      line-height: 1.2;
+    }
+
+    .actor-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .actor {
+      min-height: 95px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .actor b {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gov);
+      flex: 0 0 auto;
+    }
+
+    .dot.blue {
+      background: var(--blue);
+    }
+
+    .dot.green {
+      background: var(--green);
+    }
+
+    .dot.teal {
+      background: var(--teal);
+    }
+
+    .actor span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .journey {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .stage {
+      min-height: 350px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-width: 150px;
+    }
+
+    .stage-head {
+      min-height: 94px;
+      padding: 12px;
+      background: var(--gov-soft);
+      border-bottom: 1px solid #e9d09c;
+      position: relative;
+    }
+
+    .stage:nth-child(2) .stage-head {
+      background: var(--violet-soft);
+      border-bottom-color: #d8c9e6;
+    }
+
+    .stage:nth-child(3) .stage-head {
+      background: var(--blue-soft);
+      border-bottom-color: #bdd4ea;
+    }
+
+    .stage:nth-child(4) .stage-head {
+      background: var(--teal-soft);
+      border-bottom-color: #b8dadd;
+    }
+
+    .stage:nth-child(5) .stage-head {
+      background: var(--green-soft);
+      border-bottom-color: #bfdcc9;
+    }
+
+    .stage:nth-child(6) .stage-head {
+      background: var(--red-soft);
+      border-bottom-color: #e1b6b6;
+    }
+
+    .stage:nth-child(7) .stage-head {
+      background: var(--soft);
+      border-bottom-color: var(--line);
+    }
+
+    .stage-no {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--gov);
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .stage:nth-child(2) .stage-no {
+      background: var(--violet);
+    }
+
+    .stage:nth-child(3) .stage-no {
+      background: var(--blue);
+    }
+
+    .stage:nth-child(4) .stage-no {
+      background: var(--teal);
+    }
+
+    .stage:nth-child(5) .stage-no {
+      background: var(--green);
+    }
+
+    .stage:nth-child(6) .stage-no {
+      background: var(--red);
+    }
+
+    .stage:nth-child(7) .stage-no {
+      background: var(--dark);
+    }
+
+    .stage-head h3 {
+      margin-top: 10px;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .stage-body {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .journey-row {
+      min-height: 72px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gov);
+      border-radius: var(--radius);
+      background: #fbfcfa;
+    }
+
+    .journey-row.system {
+      border-left-color: var(--blue);
+    }
+
+    .journey-row.external {
+      border-left-color: var(--teal);
+    }
+
+    .journey-row.icp {
+      border-left-color: var(--green);
+    }
+
+    .journey-row.risk {
+      border-left-color: var(--red);
+      background: #fff8f8;
+    }
+
+    .journey-row b {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .journey-row span {
+      display: block;
+      margin-top: 5px;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .output {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 8px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: #765017;
+      background: var(--gov-soft);
+      border: 1px solid #ead19a;
+      font-size: 11px;
+      font-weight: 740;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 22px 0 12px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-title h2 {
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .flow-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .flow-card h3 {
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .flow-steps {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--gov);
+      font-weight: 820;
+    }
+
+    .step-text {
+      min-height: 48px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .step:last-child .step-text {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-text b {
+      display: block;
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .step-text span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .data-list {
+      padding: 14px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .data-item {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfa;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .data-item b {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .small-card {
+      min-height: 110px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--green);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .small-card:nth-child(2) {
+      border-left-color: var(--blue);
+    }
+
+    .small-card:nth-child(3) {
+      border-left-color: var(--teal);
+    }
+
+    .small-card:nth-child(4) {
+      border-left-color: var(--red);
+    }
+
+    .small-card b {
+      display: block;
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .small-card span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      background: var(--dark);
+      color: #eef3ee;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .footer b {
+      display: block;
+      font-size: 15px;
+    }
+
+    .footer span {
+      display: block;
+      margin-top: 4px;
+      color: #c8d5cd;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .chip.gov {
+      color: #765017;
+      background: var(--gov-soft);
+      border-color: #ead19a;
+    }
+
+    .chip.blue {
+      color: #254e7b;
+      background: var(--blue-soft);
+      border-color: #bdd4ea;
+    }
+
+    .chip.green {
+      color: #244c34;
+      background: var(--green-soft);
+      border-color: #bfdcc9;
+    }
+
+    .chip.red {
+      color: #7d2929;
+      background: var(--red-soft);
+      border-color: #e1b6b6;
+    }
+
+    @media (max-width: 1180px) {
+      .overview,
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .journey {
+        grid-template-columns: repeat(7, minmax(210px, 1fr));
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 14px;
+      }
+
+      header,
+      .footer {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-card {
+        text-align: left;
+        min-width: 0;
+      }
+
+      .mini-grid,
+      .actor-list,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .journey {
+        display: block;
+        overflow: visible;
+      }
+
+      .stage {
+        min-height: 0;
+        margin-bottom: 10px;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title span {
+        display: block;
+        margin-top: 5px;
+        text-align: left;
+      }
+
+      .data-item {
+        grid-template-columns: 1fr;
+      }
+
+      .legend {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <header>
+        <div>
+          <h1>Government Console / API User Journey</h1>
+          <p class="subtitle">Journey ง่ายสุดของช่องทางที่รัฐเป็นผู้เริ่ม: ICP เห็นความต้องการ → เจ้าหน้าที่ค้นฐานข้อมูลหรือ API → ขอสนับสนุน → บันทึกคำตอบ → Resource Card ขึ้น board</p>
+        </div>
+        <div class="mode-card">
+          <b>Channel</b>
+          <span>G: Government-led</span>
+        </div>
+      </header>
+
+      <section class="overview">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Scenario</h2>
+            <span>happy path แรก</span>
+          </div>
+          <div class="panel-body scenario">
+            <div class="scenario-main">
+              <b>ICP ต้องการกำลังหรือทรัพยากรที่มีเจ้าของชัดเจน</b>
+              <span>เช่น ทหาร ตำรวจ EMS โรงพยาบาล หน่วยงานรัฐ บริษัทคลังสินค้า หรือผู้เชี่ยวชาญที่มีรายชื่อในฐานข้อมูลกลาง</span>
+            </div>
+            <div class="mini-grid">
+              <div class="mini">
+                <b>Start</b>
+                <span>Need / Request Task</span>
+              </div>
+              <div class="mini">
+                <b>Middle</b>
+                <span>API Search + Confirm</span>
+              </div>
+              <div class="mini">
+                <b>End</b>
+                <span>Resource Card Ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Actors</h2>
+            <span>ใครเกี่ยวข้อง</span>
+          </div>
+          <div class="panel-body">
+            <div class="actor-list">
+              <div class="actor">
+                <b><i class="dot"></i> เจ้าหน้าที่รัฐ / ICP Operator</b>
+                <span>เปิด request, ค้นหา, โทร confirm, บันทึกผล</span>
+              </div>
+              <div class="actor">
+                <b><i class="dot blue"></i> ระบบ LCCS</b>
+                <span>สร้าง task, ดึงข้อมูล, ออก ID, สร้าง Resource Card</span>
+              </div>
+              <div class="actor">
+                <b><i class="dot teal"></i> หน่วยสนับสนุน</b>
+                <span>ทหาร ตำรวจ EMS เอกชน หรือผู้เชี่ยวชาญที่ถูกร้องขอ</span>
+              </div>
+              <div class="actor">
+                <b><i class="dot green"></i> ICP Board</b>
+                <span>เห็นสถานะ confirmed, needs-first, ready หรือ assigned</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-title">
+        <h2>Main User Journey</h2>
+        <span>เส้นทางหลักจาก request ไปเป็น Resource Card</span>
+      </div>
+
+      <section class="journey" aria-label="government console user journey">
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">1</div>
+            <h3>เกิดความต้องการใน ICP</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>เลือกประเภทที่ต้องการ เช่น รถสูง, ทีมแพทย์, ตำรวจจราจร, generator</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>สร้าง Request Task พร้อมพื้นที่ เวลา ความเร่งด่วน และเงื่อนไขภารกิจ</span>
+              <span class="output">Request ID</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">2</div>
+            <h3>ค้นรายชื่อหรือทรัพยากร</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>ค้นจากหน่วยงาน พื้นที่ capability asset type หรือรายชื่อผู้เชี่ยวชาญ</span>
+            </div>
+            <div class="journey-row system">
+              <b>API action</b>
+              <span>pull จากฐานกลางหรือ registry ที่เชื่อถือได้</span>
+              <span class="output">Candidate list</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">3</div>
+            <h3>เลือก candidate</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>เลือกหน่วยหรือคนที่เหมาะกับพื้นที่ เวลา และความเสี่ยง</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>แสดงข้อมูลติดต่อ capability ล่าสุด และประวัติ availability ถ้ามี</span>
+              <span class="output">Shortlist</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">4</div>
+            <h3>ติดต่อและยืนยัน</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>โทร ส่งข้อความราชการ หรือส่ง request ผ่านระบบของหน่วยงาน</span>
+            </div>
+            <div class="journey-row external">
+              <b>Support unit action</b>
+              <span>ตอบรับ ปฏิเสธ ขอรายละเอียด หรือระบุเงื่อนไขก่อนเริ่มงาน</span>
+              <span class="output">Response</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">5</div>
+            <h3>บันทึกคำตอบ</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>บันทึก contact result, ETA, จำนวนคน/อุปกรณ์, needs-first และข้อจำกัด</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>สร้างหรือ update Helper / Unit / Asset / Supply record</span>
+              <span class="output">Resource ID</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">6</div>
+            <h3>Safety Gate</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row risk">
+              <b>Decision</b>
+              <span>ติดต่อได้จริงไหม ETA เชื่อถือได้ไหม ต้องการ fuel, route, access pass, operator หรือ staging area ไหม</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>ตั้งสถานะ Ready, Need ICP Support First, Pending หรือ Unavailable</span>
+              <span class="output">Readiness</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">7</div>
+            <h3>ขึ้น ICP Board</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row icp">
+              <b>ICP action</b>
+              <span>เห็น Resource Card และเลือก assign mission หรือส่ง support ก่อน</span>
+            </div>
+            <div class="journey-row system">
+              <b>System output</b>
+              <span>last updated, verification status, assignment status และ audit trail</span>
+              <span class="output">Mission-ready card</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="section-title">
+        <h2>Console Flow</h2>
+        <span>สิ่งที่เจ้าหน้าที่เห็นเป็นลำดับบนหน้าจอ</span>
+      </div>
+
+      <section class="flow-grid">
+        <div class="flow-card">
+          <h3>Officer Screen Flow</h3>
+          <div class="flow-steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-text"><b>Create Request</b><span>เลือกประเภททรัพยากร พื้นที่ เวลา ความเร่งด่วน และเหตุผล</span></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-text"><b>Search Registry / API</b><span>ค้นหน่วย คน บริษัท หรือ asset ที่ใกล้และเหมาะกับภารกิจ</span></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-text"><b>Contact Candidate</b><span>กดโทร ส่งข้อความ หรือส่งคำขอไปยังระบบของหน่วยงาน</span></div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-text"><b>Record Response</b><span>ตอบรับ ปฏิเสธ รอข้อมูลเพิ่ม หรือพร้อมแต่ต้องการ support ก่อน</span></div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-text"><b>Push to ICP Board</b><span>ออก Resource Card และส่งต่อให้ review/assign</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-card">
+          <h3>Minimum Data Captured</h3>
+          <div class="data-list">
+            <div class="data-item"><b>Request</b><span>request type, area, urgency, mission note, requester</span></div>
+            <div class="data-item"><b>Candidate</b><span>organization/person, role, contact, source registry, confidence</span></div>
+            <div class="data-item"><b>Capacity</b><span>people, vehicles, assets, supplies, operating duration</span></div>
+            <div class="data-item"><b>Availability</b><span>ready time, ETA, location, transport method</span></div>
+            <div class="data-item"><b>Needs First</b><span>fuel, route, operator, access pass, radio channel, staging area</span></div>
+            <div class="data-item"><b>Audit</b><span>who created, who confirmed, timestamp, last updated</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-title">
+        <h2>Result States</h2>
+        <span>คำตอบหลังรัฐติดต่อ candidate แล้ว</span>
+      </div>
+
+      <section class="cards">
+        <div class="small-card">
+          <b>Confirmed Ready</b>
+          <span>ติดต่อได้ ETA ชัด capacity ใช้ได้ และไม่ต้องรอ support เพิ่ม</span>
+        </div>
+        <div class="small-card">
+          <b>Confirmed but Needs First</b>
+          <span>พร้อมช่วย แต่ต้องการ fuel, route, operator, access pass หรือ staging area ก่อน</span>
+        </div>
+        <div class="small-card">
+          <b>Pending Response</b>
+          <span>โทรไม่ติด รอผู้มีอำนาจตอบ หรือรอข้อมูลจากหน่วยงานต้นสังกัด</span>
+        </div>
+        <div class="small-card">
+          <b>Declined / Unavailable</b>
+          <span>ไม่พร้อม ไม่ตรง capability หรือเสี่ยงเกินกว่าจะมอบหมายภารกิจ</span>
+        </div>
+      </section>
+
+      <div class="footer">
+        <div>
+          <b>Journey Rule</b>
+          <span>Government Console / API ไม่ใช่ฟอร์มรับสมัครทั่วไป แต่เป็นเครื่องมือของรัฐเพื่อเปลี่ยน request ที่เกิดจาก ICP ให้เป็น Resource Card ที่ตรวจสอบได้และพร้อมสั่งการ</span>
+        </div>
+        <div class="legend">
+          <span class="chip gov">Request</span>
+          <span class="chip blue">API</span>
+          <span class="chip green">Resource Card</span>
+          <span class="chip red">Safety Gate</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
