@@ -1,0 +1,3026 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LCCS - Life Connection Crisis System Pitch Deck</title>
+  <style>
+    :root {
+      --bg: #050b15;
+      --navy: #081827;
+      --navy-2: #0b2135;
+      --panel: rgba(12, 29, 46, .78);
+      --panel-solid: #0d2236;
+      --panel-soft: rgba(20, 48, 72, .72);
+      --line: rgba(133, 177, 198, .22);
+      --line-strong: rgba(133, 177, 198, .42);
+      --text: #edf6f8;
+      --muted: #9fb6c3;
+      --dim: #6f8492;
+      --red: #d95a59;
+      --red-soft: rgba(217, 90, 89, .16);
+      --amber: #e4aa4a;
+      --amber-soft: rgba(228, 170, 74, .16);
+      --green: #64c487;
+      --green-soft: rgba(100, 196, 135, .16);
+      --cyan: #61becb;
+      --cyan-soft: rgba(97, 190, 203, .14);
+      --blue: #5b8ed9;
+      --blue-soft: rgba(91, 142, 217, .15);
+      --shadow: 0 24px 70px rgba(0, 0, 0, .42);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 16% 18%, rgba(97, 190, 203, .16), transparent 30%),
+        radial-gradient(circle at 84% 82%, rgba(217, 90, 89, .14), transparent 32%),
+        linear-gradient(135deg, #020611 0%, #071525 54%, #030811 100%);
+      font-family: "Segoe UI", Tahoma, "Noto Sans Thai", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    #viewport {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 46px 46px;
+    }
+
+    #stage {
+      position: relative;
+      width: 1600px;
+      height: 900px;
+    }
+
+    #deck {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      border: 1px solid rgba(123, 169, 190, .2);
+      background: #061221;
+      box-shadow: var(--shadow);
+      transform-origin: top left;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 28px;
+      padding: 70px 84px 74px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(20px) scale(.997);
+      transition: opacity .34s ease, transform .34s ease;
+      background:
+        radial-gradient(circle at 8% 18%, rgba(97, 190, 203, .13), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(228, 170, 74, .1), transparent 26%),
+        radial-gradient(circle at 88% 88%, rgba(217, 90, 89, .12), transparent 28%),
+        linear-gradient(135deg, #06101d 0%, #081829 45%, #08101c 100%);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+      z-index: 2;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(rgba(255,255,255,.034) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: linear-gradient(90deg, transparent, #000 14%, #000 84%, transparent);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 34px;
+      z-index: -1;
+      border: 1px solid rgba(126, 178, 198, .12);
+      background:
+        linear-gradient(110deg, transparent 0 42%, rgba(97, 190, 203, .07) 42% 42.2%, transparent 42.2%),
+        linear-gradient(24deg, transparent 0 64%, rgba(217, 90, 89, .06) 64% 64.2%, transparent 64.2%);
+      pointer-events: none;
+    }
+
+    .slide-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 36px;
+      align-items: start;
+    }
+
+    .eyebrow {
+      margin-bottom: 14px;
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+
+    .slide h1 {
+      max-width: 1180px;
+      font-size: 52px;
+      line-height: 1.08;
+      font-weight: 780;
+    }
+
+    .slide h1.tight {
+      max-width: 1320px;
+      font-size: 48px;
+    }
+
+    .slide h1.large {
+      max-width: 1320px;
+      font-size: 76px;
+      line-height: 1.02;
+    }
+
+    .slide-no {
+      min-width: 96px;
+      padding-top: 4px;
+      color: var(--dim);
+      font-size: 18px;
+      text-align: right;
+      font-weight: 760;
+    }
+
+    .content {
+      min-height: 0;
+      display: grid;
+      align-items: center;
+    }
+
+    .lead {
+      max-width: 980px;
+      color: #c9dbe3;
+      font-size: 28px;
+      line-height: 1.48;
+      font-weight: 420;
+    }
+
+    .lead.strong {
+      color: var(--text);
+      font-size: 34px;
+      line-height: 1.38;
+      font-weight: 690;
+    }
+
+    .micro {
+      color: var(--dim);
+      font-size: 14px;
+      font-weight: 740;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      color: #b8c8d1;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .warning-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 13px;
+      border: 1px solid rgba(228, 170, 74, .35);
+      border-radius: var(--radius);
+      background: var(--amber-soft);
+      color: #f4d59b;
+      font-size: 15px;
+      font-weight: 680;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .two-col.wide-left {
+      grid-template-columns: 1.12fr .88fr;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.016)),
+        var(--panel);
+      box-shadow: 0 18px 44px rgba(0,0,0,.22);
+    }
+
+    .panel.pad {
+      padding: 24px;
+    }
+
+    .panel-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.035);
+      color: #bed2db;
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 18px rgba(97, 190, 203, .65);
+    }
+
+    .dot.red {
+      background: var(--red);
+      box-shadow: 0 0 18px rgba(217, 90, 89, .55);
+    }
+
+    .dot.amber {
+      background: var(--amber);
+      box-shadow: 0 0 18px rgba(228, 170, 74, .55);
+    }
+
+    .dot.green {
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(100, 196, 135, .55);
+    }
+
+    .cover {
+      grid-template-rows: 1fr auto;
+      padding-top: 82px;
+      padding-bottom: 62px;
+    }
+
+    .cover .content {
+      grid-template-columns: .92fr 1.08fr;
+      gap: 30px;
+    }
+
+    .brand-block {
+      display: grid;
+      align-content: center;
+      gap: 24px;
+    }
+
+    .brand-kicker {
+      color: var(--cyan);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .brand-title {
+      font-size: 88px;
+      line-height: .98;
+      font-weight: 820;
+    }
+
+    .brand-title span {
+      color: var(--cyan);
+    }
+
+    .brand-subtitle {
+      max-width: 680px;
+      color: #c6d9e1;
+      font-size: 31px;
+      line-height: 1.34;
+      font-weight: 520;
+    }
+
+    .thai-frame {
+      max-width: 760px;
+      padding-left: 18px;
+      border-left: 3px solid var(--red);
+      color: #e5f0f3;
+      font-size: 27px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 28px;
+      color: var(--dim);
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .network-map {
+      position: relative;
+      height: 650px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 48%, rgba(97, 190, 203, .17), transparent 22%),
+        radial-gradient(circle at 28% 28%, rgba(217, 90, 89, .12), transparent 20%),
+        radial-gradient(circle at 75% 73%, rgba(100, 196, 135, .11), transparent 22%),
+        rgba(6, 18, 31, .82);
+    }
+
+    .network-map::before {
+      content: "";
+      position: absolute;
+      inset: 30px;
+      border: 1px dashed rgba(128, 172, 192, .2);
+      border-radius: 50%;
+    }
+
+    .network-map::after {
+      content: "";
+      position: absolute;
+      inset: 88px 64px;
+      border: 1px solid rgba(128, 172, 192, .12);
+      transform: skew(-12deg);
+    }
+
+    .node {
+      position: absolute;
+      width: 124px;
+      min-height: 62px;
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: rgba(10, 29, 46, .88);
+      color: #d7e9ee;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 740;
+      box-shadow: 0 0 28px rgba(97, 190, 203, .12);
+    }
+
+    .node.core {
+      left: 50%;
+      top: 50%;
+      width: 194px;
+      height: 106px;
+      transform: translate(-50%, -50%);
+      border-color: rgba(97, 190, 203, .64);
+      background:
+        linear-gradient(160deg, rgba(97, 190, 203, .24), rgba(8, 24, 39, .92));
+      color: #ffffff;
+      font-size: 20px;
+      box-shadow: 0 0 54px rgba(97, 190, 203, .22);
+      z-index: 3;
+    }
+
+    .wire {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 1px;
+      width: var(--len);
+      background: linear-gradient(90deg, rgba(97, 190, 203, .52), transparent);
+      transform-origin: left center;
+      transform: rotate(var(--rot));
+      z-index: 1;
+    }
+
+    .signal-pulse {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 22px rgba(217, 90, 89, .8);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(.9); opacity: .72; }
+      50% { transform: scale(1.45); opacity: 1; }
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .metric-card {
+      min-height: 160px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      align-content: space-between;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      margin-top: 24px;
+      color: #fff;
+      font-size: 42px;
+      line-height: 1;
+      font-weight: 820;
+    }
+
+    .metric-value small {
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 760;
+    }
+
+    .metric-caption {
+      margin-top: 12px;
+      color: var(--dim);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .bar-chart {
+      display: grid;
+      gap: 13px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 205px 1fr 90px;
+      gap: 14px;
+      align-items: center;
+      color: #d5e4e9;
+      font-size: 16px;
+      font-weight: 680;
+    }
+
+    .bar-track {
+      height: 18px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.065);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: calc(var(--w) * 1%);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+    }
+
+    .bar-fill.red {
+      background: linear-gradient(90deg, var(--red), var(--amber));
+    }
+
+    .bar-fill.amber {
+      background: linear-gradient(90deg, var(--amber), #f2d28a);
+    }
+
+    .chart-annotation {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(228, 170, 74, .24);
+      border-radius: var(--radius);
+      background: rgba(228, 170, 74, .1);
+      color: #f4dfb6;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .channel-cloud {
+      position: relative;
+      height: 520px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 48% 48%, rgba(217, 90, 89, .18), transparent 18%),
+        rgba(7, 19, 32, .78);
+      overflow: hidden;
+    }
+
+    .channel-card {
+      position: absolute;
+      width: 208px;
+      padding: 16px 17px;
+      border: 1px solid rgba(134, 178, 198, .28);
+      border-radius: var(--radius);
+      background: rgba(12, 31, 49, .92);
+      box-shadow: 0 16px 34px rgba(0,0,0,.2);
+    }
+
+    .channel-card b {
+      display: block;
+      color: #f2f8fa;
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .channel-card span {
+      display: block;
+      margin-top: 8px;
+      color: var(--dim);
+      font-size: 13px;
+      font-weight: 720;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .missing-picture {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 260px;
+      height: 148px;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(217, 90, 89, .5);
+      border-radius: var(--radius);
+      background: rgba(42, 16, 22, .84);
+      color: #ffe3e3;
+      text-align: center;
+      font-size: 26px;
+      line-height: 1.22;
+      font-weight: 780;
+      z-index: 2;
+    }
+
+    .fragment-flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .fragment-step {
+      min-height: 340px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .78);
+    }
+
+    .fragment-step .top {
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .fragment-step strong {
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .fragment-step .bottom {
+      color: var(--dim);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .arrow-mark {
+      color: var(--red);
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .memory-core {
+      position: relative;
+      height: 548px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at center, rgba(97, 190, 203, .18), transparent 24%),
+        rgba(7, 18, 31, .82);
+      overflow: hidden;
+    }
+
+    .memory-core .center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 288px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(97, 190, 203, .62);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(150deg, rgba(97, 190, 203, .24), rgba(10, 31, 49, .94));
+      color: #fff;
+      text-align: center;
+      font-size: 30px;
+      line-height: 1.15;
+      font-weight: 820;
+      z-index: 3;
+    }
+
+    .orbit-card {
+      position: absolute;
+      width: 190px;
+      min-height: 82px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(13, 35, 55, .92);
+      color: #dbeaf0;
+      font-size: 18px;
+      line-height: 1.24;
+      font-weight: 720;
+    }
+
+    .orbit-card span {
+      display: block;
+      margin-top: 7px;
+      color: var(--dim);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .pipe-step {
+      position: relative;
+      min-height: 370px;
+      padding: 22px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(11, 29, 46, .86);
+      overflow: hidden;
+    }
+
+    .pipe-step::after {
+      content: "";
+      position: absolute;
+      right: -36px;
+      top: 50%;
+      width: 72px;
+      height: 1px;
+      background: rgba(97, 190, 203, .42);
+    }
+
+    .pipe-step:last-child::after {
+      display: none;
+    }
+
+    .pipe-index {
+      color: var(--cyan);
+      font-size: 16px;
+      font-weight: 820;
+    }
+
+    .pipe-title {
+      margin-top: 26px;
+      color: var(--text);
+      font-size: 27px;
+      line-height: 1.16;
+      font-weight: 780;
+    }
+
+    .pipe-copy {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .actor-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .actor-card {
+      min-height: 112px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .78);
+      display: grid;
+      align-content: space-between;
+    }
+
+    .actor-card .num {
+      color: var(--dim);
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .actor-card b {
+      color: var(--text);
+      font-size: 21px;
+      line-height: 1.22;
+    }
+
+    .channel-model {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .channel-model-card {
+      min-height: 330px;
+      padding: 24px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 18px;
+    }
+
+    .channel-letter {
+      width: 66px;
+      height: 66px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--cyan-soft);
+      color: #bff6ff;
+      font-size: 36px;
+      font-weight: 840;
+    }
+
+    .channel-model-card h3 {
+      color: var(--text);
+      font-size: 24px;
+      line-height: 1.16;
+    }
+
+    .channel-model-card p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .rule-card {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 20px;
+      border: 1px solid rgba(228, 170, 74, .34);
+      border-radius: var(--radius);
+      background: var(--amber-soft);
+    }
+
+    .rule-card b {
+      color: #ffe0a6;
+      font-size: 24px;
+    }
+
+    .rule-card span {
+      color: #ead8b8;
+      font-size: 19px;
+      line-height: 1.42;
+      font-weight: 620;
+    }
+
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kanban-col {
+      min-height: 450px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(7, 20, 34, .76);
+    }
+
+    .kanban-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(133, 177, 198, .16);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 820;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .count {
+      color: var(--cyan);
+      font-size: 16px;
+    }
+
+    .resource-card {
+      margin-bottom: 10px;
+      padding: 14px;
+      border: 1px solid rgba(133, 177, 198, .22);
+      border-radius: var(--radius);
+      background: rgba(15, 38, 58, .9);
+    }
+
+    .resource-card b {
+      display: block;
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.22;
+    }
+
+    .resource-card span {
+      display: block;
+      margin-top: 7px;
+      color: var(--dim);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 8px;
+      border: 1px solid rgba(133, 177, 198, .18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.045);
+      color: #c8dce4;
+      font-size: 12px;
+      font-weight: 720;
+      white-space: nowrap;
+    }
+
+    .tag.amber {
+      border-color: rgba(228, 170, 74, .28);
+      background: var(--amber-soft);
+      color: #f5d28f;
+    }
+
+    .tag.red {
+      border-color: rgba(217, 90, 89, .32);
+      background: var(--red-soft);
+      color: #ffb6b4;
+    }
+
+    .tag.green {
+      border-color: rgba(100, 196, 135, .32);
+      background: var(--green-soft);
+      color: #b7f4c9;
+    }
+
+    .tag.cyan {
+      border-color: rgba(97, 190, 203, .32);
+      background: var(--cyan-soft);
+      color: #bff6ff;
+    }
+
+    .needs-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .needs-cloud .tag {
+      min-height: 42px;
+      padding: 8px 14px;
+      font-size: 17px;
+    }
+
+    .gate-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 18px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .gate-card {
+      min-height: 172px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+    }
+
+    .gate-card b {
+      display: block;
+      color: var(--text);
+      font-size: 28px;
+      line-height: 1.14;
+    }
+
+    .gate-card span {
+      display: block;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .gate-arrow {
+      color: var(--cyan);
+      font-size: 42px;
+      font-weight: 800;
+    }
+
+    .journey-flow {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .journey-step {
+      min-height: 204px;
+      padding: 14px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 16px;
+    }
+
+    .journey-step .num {
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 840;
+    }
+
+    .journey-step b {
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.18;
+    }
+
+    .state-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .state-card {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.035);
+      color: #d9e8ee;
+      font-size: 17px;
+      font-weight: 720;
+    }
+
+    .phone-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .phone {
+      min-height: 410px;
+      padding: 18px 15px;
+      border: 1px solid rgba(133, 177, 198, .25);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(18, 43, 64, .9), rgba(7, 18, 31, .94));
+      box-shadow: inset 0 0 0 7px rgba(255,255,255,.025);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+    }
+
+    .phone-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--dim);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .phone-bubble {
+      align-self: center;
+      padding: 18px;
+      border-radius: 18px 18px 18px 6px;
+      background: rgba(255,255,255,.075);
+      color: #edf6f8;
+      font-size: 21px;
+      line-height: 1.35;
+      font-weight: 650;
+    }
+
+    .phone-output {
+      padding: 11px;
+      border: 1px solid rgba(100, 196, 135, .25);
+      border-radius: var(--radius);
+      background: var(--green-soft);
+      color: #c6f5d4;
+      font-size: 13px;
+      line-height: 1.38;
+      font-weight: 720;
+    }
+
+    .search-thread {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .signal-row {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .76);
+    }
+
+    .signal-code {
+      display: grid;
+      place-items: center;
+      min-height: 50px;
+      border-radius: var(--radius);
+      background: rgba(97, 190, 203, .12);
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 840;
+      letter-spacing: .08em;
+    }
+
+    .signal-row b {
+      display: block;
+      color: var(--text);
+      font-size: 19px;
+      line-height: 1.25;
+    }
+
+    .signal-row span {
+      display: block;
+      margin-top: 5px;
+      color: var(--dim);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .family-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(7, 20, 34, .78);
+    }
+
+    .search-bar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .input-mock {
+      padding: 14px 16px;
+      border: 1px solid rgba(133, 177, 198, .28);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.045);
+      color: #dbeaf0;
+      font-size: 17px;
+    }
+
+    .button-mock {
+      padding: 13px 18px;
+      border-radius: var(--radius);
+      background: var(--cyan);
+      color: #061221;
+      font-size: 15px;
+      font-weight: 840;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .result-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      padding: 15px 0;
+      border-top: 1px solid rgba(133, 177, 198, .15);
+    }
+
+    .result-item b {
+      color: var(--text);
+      font-size: 20px;
+    }
+
+    .result-item span {
+      display: block;
+      margin-top: 5px;
+      color: var(--dim);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .shelter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .shelter-card {
+      min-height: 344px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
+    }
+
+    .shelter-card h3 {
+      color: var(--text);
+      font-size: 25px;
+      line-height: 1.12;
+    }
+
+    .capacity-line {
+      display: grid;
+      gap: 8px;
+    }
+
+    .capacity-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .capacity-track {
+      height: 11px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.075);
+    }
+
+    .capacity-fill {
+      height: 100%;
+      width: calc(var(--cap) * 1%);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+    }
+
+    .capacity-fill.warn {
+      background: linear-gradient(90deg, var(--amber), #f0c56f);
+    }
+
+    .capacity-fill.full {
+      background: linear-gradient(90deg, var(--red), #e8846d);
+    }
+
+    .shelter-metrics {
+      display: grid;
+      gap: 9px;
+      align-content: end;
+    }
+
+    .shelter-metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      color: #d7e7ec;
+      font-size: 14px;
+      font-weight: 680;
+    }
+
+    .shelter-metric span {
+      color: var(--dim);
+    }
+
+    .record-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .record-card {
+      min-height: 430px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 18px;
+    }
+
+    .record-card h3 {
+      color: var(--text);
+      font-size: 28px;
+    }
+
+    .field-list {
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 9px;
+    }
+
+    .field-list li {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(133, 177, 198, .12);
+      color: #d6e5eb;
+      font-size: 14px;
+      font-weight: 680;
+    }
+
+    .field-list li span {
+      color: var(--dim);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .finance-layout {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .layer-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+    }
+
+    .layer-card + .layer-card {
+      margin-top: 12px;
+    }
+
+    .layer-card b {
+      display: block;
+      color: var(--text);
+      font-size: 27px;
+      line-height: 1.15;
+    }
+
+    .layer-card span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      color: #d9e7ec;
+      font-size: 15px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid rgba(133, 177, 198, .16);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .data-table th {
+      color: var(--muted);
+      background: rgba(255,255,255,.04);
+      font-size: 12px;
+      font-weight: 840;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .data-table td:last-child,
+    .data-table th:last-child {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .table-footnote {
+      margin-top: 10px;
+      color: var(--dim);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tier {
+      padding: 10px;
+      border: 1px solid rgba(228, 170, 74, .22);
+      border-radius: var(--radius);
+      background: var(--amber-soft);
+      color: #f0d5a5;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 720;
+      text-align: center;
+    }
+
+    .insurance-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .claim-number {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .84);
+    }
+
+    .claim-number + .claim-number {
+      margin-top: 14px;
+    }
+
+    .claim-number .value {
+      color: #fff;
+      font-size: 54px;
+      line-height: 1;
+      font-weight: 840;
+    }
+
+    .claim-number .label {
+      margin-top: 12px;
+      color: #c9dce4;
+      font-size: 18px;
+      line-height: 1.35;
+      font-weight: 680;
+    }
+
+    .claim-number .sub {
+      margin-top: 8px;
+      color: var(--dim);
+      font-size: 14px;
+      line-height: 1.42;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .compare-card {
+      min-height: 470px;
+      padding: 28px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(12, 30, 48, .8);
+    }
+
+    .compare-card.before {
+      border-color: rgba(217, 90, 89, .32);
+      background: linear-gradient(180deg, rgba(217, 90, 89, .1), rgba(12, 30, 48, .78));
+    }
+
+    .compare-card.after {
+      border-color: rgba(100, 196, 135, .32);
+      background: linear-gradient(180deg, rgba(100, 196, 135, .1), rgba(12, 30, 48, .78));
+    }
+
+    .compare-card h3 {
+      color: var(--text);
+      font-size: 34px;
+      margin-bottom: 20px;
+    }
+
+    .compare-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .compare-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      color: #d8e8ee;
+      font-size: 21px;
+      line-height: 1.34;
+      font-weight: 640;
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #061221;
+      background: var(--green);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .xmark {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--red);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .mvp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mvp-card {
+      min-height: 172px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      align-content: space-between;
+    }
+
+    .mvp-card .num {
+      color: var(--cyan);
+      font-size: 16px;
+      font-weight: 840;
+    }
+
+    .mvp-card b {
+      color: var(--text);
+      font-size: 24px;
+      line-height: 1.16;
+    }
+
+    .closing-layout {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .closing-title {
+      max-width: 1010px;
+      font-size: 66px;
+      line-height: 1.09;
+      font-weight: 820;
+    }
+
+    .slide h1.closing-title {
+      max-width: 1010px;
+      font-size: 66px;
+      line-height: 1.09;
+    }
+
+    .closing-quote {
+      margin-top: 28px;
+      max-width: 860px;
+      color: #d8e8ee;
+      font-size: 31px;
+      line-height: 1.36;
+      font-weight: 560;
+    }
+
+    .cta-box {
+      padding: 28px;
+      border: 1px solid rgba(97, 190, 203, .42);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(97, 190, 203, .16), rgba(12, 30, 48, .84));
+      box-shadow: 0 22px 46px rgba(0,0,0,.28);
+    }
+
+    .cta-box .micro {
+      margin-bottom: 20px;
+    }
+
+    .cta-box b {
+      color: #fff;
+      font-size: 32px;
+      line-height: 1.18;
+    }
+
+    .progress {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,.05);
+      z-index: 8;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 5%;
+      background: linear-gradient(90deg, var(--red), var(--amber), var(--green), var(--cyan));
+      transition: width .22s ease;
+    }
+
+    .deck-nav {
+      position: absolute;
+      right: 84px;
+      bottom: 26px;
+      z-index: 9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .8);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--cyan);
+      color: #bff6ff;
+    }
+
+    .counter {
+      min-width: 74px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 780;
+      letter-spacing: .09em;
+      text-align: center;
+    }
+
+    .hint {
+      position: absolute;
+      left: 84px;
+      bottom: 34px;
+      z-index: 9;
+      color: var(--dim);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .evidence-card {
+      min-height: 548px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 18px;
+    }
+
+    .evidence-card h3 {
+      color: var(--text);
+      font-size: 31px;
+      line-height: 1.12;
+    }
+
+    .case-type {
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 840;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .evidence-card ul,
+    .governance-card ul,
+    .timeline-card ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 9px;
+      color: #c8dce4;
+      font-size: 17px;
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .case-lesson {
+      padding: 14px;
+      border-left: 4px solid var(--amber);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: rgba(228, 170, 74, .11);
+      color: #ffe7b7;
+      font-size: 16px;
+      line-height: 1.38;
+      font-weight: 720;
+    }
+
+    .cost-map {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .cost-column,
+    .cost-callout {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .8);
+      padding: 24px;
+    }
+
+    .cost-column h3 {
+      color: var(--text);
+      font-size: 32px;
+      margin-bottom: 18px;
+    }
+
+    .cost-row {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 18px;
+      padding: 14px 0;
+      border-top: 1px solid rgba(133, 177, 198, .15);
+      color: #d8e9ef;
+      font-size: 20px;
+      line-height: 1.32;
+      font-weight: 650;
+    }
+
+    .cost-row span {
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 840;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .cost-callout {
+      border-color: rgba(228, 170, 74, .35);
+      background: linear-gradient(180deg, rgba(228, 170, 74, .13), rgba(12, 30, 48, .78));
+      display: grid;
+      align-content: center;
+      gap: 18px;
+    }
+
+    .cost-callout .big {
+      color: var(--amber);
+      font-size: 64px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .layer-architecture {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .shared-layers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .shared-layer {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 15px 18px;
+      border: 1px solid rgba(97, 190, 203, .26);
+      border-radius: var(--radius);
+      background: rgba(7, 22, 36, .78);
+    }
+
+    .shared-layer b {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--cyan);
+      border-radius: var(--radius);
+      color: var(--cyan);
+      font-size: 20px;
+    }
+
+    .shared-layer strong {
+      display: block;
+      color: var(--text);
+      font-size: 21px;
+      margin-bottom: 3px;
+    }
+
+    .shared-layer span {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .domain-panel {
+      border: 1px solid rgba(228, 170, 74, .28);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      padding: 24px;
+      display: grid;
+      align-content: start;
+      gap: 14px;
+    }
+
+    .domain-chip {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(228, 170, 74, .18);
+      border-radius: var(--radius);
+      background: rgba(228, 170, 74, .07);
+      color: #ffe7b7;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .domain-chip span {
+      color: var(--amber);
+      font-weight: 900;
+    }
+
+    .decision-layout {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .decision-rail {
+      display: grid;
+      gap: 14px;
+    }
+
+    .decision-item {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+    }
+
+    .decision-item b {
+      display: block;
+      color: var(--cyan);
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .decision-item span {
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1.25;
+      font-weight: 740;
+    }
+
+    .command-board {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(7, 20, 34, .82);
+      padding: 22px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 18px;
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .board-tile {
+      min-height: 160px;
+      border: 1px solid rgba(133, 177, 198, .18);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: rgba(255,255,255,.035);
+      display: grid;
+      align-content: space-between;
+    }
+
+    .board-tile strong {
+      color: var(--text);
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .board-tile span {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .implementation-roadmap,
+    .governance-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .implementation-roadmap {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .timeline-card {
+      min-height: 530px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
+    }
+
+    .timeline-card .phase {
+      color: var(--cyan);
+      font-size: 15px;
+      font-weight: 860;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .timeline-card h3 {
+      color: var(--text);
+      font-size: 28px;
+      line-height: 1.16;
+    }
+
+    .governance-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .governance-card {
+      min-height: 500px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(12, 30, 48, .82);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
+    }
+
+    .governance-card h3 {
+      color: var(--text);
+      font-size: 31px;
+      line-height: 1.12;
+    }
+
+    .governance-card .badge {
+      width: max-content;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      color: #061221;
+      background: var(--cyan);
+      font-size: 13px;
+      font-weight: 860;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    @media print {
+      body {
+        overflow: visible;
+        background: #fff;
+      }
+
+      #viewport,
+      #stage,
+      #deck {
+        display: block;
+        width: auto !important;
+        height: auto !important;
+        transform: none !important;
+      }
+
+      #deck {
+        position: static;
+        border: 0;
+        box-shadow: none;
+      }
+
+      .slide {
+        position: relative;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        page-break-after: always;
+      }
+
+      .deck-nav,
+      .hint,
+      .progress {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="viewport">
+    <div id="stage">
+      <div id="deck" aria-live="polite">
+        <section class="slide cover active" data-slide="1">
+          <div class="content">
+            <div class="brand-block">
+              <div class="brand-kicker">Crisis Coordination Platform</div>
+              <div class="brand-title">LCCS<span>.</span></div>
+              <div class="brand-subtitle">Life Connection Crisis System</div>
+              <p class="thai-frame">ระบบที่เปลี่ยนสัญญาณกระจัดกระจายจากภัยพิบัติ ให้กลายเป็นภาพปฏิบัติการที่สั่งงาน ติดตาม และตรวจสอบได้</p>
+            </div>
+            <div class="network-map" aria-label="Abstract crisis map">
+              <div class="wire" style="--len: 360px; --rot: -142deg;"></div>
+              <div class="wire" style="--len: 330px; --rot: -82deg;"></div>
+              <div class="wire" style="--len: 392px; --rot: -28deg;"></div>
+              <div class="wire" style="--len: 376px; --rot: 28deg;"></div>
+              <div class="wire" style="--len: 338px; --rot: 92deg;"></div>
+              <div class="wire" style="--len: 340px; --rot: 153deg;"></div>
+              <div class="node core">Operational Picture</div>
+              <div class="node" style="left: 8%; top: 15%;">People</div>
+              <div class="node" style="left: 42%; top: 8%;">Command</div>
+              <div class="node" style="right: 8%; top: 22%;">Rescue</div>
+              <div class="node" style="right: 11%; bottom: 18%;">Shelter</div>
+              <div class="node" style="left: 39%; bottom: 8%;">Aid</div>
+              <div class="node" style="left: 9%; bottom: 21%;">Insurance</div>
+              <span class="signal-pulse" style="left: 23%; top: 36%;"></span>
+              <span class="signal-pulse" style="left: 72%; top: 58%; animation-delay: .45s;"></span>
+              <span class="signal-pulse" style="left: 53%; top: 29%; animation-delay: .9s;"></span>
+            </div>
+          </div>
+          <div class="deck-footer">
+            <span>Turn scattered crisis signals into coordinated life-saving action.</span>
+            <span>Investor / Public Sector Pitch</span>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="2">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">The Reality</div>
+              <h1>ภัยพิบัติไม่ได้ขาดคนช่วย แต่ขาดภาพรวมที่เชื่อมกัน</h1>
+            </div>
+            <div class="slide-no">02</div>
+          </header>
+          <div class="content two-col wide-left">
+            <div class="stack">
+              <p class="lead strong">สัญญาณความช่วยเหลือเกิดขึ้นทุกนาที แต่กระจายอยู่ในคนละช่องทาง คนละไฟล์ และคนละความทรงจำ</p>
+              <p class="lead">ผลคือระบบไม่เห็นชัดว่าใครยังรอความช่วยเหลือ ใครปลอดภัยแล้ว ทรัพยากรอยู่ที่ไหน และศูนย์พักพิงใดเริ่มเต็ม</p>
+            </div>
+            <div class="channel-cloud">
+              <div class="channel-card" style="left: 36px; top: 42px;"><b>Phone calls</b><span>voice signal</span></div>
+              <div class="channel-card" style="left: 292px; top: 38px;"><b>LINE chat</b><span>local thread</span></div>
+              <div class="channel-card" style="right: 44px; top: 92px;"><b>Facebook posts</b><span>public noise</span></div>
+              <div class="channel-card" style="left: 62px; top: 228px;"><b>Excel files</b><span>manual table</span></div>
+              <div class="channel-card" style="right: 68px; top: 260px;"><b>Rescue radio</b><span>field channel</span></div>
+              <div class="channel-card" style="left: 238px; bottom: 44px;"><b>Local officers</b><span>human memory</span></div>
+              <div class="channel-card" style="right: 262px; bottom: 62px;"><b>Insurance claims</b><span>separate system</span></div>
+              <div class="channel-card" style="right: 28px; bottom: 28px;"><b>Shelter records</b><span>local list</span></div>
+              <div class="missing-picture">ภาพรวมปฏิบัติการหายไป</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="3">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Why Now</div>
+              <h1 class="tight">เงินช่วยเหลือและสินไหมไหลหลายชั้น แต่ข้อมูลยังแยกกัน</h1>
+            </div>
+            <div class="slide-no">03</div>
+          </header>
+          <div class="content stack">
+            <div class="metric-grid">
+              <div class="metric-card">
+                <div class="metric-label">State flood relief 2567</div>
+                <div>
+                  <div class="metric-value">~12.52B <small>THB</small></div>
+                  <div class="metric-caption">Total working figure</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">State flood relief 2568</div>
+                <div>
+                  <div class="metric-value">~21.32B <small>THB</small></div>
+                  <div class="metric-caption">All 2568 flood-aid tracking scope, not Hat Yai only</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Insurance 2567</div>
+                <div>
+                  <div class="metric-value">&gt;420M <small>THB</small></div>
+                  <div class="metric-caption">Reported / estimated insured claims, not final paid</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Insurance 2568</div>
+                <div>
+                  <div class="metric-value">~16.03B <small>THB</small></div>
+                  <div class="metric-caption">Reported claims snapshot, 15 Dec 2568</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel pad">
+              <div class="panel-title">
+                <span>Money Flow Visibility</span>
+                <span class="status-pill"><span class="dot amber"></span>Working figures</span>
+              </div>
+              <div class="bar-chart">
+                <div class="bar-row"><span>Relief 2567</span><div class="bar-track"><div class="bar-fill" style="--w: 59;"></div></div><span>12.52B</span></div>
+                <div class="bar-row"><span>Relief 2568</span><div class="bar-track"><div class="bar-fill red" style="--w: 100;"></div></div><span>21.32B</span></div>
+                <div class="bar-row"><span>Insurance 2567</span><div class="bar-track"><div class="bar-fill amber" style="--w: 2;"></div></div><span>0.42B+</span></div>
+                <div class="bar-row"><span>Insurance 2568</span><div class="bar-track"><div class="bar-fill" style="--w: 75;"></div></div><span>16.03B</span></div>
+              </div>
+              <div class="chart-annotation">2567 gap: reported insured claims &gt;420M vs economic loss estimates ~29.85B-60B THB; implied insurance penetration is roughly 0.7%-1.4%.</div>
+            </div>
+            <div class="warning-note">เงินไหลหลายระบบ แต่ผู้ปฏิบัติงานยังไม่เห็นภาพเดียวกัน</div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="4">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Current Pain</div>
+              <h1>Today’s crisis workflow is fragmented</h1>
+            </div>
+            <div class="slide-no">04</div>
+          </header>
+          <div class="content stack">
+            <p class="lead">ข้อมูลเดินเป็นสายย่อย แต่การตัดสินใจต้องการภาพเดียวที่ตรวจสอบย้อนกลับได้</p>
+            <div class="fragment-flow">
+              <div class="fragment-step"><span class="top">Citizen</span><strong>phone / chat</strong><span class="arrow-mark">→</span><span class="bottom">เสียงร้องขออยู่ในสายสนทนา</span></div>
+              <div class="fragment-step"><span class="top">Village head</span><strong>district officer</strong><span class="arrow-mark">→</span><span class="bottom">ข้อมูลรวมด้วยแรงคน</span></div>
+              <div class="fragment-step"><span class="top">District</span><strong>DDPM / government</strong><span class="arrow-mark">→</span><span class="bottom">สรุปช้ากว่าหน้างาน</span></div>
+              <div class="fragment-step"><span class="top">Rescue</span><strong>own channel</strong><span class="arrow-mark">→</span><span class="bottom">ทีมเห็นเฉพาะภารกิจของตน</span></div>
+              <div class="fragment-step"><span class="top">Shelter</span><strong>local list</strong><span class="arrow-mark">→</span><span class="bottom">ความจุไม่อัปเดตพร้อมกัน</span></div>
+              <div class="fragment-step"><span class="top">Insurance</span><strong>separate claim</strong><span class="arrow-mark">→</span><span class="bottom">สินไหมไม่เชื่อมเหตุการณ์</span></div>
+              <div class="fragment-step"><span class="top">Budget Aid</span><strong>payment process</strong><span class="arrow-mark">→</span><span class="bottom">หลักฐานปฏิบัติการแยกจากการจ่าย</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="5">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">LCCS Core Idea</div>
+              <h1>One crisis, one operational memory</h1>
+            </div>
+            <div class="slide-no">05</div>
+          </header>
+          <div class="content two-col">
+            <div class="stack">
+              <p class="lead strong">LCCS เชื่อมคนเดือดร้อน ผู้ช่วย ทรัพย์สิน ศูนย์พักพิง คำสั่งภาครัฐ การจ่ายเงินช่วยเหลือ และสัญญาณเคลมประกันไว้ในชั้นปฏิบัติการเดียว</p>
+              <p class="lead">ทุกการแจ้ง ทุกการตรวจสอบ ทุกคำสั่ง และทุกการเคลื่อนย้ายกลายเป็นความทรงจำกลางที่ค้นหาได้และตรวจสอบได้</p>
+            </div>
+            <div class="memory-core">
+              <div class="center">Operational Memory</div>
+              <div class="wire" style="--len: 315px; --rot: -140deg;"></div>
+              <div class="wire" style="--len: 286px; --rot: -70deg;"></div>
+              <div class="wire" style="--len: 332px; --rot: -20deg;"></div>
+              <div class="wire" style="--len: 318px; --rot: 32deg;"></div>
+              <div class="wire" style="--len: 280px; --rot: 98deg;"></div>
+              <div class="wire" style="--len: 308px; --rot: 154deg;"></div>
+              <div class="orbit-card" style="left: 52px; top: 52px;">Affected People<span>victim status</span></div>
+              <div class="orbit-card" style="left: 350px; top: 34px;">Command<span>ICP decision</span></div>
+              <div class="orbit-card" style="right: 48px; top: 96px;">Resources<span>asset readiness</span></div>
+              <div class="orbit-card" style="right: 62px; bottom: 70px;">Shelters<span>live capacity</span></div>
+              <div class="orbit-card" style="left: 328px; bottom: 36px;">Aid Payment<span>audit evidence</span></div>
+              <div class="orbit-card" style="left: 60px; bottom: 92px;">Insurance<span>claim signals</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="6">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">System Thesis</div>
+              <h1>From Signal → Record → Decision → Action → Audit</h1>
+            </div>
+            <div class="slide-no">06</div>
+          </header>
+          <div class="content stack">
+            <p class="lead">LCCS ไม่ใช่แค่แบบฟอร์มรับแจ้งเหตุ แต่เป็น pipeline ที่เปลี่ยนสัญญาณดิบให้กลายเป็นภารกิจและหลักฐาน</p>
+            <div class="pipeline">
+              <div class="pipe-step"><div class="pipe-index">01</div><div class="pipe-title">Signal intake</div><div class="pipe-copy">รับสัญญาณจากโทรศัพท์ ลิงก์ แชต API หรือหน่วยงาน</div></div>
+              <div class="pipe-step"><div class="pipe-index">02</div><div class="pipe-title">Verification</div><div class="pipe-copy">ตรวจความน่าเชื่อถือ ตำแหน่ง และสถานะล่าสุด</div></div>
+              <div class="pipe-step"><div class="pipe-index">03</div><div class="pipe-title">Crisis record</div><div class="pipe-copy">สร้าง Resource, Victim, Shelter, Claim record</div></div>
+              <div class="pipe-step"><div class="pipe-index">04</div><div class="pipe-title">ICP decision</div><div class="pipe-copy">ศูนย์บัญชาการเห็นภาพรวมและเลือกการตอบสนอง</div></div>
+              <div class="pipe-step"><div class="pipe-index">05</div><div class="pipe-title">Mission assignment</div><div class="pipe-copy">มอบหมายทีม ทรัพยากร เส้นทาง และเวลา</div></div>
+              <div class="pipe-step"><div class="pipe-index">06</div><div class="pipe-title">Audit trail</div><div class="pipe-copy">เชื่อมหลักฐานสู่เงินช่วยเหลือ ประกัน และการตรวจสอบ</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="7">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Main Actors</div>
+              <h1>Who LCCS connects</h1>
+            </div>
+            <div class="slide-no">07</div>
+          </header>
+          <div class="content stack">
+            <p class="lead">ระบบเดียวต้องรองรับทั้งผู้เดือดร้อน ผู้สั่งการ ผู้ลงพื้นที่ ผู้ถือทรัพยากร และผู้จ่ายเงินหลังวิกฤต</p>
+            <div class="actor-grid">
+              <div class="actor-card"><span class="num">01</span><b>Affected people</b></div>
+              <div class="actor-card"><span class="num">02</span><b>Family outside area</b></div>
+              <div class="actor-card"><span class="num">03</span><b>Village head / community leader</b></div>
+              <div class="actor-card"><span class="num">04</span><b>District officer</b></div>
+              <div class="actor-card"><span class="num">05</span><b>DDPM / ICP</b></div>
+              <div class="actor-card"><span class="num">06</span><b>Rescue teams</b></div>
+              <div class="actor-card"><span class="num">07</span><b>EMS / mobile clinic</b></div>
+              <div class="actor-card"><span class="num">08</span><b>Police / military</b></div>
+              <div class="actor-card"><span class="num">09</span><b>Local government</b></div>
+              <div class="actor-card"><span class="num">10</span><b>Private suppliers</b></div>
+              <div class="actor-card"><span class="num">11</span><b>Insurance companies</b></div>
+              <div class="actor-card"><span class="num">12</span><b>Volunteers / specialists</b></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="8">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Registration Channels ORC</div>
+              <h1>Not everyone should register the same way</h1>
+            </div>
+            <div class="slide-no">08</div>
+          </header>
+          <div class="content stack">
+            <div class="channel-model">
+              <div class="channel-model-card"><div class="channel-letter">G</div><h3>Government Console / API</h3><p>ภาครัฐเริ่มคำขอ ค้นทะเบียน ยืนยันทรัพยากร และบันทึกผลตอบรับ</p></div>
+              <div class="channel-model-card"><div class="channel-letter">O</div><h3>Organization / Unit Bulk</h3><p>หน่วยงานหรือองค์กรส่งรายชื่อทีม ทรัพย์สิน และกำลังคนเป็นชุด</p></div>
+              <div class="channel-model-card"><div class="channel-letter">L</div><h3>Official Link / Chat Form</h3><p>ลิงก์ทางการสำหรับผู้ช่วยและชุมชนที่เข้าถึงมือถือได้</p></div>
+              <div class="channel-model-card"><div class="channel-letter">A</div><h3>App / QR Self Registration</h3><p>ลงทะเบียนด้วยตนเองสำหรับคนที่พร้อมกรอกข้อมูลครบ</p></div>
+              <div class="channel-model-card"><div class="channel-letter">P</div><h3>Phone Intake Exception</h3><p>ช่องทางฉุกเฉินสำหรับผู้ที่กรอกเองไม่ได้หรืออยู่ในภาวะเสี่ยง</p></div>
+            </div>
+            <div class="rule-card">
+              <b>Rule</b>
+              <span>Phone is a signal collector, not a full registration channel. โทรศัพท์ควรเก็บสัญญาณเร็ว แล้วให้ระบบช่วยแปลงเป็น record ที่ตรวจสอบต่อได้</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="9">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Rapid Onboarding Board</div>
+              <h1>Convert willingness into operational visibility</h1>
+            </div>
+            <div class="slide-no">09</div>
+          </header>
+          <div class="content stack">
+            <div class="panel-title">
+              <span>Mock ICP Resource Intake Board</span>
+              <span class="status-pill"><span class="dot green"></span>Live intake</span>
+            </div>
+            <div class="kanban">
+              <div class="kanban-col">
+                <div class="kanban-head"><span>New Intake</span><span class="count">3</span></div>
+                <div class="resource-card"><b>Rescue team - 12 pax</b><span>กำลังพลพร้อมเรือยาง 2 ลำ</span><div class="tag-row"><span class="tag cyan">verify unit</span><span class="tag">ETA 45m</span></div></div>
+                <div class="resource-card"><b>Water supply truck</b><span>น้ำสะอาด 8,000 ลิตร</span><div class="tag-row"><span class="tag">route?</span></div></div>
+              </div>
+              <div class="kanban-col">
+                <div class="kanban-head"><span>Need ICP Support First</span><span class="count">4</span></div>
+                <div class="resource-card"><b>Flatbed truck</b><span>ต้องการใบผ่านทางและจุด staging</span><div class="tag-row"><span class="tag amber">access pass</span><span class="tag amber">staging</span></div></div>
+                <div class="resource-card"><b>Generator 30 kVA</b><span>มีเครื่อง แต่ขาดน้ำมันและผู้ติดตั้ง</span><div class="tag-row"><span class="tag amber">fuel</span><span class="tag amber">operator</span></div></div>
+              </div>
+              <div class="kanban-col">
+                <div class="kanban-head"><span>Ready for Assignment</span><span class="count">2</span></div>
+                <div class="resource-card"><b>Aluminum boat</b><span>พร้อมคนขับและอุปกรณ์กู้ภัย</span><div class="tag-row"><span class="tag green">ready</span><span class="tag">Zone B</span></div></div>
+                <div class="resource-card"><b>Medical volunteer</b><span>พยาบาล 4 คน พร้อมชุดปฐมพยาบาล</span><div class="tag-row"><span class="tag green">ready</span></div></div>
+              </div>
+              <div class="kanban-col">
+                <div class="kanban-head"><span>Assigned / Operating</span><span class="count">3</span></div>
+                <div class="resource-card"><b>Boat unit R-17</b><span>กำลังรับผู้สูงอายุจากหมู่ 8</span><div class="tag-row"><span class="tag red">active rescue</span><span class="tag">12:40</span></div></div>
+                <div class="resource-card"><b>Supply lot S-43</b><span>ข้าวกล่อง 1,200 ชุด ส่งศูนย์พักพิงโรงเรียน</span><div class="tag-row"><span class="tag green">delivering</span></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="10">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Needs First Logic</div>
+              <h1>Some resources are “ready” only after support</h1>
+            </div>
+            <div class="slide-no">10</div>
+          </header>
+          <div class="content two-col">
+            <div class="stack">
+              <p class="lead strong">ความพร้อมไม่ใช่แค่ “มีของ” หรือ “มีคน” แต่ต้องรู้ว่าทรัพยากรนั้นปลอดภัยพอที่จะถูกส่งเข้าพื้นที่หรือยัง</p>
+              <p class="lead">LCCS ป้องกันไม่ให้ผู้ช่วยและทรัพย์สินกลายเป็นผู้ประสบภัยเพิ่ม ด้วยการเปิด needs-first tags ก่อน assign ภารกิจ</p>
+            </div>
+            <div>
+              <div class="panel pad">
+                <div class="panel-title"><span>Needs-first tags</span><span class="status-pill"><span class="dot amber"></span>Safety gate</span></div>
+                <div class="needs-cloud">
+                  <span class="tag amber">fuel</span>
+                  <span class="tag amber">route confirmation</span>
+                  <span class="tag amber">staging area</span>
+                  <span class="tag amber">access pass</span>
+                  <span class="tag amber">radio channel</span>
+                  <span class="tag amber">loading staff</span>
+                  <span class="tag amber">operator</span>
+                  <span class="tag amber">local guide</span>
+                  <span class="tag amber">storage area</span>
+                </div>
+              </div>
+              <div class="gate-flow">
+                <div class="gate-card"><b>Willing</b><span>คนหรือหน่วยงานแจ้งความพร้อมช่วยเหลือ</span></div>
+                <div class="gate-arrow">→</div>
+                <div class="gate-card"><b>Operationally Ready</b><span>ผ่านเงื่อนไขความปลอดภัย เส้นทาง การประสาน และผู้รับผิดชอบ</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="11">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Government Console / API Journey</div>
+              <h1>When government initiates support</h1>
+            </div>
+            <div class="slide-no">11</div>
+          </header>
+          <div class="content stack">
+            <div class="journey-flow">
+              <div class="journey-step"><span class="num">01</span><b>ICP request</b></div>
+              <div class="journey-step"><span class="num">02</span><b>Search registry / API</b></div>
+              <div class="journey-step"><span class="num">03</span><b>Shortlist candidate</b></div>
+              <div class="journey-step"><span class="num">04</span><b>Contact / confirm</b></div>
+              <div class="journey-step"><span class="num">05</span><b>Record response</b></div>
+              <div class="journey-step"><span class="num">06</span><b>Safety gate</b></div>
+              <div class="journey-step"><span class="num">07</span><b>Claim signal link</b></div>
+              <div class="journey-step"><span class="num">08</span><b>Resource card</b></div>
+              <div class="journey-step"><span class="num">09</span><b>Board / audit</b></div>
+            </div>
+            <div class="state-grid">
+              <div class="state-card"><span class="dot green"></span> Confirmed Ready</div>
+              <div class="state-card"><span class="dot amber"></span> Confirmed but Needs First</div>
+              <div class="state-card"><span class="dot"></span> Pending Response</div>
+              <div class="state-card"><span class="dot red"></span> Declined / Unavailable</div>
+            </div>
+            <p class="lead">ภาครัฐไม่ต้องเริ่มจากความว่างเปล่า ระบบช่วยค้นผู้ถือทรัพยากร ยืนยันความพร้อม ผูกสัญญาณเคลมกับ event ID และสร้างหลักฐานการประสานงานทันที</p>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="12">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Phone Alert Simulation</div>
+              <h1>Low-friction signals save time</h1>
+            </div>
+            <div class="slide-no">12</div>
+          </header>
+          <div class="content stack">
+            <div class="phone-grid">
+              <div class="phone">
+                <div class="phone-top"><span>Actor 01</span><span>Call</span></div>
+                <div class="phone-bubble">ผู้สูงอายุติดอยู่กับครอบครัว น้ำขึ้นถึงชั้นล่าง</div>
+                <div class="phone-output">Interpreted: trapped family, priority rescue, location uncertain</div>
+              </div>
+              <div class="phone">
+                <div class="phone-top"><span>Actor 02</span><span>SMS</span></div>
+                <div class="phone-bubble">ลูกอยู่ต่างจังหวัด แจ้งแทนพ่อแม่ที่โทรไม่ติด</div>
+                <div class="phone-output">Interpreted: family search thread, household match needed</div>
+              </div>
+              <div class="phone">
+                <div class="phone-top"><span>Actor 03</span><span>Volunteer</span></div>
+                <div class="phone-bubble">อสม.รายงานบ้านหลายหลังในซอยเดียวกัน</div>
+                <div class="phone-output">Interpreted: cluster event, verify by community leader</div>
+              </div>
+              <div class="phone">
+                <div class="phone-top"><span>Actor 04</span><span>Correction</span></div>
+                <div class="phone-bubble">ผู้แจ้งตกใจ กรอกตำแหน่งผิด ต้องแก้เป็นหมู่ 8</div>
+                <div class="phone-output">Interpreted: dirty event corrected, preserve audit trail</div>
+              </div>
+            </div>
+            <p class="lead">Raw dirty events become interpreted rescue signals. สัญญาณไม่สมบูรณ์ยังมีค่า ถ้าระบบช่วยแปล ตรวจซ้ำ และตามต่อได้</p>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="13">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Victim & Family Search</div>
+              <h1>From “I cannot contact my family” to searchable status</h1>
+            </div>
+            <div class="slide-no">13</div>
+          </header>
+          <div class="content search-thread">
+            <div class="signal-list">
+              <div class="signal-row"><div class="signal-code">USSD</div><div><b>USSD / SMS signal</b><span>รับแจ้งแม้ไม่มี smartphone หรือเน็ตไม่เสถียร</span></div></div>
+              <div class="signal-row"><div class="signal-code">NAME</div><div><b>Surname search</b><span>ค้นจากนามสกุล บ้าน หรือผู้แจ้งแทน</span></div></div>
+              <div class="signal-row"><div class="signal-code">HH</div><div><b>Household matching</b><span>รวมคนในบ้านเดียวกัน ลดรายงานซ้ำ</span></div></div>
+              <div class="signal-row"><div class="signal-code">MOVE</div><div><b>Shelter check-in + movement log</b><span>สถานะปลอดภัยและการเคลื่อนย้ายล่าสุด</span></div></div>
+              <div class="signal-row"><div class="signal-code">MIS</div><div><b>Mission status</b><span>ผูกกับภารกิจที่ได้รับมอบหมาย</span></div></div>
+            </div>
+            <div class="family-card">
+              <div class="panel-title"><span>Family Search Mock</span><span class="status-pill"><span class="dot"></span>Searchable rescue thread</span></div>
+              <div class="search-bar">
+                <div class="input-mock">ค้นหา: “ศรีสุข” / หมู่ 8 / บ้านริมน้ำ</div>
+                <div class="button-mock">Search</div>
+              </div>
+              <div class="result-item"><div><b>ครอบครัวศรีสุข - 4 คน</b><span>Matched household ID HH-2081, reported by daughter outside area</span></div><span class="tag amber">verifying</span></div>
+              <div class="result-item"><div><b>คุณสมชาย ศรีสุข</b><span>Last signal: trapped at home, rescue boat assigned 12:10</span></div><span class="tag red">mission active</span></div>
+              <div class="result-item"><div><b>คุณมาลี ศรีสุข</b><span>Shelter check-in: โรงเรียนบ้านเหนือ, 13:25</span></div><span class="tag green">safe</span></div>
+              <div class="result-item"><div><b>Movement log</b><span>Home → boat pickup → shelter check-in → aid eligibility evidence</span></div><span class="tag cyan">audit ready</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="14">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Shelter Check-in & Capacity</div>
+              <h1>Shelters are not just places — they are live capacity nodes</h1>
+            </div>
+            <div class="slide-no">14</div>
+          </header>
+          <div class="content stack">
+            <div class="shelter-grid">
+              <div class="shelter-card">
+                <h3>วัดริมคลอง</h3>
+                <div class="capacity-line"><div class="capacity-top"><span>Capacity</span><b>72%</b></div><div class="capacity-track"><div class="capacity-fill" style="--cap: 72;"></div></div></div>
+                <div class="shelter-metrics"><div class="shelter-metric"><span>Medical</span><b>มีอสม.</b></div><div class="shelter-metric"><span>Kitchen</span><b>พร้อม</b></div><div class="shelter-metric"><span>Supply gap</span><b>ผ้าอ้อม</b></div></div>
+              </div>
+              <div class="shelter-card">
+                <h3>โรงเรียนบ้านเหนือ</h3>
+                <div class="capacity-line"><div class="capacity-top"><span>Capacity</span><b>91%</b></div><div class="capacity-track"><div class="capacity-fill warn" style="--cap: 91;"></div></div></div>
+                <div class="shelter-metrics"><div class="shelter-metric"><span>Water</span><b>จำกัด</b></div><div class="shelter-metric"><span>Electricity</span><b>มี</b></div><div class="shelter-metric"><span>Supply gap</span><b>อาหารเด็ก</b></div></div>
+              </div>
+              <div class="shelter-card">
+                <h3>อบต.กลางน้ำ</h3>
+                <div class="capacity-line"><div class="capacity-top"><span>Capacity</span><b>58%</b></div><div class="capacity-track"><div class="capacity-fill" style="--cap: 58;"></div></div></div>
+                <div class="shelter-metrics"><div class="shelter-metric"><span>Medical</span><b>ไม่มี</b></div><div class="shelter-metric"><span>Kitchen</span><b>บางส่วน</b></div><div class="shelter-metric"><span>Supply gap</span><b>ยาโรคเรื้อรัง</b></div></div>
+              </div>
+              <div class="shelter-card">
+                <h3>ศูนย์พักพิงชุมชน</h3>
+                <div class="capacity-line"><div class="capacity-top"><span>Capacity</span><b>100%</b></div><div class="capacity-track"><div class="capacity-fill full" style="--cap: 100;"></div></div></div>
+                <div class="shelter-metrics"><div class="shelter-metric"><span>Status</span><b>เต็ม</b></div><div class="shelter-metric"><span>Electricity</span><b>ไม่มี</b></div><div class="shelter-metric"><span>Supply gap</span><b>ย้ายคนเพิ่ม</b></div></div>
+              </div>
+            </div>
+            <p class="lead">Check-in creates both safety record and future aid audit trail. การเช็คอินคือข้อมูลชีวิต ความจุ และหลักฐานช่วยเหลือในเวลาเดียวกัน</p>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="15">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Resource, Asset, Supply Data Model</div>
+              <h1>What LCCS records</h1>
+            </div>
+            <div class="slide-no">15</div>
+          </header>
+          <div class="content record-grid">
+            <div class="record-card">
+              <h3>Helper Card</h3>
+              <ul class="field-list">
+                <li><span>ID</span> HLP-2049</li>
+                <li><span>Location</span> จุดรวมพล A</li>
+                <li><span>ETA</span> 35 นาที</li>
+                <li><span>Capacity</span> 6 คน</li>
+                <li><span>Contact</span> verified</li>
+                <li><span>Status</span> ready</li>
+                <li><span>Last update</span> 13:42</li>
+              </ul>
+            </div>
+            <div class="record-card">
+              <h3>Unit Card</h3>
+              <ul class="field-list">
+                <li><span>ID</span> UNT-771</li>
+                <li><span>Unit</span> Rescue Team</li>
+                <li><span>People</span> 12 pax</li>
+                <li><span>Radio</span> CH-4</li>
+                <li><span>Needs</span> fuel</li>
+                <li><span>Verify</span> officer</li>
+                <li><span>Last update</span> 13:45</li>
+              </ul>
+            </div>
+            <div class="record-card">
+              <h3>Asset Card</h3>
+              <ul class="field-list">
+                <li><span>ID</span> AST-118</li>
+                <li><span>Asset</span> boat</li>
+                <li><span>Owner</span> private</li>
+                <li><span>Operator</span> assigned</li>
+                <li><span>Route</span> confirmed</li>
+                <li><span>Status</span> operating</li>
+                <li><span>Last update</span> 13:50</li>
+              </ul>
+            </div>
+            <div class="record-card">
+              <h3>Supply Lot Card</h3>
+              <ul class="field-list">
+                <li><span>ID</span> SUP-043</li>
+                <li><span>Type</span> meal box</li>
+                <li><span>Quantity</span> 1,200</li>
+                <li><span>Storage</span> school</li>
+                <li><span>Destination</span> shelter B</li>
+                <li><span>Status</span> delivering</li>
+                <li><span>Last update</span> 14:05</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="16">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Financial Layer</div>
+              <h1>Disaster recovery also needs money visibility</h1>
+            </div>
+            <div class="slide-no">16</div>
+          </header>
+          <div class="content finance-layout">
+            <div>
+              <div class="layer-card"><b>1. Government aid payment</b><span>เชื่อมสถานะผู้ประสบภัย ครัวเรือน พื้นที่ และหลักฐานภารกิจเข้ากับการช่วยเหลือ</span></div>
+              <div class="layer-card"><b>2. Insurance claim signal</b><span>ผูกยอดเคลมที่แจ้ง/ประเมินกับเหตุการณ์ พื้นที่เสียหาย และสถานะการประเมิน แยกจากยอดจ่ายสุดท้าย</span></div>
+              <div class="layer-card"><b>3. Donation / supply support</b><span>เห็นการรับเข้า กระจาย และช่องว่างของทรัพยากร</span></div>
+              <div class="warning-note" style="margin-top: 16px;">LCCS does not replace payment systems. It creates traceable operational evidence.</div>
+            </div>
+            <div class="panel pad">
+              <div class="panel-title"><span>Flood relief working figures</span><span class="status-pill"><span class="dot amber"></span>working figures / verify before official publication</span></div>
+              <table class="data-table" aria-label="Flood relief working figures">
+                <thead><tr><th>Date</th><th>Scope</th><th>Households</th><th>Amount</th></tr></thead>
+                <tbody>
+                  <tr><td>Sep 17, 2567</td><td>57 provinces</td><td>338,391</td><td>3,045.519M THB</td></tr>
+                  <tr><td>Dec 3, 2567</td><td>Flood relief</td><td>559,977</td><td>5,039.793M THB</td></tr>
+                  <tr><td>Feb 18, 2568</td><td>Flood relief</td><td>405,969</td><td>3,653.720M THB</td></tr>
+                  <tr><td>Apr 22, 2568</td><td>Flood relief</td><td>86,876</td><td>781.884M THB</td></tr>
+                  <tr><td><b>2567 event total*</b></td><td>working figure, paid across 2567-2568</td><td></td><td><b>~12,520.916M THB</b></td></tr>
+                  <tr><td>2568 initial approval</td><td>9,000 THB / household</td><td></td><td>~6,169.986M THB</td></tr>
+                  <tr><td>2568 tracking</td><td>all flood-aid tracking, not Hat Yai-only</td><td></td><td>~21,322.116M THB</td></tr>
+                  <tr><td>Long-flood aid 2568</td><td>additional tiers by flooded days</td><td></td><td>~1,275.965M THB</td></tr>
+                </tbody>
+              </table>
+              <div class="table-footnote">* 2567 event total includes follow-up approvals/payments made in Feb and Apr 2568 for households affected by the 2567 flood event. Scope note: the 2568 tracking figure is a wider flood-aid tracking figure; the Fiscal Board's ~12,893M THB is the southern / Hat Yai-focused package.</div>
+              <div class="tier-grid">
+                <div class="tier">31-60 days<br><b>5,000 THB</b></div>
+                <div class="tier">61-90 days<br><b>10,000 THB</b></div>
+                <div class="tier">91-120 days<br><b>15,000 THB</b></div>
+                <div class="tier">121+ days<br><b>20,000 THB</b></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="17">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Insurance Layer</div>
+              <h1>Insurance claims are another crisis signal</h1>
+            </div>
+            <div class="slide-no">17</div>
+          </header>
+          <div class="content insurance-grid">
+            <div>
+              <div class="claim-number">
+                <div class="value">&gt;420M</div>
+                <div class="label">THB reported / estimated insured claims, 2567 flood</div>
+                <div class="sub">OIC preliminary figure: vehicle claims ~408M THB; buildings / homes / shops at least 10M THB; rice insurance damage over 100,000 rai, pending assessment.</div>
+              </div>
+              <div class="claim-number">
+                <div class="value">~16.03B</div>
+                <div class="label">THB reported claims value, southern flood / Hat Yai, 15 Dec 2568</div>
+                <div class="sub">TGIA / OIC snapshot: 62,147 reported claims totaling ~16,029M THB; broader insured-loss estimate may rise toward ~23B-27B THB.</div>
+              </div>
+              <div class="warning-note" style="margin-top: 14px;">reported claims / insured-loss snapshots, not final paid amounts</div>
+            </div>
+            <div class="panel pad">
+              <div class="panel-title"><span>Claim signal data fields</span><span class="status-pill"><span class="dot"></span>linked to disaster event ID</span></div>
+              <div class="record-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+                <div class="resource-card"><b>Policy holder</b><span>ชื่อผู้เอาประกันและผู้ติดต่อ</span></div>
+                <div class="resource-card"><b>Asset type</b><span>รถ บ้าน ร้านค้า อาคาร หรือพื้นที่เกษตร</span></div>
+                <div class="resource-card"><b>Damaged location</b><span>พิกัดหรือพื้นที่เสียหายที่ผูกกับ event</span></div>
+                <div class="resource-card"><b>Claim status</b><span>แจ้งแล้ว ตรวจเอกสาร รอประเมิน อนุมัติ</span></div>
+                <div class="resource-card"><b>Adjuster status</b><span>รอผู้ประเมิน ลงพื้นที่แล้ว ต้องส่งหลักฐานเพิ่ม</span></div>
+                <div class="resource-card"><b>Payout status</b><span>not final paid amount; track separately</span></div>
+              </div>
+              <p class="lead" style="margin-top: 18px; font-size: 26px;">ประกันไม่ใช่เรื่องหลังจบภัยเท่านั้น แต่เป็นสัญญาณความเสียหายที่ช่วยให้รัฐเห็นพื้นที่เสี่ยงและหลักฐานฟื้นฟูเร็วขึ้น</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="18">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Case Evidence</div>
+              <h1 class="tight">สามกรณีภัยพิบัติ ชี้ว่าระบบต้องเห็นต้นทุนหลายชั้นพร้อมกัน</h1>
+            </div>
+            <div class="slide-no">18</div>
+          </header>
+          <div class="content evidence-grid">
+            <article class="evidence-card">
+              <div class="case-type">Urban economic flood</div>
+              <h3>หาดใหญ่ 2568</h3>
+              <ul>
+                <li>เมืองเศรษฐกิจจมน้ำเร็ว กระทบบ้าน รถ SME ร้านค้า และรายได้เมือง</li>
+                <li>reported claims snapshot ประมาณ 16,000-17,000 ล้านบาท</li>
+                <li>รถยนต์เคลมมากกว่า 17,000 คัน และ housing claims ประมาณ 25,000 ราย</li>
+              </ul>
+              <div class="case-lesson">บทเรียน: claim ต้องเชื่อมกับ disaster event ID ไม่ใช่อยู่แยกหลังเหตุการณ์</div>
+            </article>
+            <article class="evidence-card">
+              <div class="case-type">Recurring upstream flood</div>
+              <h3>น้ำเหนือ 2565-2568</h3>
+              <ul>
+                <li>พื้นที่เดิม ครัวเรือนเดิม และเส้นทางน้ำเดิมเจอซ้ำหลายปี</li>
+                <li>ปี 2567 ใช้เป็นภาพจำของพื้นที่ท่วมระดับล้านไร่และหลายจังหวัด</li>
+                <li>งบป้องกันต้องเทียบกับความเสียหายจริงและทรัพยากรภาคสนามที่ถูกใช้ซ้ำ</li>
+              </ul>
+              <div class="case-lesson">บทเรียน: ระบบต้องมี historical memory ไม่ใช่แค่ incident log รายวัน</div>
+            </article>
+            <article class="evidence-card">
+              <div class="case-type">National economic shock</div>
+              <h3>กรุงเทพฯ-ภาคกลาง 2554</h3>
+              <ul>
+                <li>Mega flood ระดับประเทศ กระทบ supply chain นิคมอุตสาหกรรม และบ้านเรือน</li>
+                <li>ความเสียหายและ losses ถูกประเมินระดับล้านล้านบาท</li>
+                <li>ข้อมูล emergency operation ต้องต่อถึง recovery, insurance และ public spending</li>
+              </ul>
+              <div class="case-lesson">บทเรียน: เมื่อภัยใหญ่พอ ข้อมูลกู้ภัยกลายเป็นข้อมูลเศรษฐกิจทันที</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="19">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Cost Stack</div>
+              <h1 class="tight">LCCS ต้องทำให้เห็น “ต้นทุนทั้งวงจร” ไม่ใช่แค่จำนวนเคส</h1>
+            </div>
+            <div class="slide-no">19</div>
+          </header>
+          <div class="content cost-map">
+            <div class="cost-column">
+              <h3>ต้นทุนที่มักถูกแยกอยู่คนละระบบ</h3>
+              <div class="cost-row"><span>Human</span><b>ครัวเรือนเปราะบาง อพยพ ผู้ป่วยติดเตียง เด็ก ผู้สูงอายุ</b></div>
+              <div class="cost-row"><span>Operation</span><b>ทีมกู้ภัย เรือ รถสูง เส้นทาง fuel staging area และ access pass</b></div>
+              <div class="cost-row"><span>Shelter</span><b>capacity, kitchen, water, electricity, medical support และ supply gap</b></div>
+              <div class="cost-row"><span>Public</span><b>เงินเยียวยา งบฟื้นฟู เครื่องจักรกล และหลักฐานการจ่าย</b></div>
+              <div class="cost-row"><span>Private</span><b>SME รายได้เมือง รถ สินค้าคงคลัง logistics และ business interruption</b></div>
+              <div class="cost-row"><span>Insurance</span><b>reported claims, insured-loss estimate, adjuster status และ final paid amount</b></div>
+            </div>
+            <div class="cost-callout">
+              <div class="big">1 event</div>
+              <p class="lead strong">ต้องมี event memory เดียวที่เชื่อมคน ภารกิจ ทรัพยากร เงิน และหลักฐาน</p>
+              <p class="lead">ถ้าแต่ละชั้นถูกจัดการแยกกัน ศูนย์บัญชาการจะเห็นงานภาคสนามไม่ครบ และการฟื้นฟูหลังวิกฤตจะตรวจสอบยาก</p>
+              <div class="warning-note">working figures / reported claims / insured-loss estimate ต้องแยกจาก final paid amount เสมอ</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="20">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Operational Layer Model</div>
+              <h1 class="tight">แกนกลางของ LCCS คือ shared layers ที่ทุกหน่วยใช้ร่วมกัน</h1>
+            </div>
+            <div class="slide-no">20</div>
+          </header>
+          <div class="content layer-architecture">
+            <div class="shared-layers">
+              <div class="shared-layer"><b>01</b><div><strong>Base Data Layer</strong><span>บุคคล ครัวเรือน พื้นที่ ทรัพย์สิน พิกัด และ event ID</span></div></div>
+              <div class="shared-layer"><b>02</b><div><strong>Actor & Role Layer</strong><span>ผู้ประสบภัย ครอบครัว อปท. กู้ภัย รัฐ เอกชน ประกันภัย และอาสา</span></div></div>
+              <div class="shared-layer"><b>03</b><div><strong>Workflow Layer</strong><span>รับแจ้ง ตรวจสอบ assign mission ส่งต่อ และปิดงาน</span></div></div>
+              <div class="shared-layer"><b>04</b><div><strong>Status & Tracking Layer</strong><span>real-time status, timeline, SLA, milestone และ location update</span></div></div>
+              <div class="shared-layer"><b>05</b><div><strong>Decision & Validation Layer</strong><span>priority, eligibility, safety gate, approval และ evidence check</span></div></div>
+              <div class="shared-layer"><b>06</b><div><strong>Coordination Layer</strong><span>handoff, comms, escalation, resource synchronization และ audit</span></div></div>
+            </div>
+            <div class="domain-panel">
+              <div class="panel-title"><span>Domain-specific layers</span><span class="status-pill"><span class="dot amber"></span>extend, not replace</span></div>
+              <div class="domain-chip"><span>Flood</span> rescue route, water level, shelter, pump, boat</div>
+              <div class="domain-chip"><span>Finance</span> aid eligibility, payment batch, evidence trace</div>
+              <div class="domain-chip"><span>Insurance</span>policy, asset type, adjuster, claim status</div>
+              <div class="domain-chip"><span>Health</span>EMS, patient risk, medication, mobile clinic</div>
+              <div class="domain-chip"><span>Private</span>supplier, vehicle, warehouse, SME loss, continuity</div>
+              <p class="lead" style="font-size: 25px;">สถาปัตยกรรมที่ดีทำให้เพิ่ม domain ใหม่ได้โดยไม่ทำให้ข้อมูลแกนกลางแตกเป็นระบบย่อยอีกชุด</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="21">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Command Rhythm</div>
+              <h1 class="tight">ศูนย์บัญชาการต้องเห็นคำถามตัดสินใจ ไม่ใช่แค่รายการแจ้งเหตุ</h1>
+            </div>
+            <div class="slide-no">21</div>
+          </header>
+          <div class="content decision-layout">
+            <div class="decision-rail">
+              <div class="decision-item"><b>Priority</b><span>ใครเสี่ยงสุด และต้องช่วยภายในกี่นาที</span></div>
+              <div class="decision-item"><b>Capacity</b><span>ศูนย์พักพิงใดรับเพิ่มได้จริง และขาด supply อะไร</span></div>
+              <div class="decision-item"><b>Readiness</b><span>ทรัพยากรไหนพร้อมใช้จริงหลัง fuel, route, operator และ access pass</span></div>
+              <div class="decision-item"><b>Evidence</b><span>ภารกิจใดมีหลักฐานพอสำหรับเยียวยา ประกัน และ audit</span></div>
+            </div>
+            <div class="command-board">
+              <div class="panel-title"><span>ICP operating picture</span><span class="status-pill"><span class="dot"></span>sample live board</span></div>
+              <div class="board-grid">
+                <div class="board-tile"><span>High-risk households</span><strong>42</strong><span>elderly / children / bedridden</span></div>
+                <div class="board-tile"><span>Open rescue missions</span><strong>118</strong><span>27 waiting route confirmation</span></div>
+                <div class="board-tile"><span>Shelter capacity</span><strong>73%</strong><span>2 nodes near full</span></div>
+                <div class="board-tile"><span>Resources blocked</span><strong>19</strong><span>fuel / access pass / operator</span></div>
+                <div class="board-tile"><span>Aid evidence ready</span><strong>64%</strong><span>linked to household + mission</span></div>
+                <div class="board-tile"><span>Claim signals</span><strong>2.1k</strong><span>reported claims / not final paid</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="22">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Implementation Roadmap</div>
+              <h1 class="tight">เพิ่มขอบเขตแบบเป็นชั้น เพื่อพิสูจน์ผลเร็วและลดความเสี่ยงระบบใหญ่</h1>
+            </div>
+            <div class="slide-no">22</div>
+          </header>
+          <div class="content implementation-roadmap">
+            <article class="timeline-card">
+              <div class="phase">Phase 0</div>
+              <h3>Event setup & data spine</h3>
+              <ul>
+                <li>กำหนด disaster event ID</li>
+                <li>base geography / household profile</li>
+                <li>role model และ access rule</li>
+                <li>audit log ตั้งแต่วันแรก</li>
+              </ul>
+            </article>
+            <article class="timeline-card">
+              <div class="phase">Phase 1</div>
+              <h3>Intake + Resource Board</h3>
+              <ul>
+                <li>phone / link signal intake</li>
+                <li>rapid onboarding board</li>
+                <li>needs-first safety gate</li>
+                <li>ICP assignment workflow</li>
+              </ul>
+            </article>
+            <article class="timeline-card">
+              <div class="phase">Phase 2</div>
+              <h3>Shelter + Family Search</h3>
+              <ul>
+                <li>shelter check-in</li>
+                <li>capacity and supply gap</li>
+                <li>household search status</li>
+                <li>movement timeline</li>
+              </ul>
+            </article>
+            <article class="timeline-card">
+              <div class="phase">Phase 3</div>
+              <h3>Aid + Insurance Layer</h3>
+              <ul>
+                <li>aid eligibility and payment trace</li>
+                <li>claim signal mapping</li>
+                <li>evidence package export</li>
+                <li>recovery analytics after crisis</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="23">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Governance & Trust</div>
+              <h1 class="tight">ระบบภัยพิบัติต้องน่าเชื่อถือพอสำหรับชีวิต เงินรัฐ และสินไหม</h1>
+            </div>
+            <div class="slide-no">23</div>
+          </header>
+          <div class="content governance-grid">
+            <article class="governance-card">
+              <div class="badge">Data rights</div>
+              <h3>สิทธิ์ข้อมูลตามบทบาท</h3>
+              <ul>
+                <li>ประชาชนเห็นสถานะของตนเองและครอบครัว</li>
+                <li>หน่วยกู้ภัยเห็นเฉพาะ mission ที่ได้รับมอบหมาย</li>
+                <li>ศูนย์บัญชาการเห็นภาพรวมและ priority</li>
+                <li>ประกันเห็นเฉพาะ claim signal ที่ได้รับอนุญาต</li>
+              </ul>
+            </article>
+            <article class="governance-card">
+              <div class="badge">Auditability</div>
+              <h3>ทุกการตัดสินใจต้องย้อนดูได้</h3>
+              <ul>
+                <li>version history ของ raw signal</li>
+                <li>mission assignment และ handoff log</li>
+                <li>check-in เป็นหลักฐานความปลอดภัย</li>
+                <li>aid / claim evidence แยกจาก final payout</li>
+              </ul>
+            </article>
+            <article class="governance-card">
+              <div class="badge">Operational safety</div>
+              <h3>ลดความเสี่ยงภาคสนาม</h3>
+              <ul>
+                <li>ทรัพยากรต้องผ่าน safety gate ก่อน assign</li>
+                <li>route และ staging area ต้องยืนยันก่อนปล่อยทีม</li>
+                <li>ไม่ให้ผู้ช่วยกลายเป็นผู้ประสบภัยเพิ่ม</li>
+                <li>คำสั่งต้องสั้น ชัด และมีช่องทาง feedback</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="24">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Value Proposition</div>
+              <h1>What changes when LCCS exists</h1>
+            </div>
+            <div class="slide-no">18</div>
+          </header>
+          <div class="content compare-grid">
+            <div class="compare-card before">
+              <h3>Before</h3>
+              <div class="compare-list">
+                <div class="compare-item"><span class="xmark">×</span><span>Scattered calls and chat threads</span></div>
+                <div class="compare-item"><span class="xmark">×</span><span>Duplicate reports and unclear priority</span></div>
+                <div class="compare-item"><span class="xmark">×</span><span>Unclear shelter status</span></div>
+                <div class="compare-item"><span class="xmark">×</span><span>Invisible resources and readiness gaps</span></div>
+                <div class="compare-item"><span class="xmark">×</span><span>Delayed claims and payment evidence</span></div>
+                <div class="compare-item"><span class="xmark">×</span><span>Hard audit after the event</span></div>
+              </div>
+            </div>
+            <div class="compare-card after">
+              <h3>After</h3>
+              <div class="compare-list">
+                <div class="compare-item"><span class="check">✓</span><span>Unified crisis memory</span></div>
+                <div class="compare-item"><span class="check">✓</span><span>Live resource board for ICP decisions</span></div>
+                <div class="compare-item"><span class="check">✓</span><span>Searchable family and victim status</span></div>
+                <div class="compare-item"><span class="check">✓</span><span>Shelter capacity and supply gaps</span></div>
+                <div class="compare-item"><span class="check">✓</span><span>Aid / payment trace connected to evidence</span></div>
+                <div class="compare-item"><span class="check">✓</span><span>Insurance visibility linked to disaster event ID</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="19">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">MVP Scope</div>
+              <h1>Start small, prove impact fast</h1>
+            </div>
+            <div class="slide-no">19</div>
+          </header>
+          <div class="content stack">
+            <div class="mvp-grid">
+              <div class="mvp-card"><span class="num">01</span><b>Crisis Event Setup</b></div>
+              <div class="mvp-card"><span class="num">02</span><b>Rapid Onboarding</b></div>
+              <div class="mvp-card"><span class="num">03</span><b>Phone / Link Signal Intake</b></div>
+              <div class="mvp-card"><span class="num">04</span><b>ICP Resource Board</b></div>
+              <div class="mvp-card"><span class="num">05</span><b>Shelter Check-in</b></div>
+              <div class="mvp-card"><span class="num">06</span><b>Family Search</b></div>
+              <div class="mvp-card"><span class="num">07</span><b>Mission Movement Log</b></div>
+              <div class="mvp-card"><span class="num">08</span><b>Aid / Insurance Tracking Layer</b></div>
+            </div>
+            <div class="rule-card">
+              <b>MVP rule</b>
+              <span>Do not overbuild. Focus on flood response first. ทำให้ศูนย์บัญชาการเห็นทรัพยากร ศูนย์พักพิง ครอบครัว และหลักฐานภารกิจได้จริงก่อน</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide="20">
+          <header class="slide-header">
+            <div>
+              <div class="eyebrow">Closing</div>
+            </div>
+            <div class="slide-no">20</div>
+          </header>
+          <div class="content closing-layout">
+            <div>
+              <h1 class="closing-title">LCCS is not just a disaster system. It is a memory layer for human coordination.</h1>
+              <p class="closing-quote">“When crisis breaks the normal structure, LCCS keeps the connections alive.”</p>
+            </div>
+            <div class="cta-box">
+              <div class="micro">Prototype first</div>
+              <b>ICP Resource Board + Shelter / Family Search</b>
+              <p class="note" style="margin-top: 18px;">พิสูจน์ผลกระทบด้วยภาพปฏิบัติการที่ช่วยชีวิตได้เร็วขึ้น และทิ้งหลักฐานที่ใช้ฟื้นฟูหลังวิกฤต</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="hint">Keyboard: ← / →</div>
+        <div class="deck-nav" aria-label="Slide navigation">
+          <button class="nav-btn" type="button" data-prev aria-label="Previous slide">‹</button>
+          <div class="counter" data-counter>01 / 26</div>
+          <button class="nav-btn" type="button" data-next aria-label="Next slide">›</button>
+        </div>
+        <div class="progress" aria-hidden="true"><div class="progress-fill" data-progress></div></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const BASE_WIDTH = 1600;
+    const BASE_HEIGHT = 900;
+    const stage = document.getElementById("stage");
+    const deck = document.getElementById("deck");
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const progress = document.querySelector("[data-progress]");
+    const counter = document.querySelector("[data-counter]");
+    let current = 0;
+
+    slides.forEach((slide, index) => {
+      const normalized = String(index + 1);
+      const displayNumber = normalized.padStart(2, "0");
+      slide.dataset.slide = normalized;
+      const slideNo = slide.querySelector(".slide-no");
+      if (slideNo) slideNo.textContent = displayNumber;
+    });
+
+    function fitDeck() {
+      const scale = Math.min(window.innerWidth / BASE_WIDTH, window.innerHeight / BASE_HEIGHT);
+      stage.style.width = `${BASE_WIDTH * scale}px`;
+      stage.style.height = `${BASE_HEIGHT * scale}px`;
+      deck.style.transform = `scale(${scale})`;
+    }
+
+    function showSlide(nextIndex) {
+      current = (nextIndex + slides.length) % slides.length;
+      slides.forEach((slide, index) => {
+        slide.classList.toggle("active", index === current);
+        slide.setAttribute("aria-hidden", index === current ? "false" : "true");
+      });
+      const slideNumber = String(current + 1).padStart(2, "0");
+      counter.textContent = `${slideNumber} / ${slides.length}`;
+      progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+      window.location.hash = `slide-${slideNumber}`;
+    }
+
+    function readHash() {
+      const match = window.location.hash.match(/slide-(\d+)/);
+      if (!match) return 0;
+      const parsed = Number(match[1]);
+      if (Number.isNaN(parsed)) return 0;
+      return Math.min(Math.max(parsed - 1, 0), slides.length - 1);
+    }
+
+    document.querySelector("[data-prev]").addEventListener("click", () => showSlide(current - 1));
+    document.querySelector("[data-next]").addEventListener("click", () => showSlide(current + 1));
+
+    document.addEventListener("keydown", (event) => {
+      const nextKeys = ["ArrowRight", "PageDown", " "];
+      const prevKeys = ["ArrowLeft", "PageUp"];
+      if (nextKeys.includes(event.key)) {
+        event.preventDefault();
+        showSlide(current + 1);
+      }
+      if (prevKeys.includes(event.key)) {
+        event.preventDefault();
+        showSlide(current - 1);
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        showSlide(0);
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        showSlide(slides.length - 1);
+      }
+    });
+
+    window.addEventListener("resize", fitDeck);
+    window.addEventListener("hashchange", () => showSlide(readHash()));
+
+    fitDeck();
+    showSlide(readHash());
+  </script>
+</body>
+</html>
