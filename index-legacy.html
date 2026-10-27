@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="LCCS - Life Connection Crisis System prototype for disaster-response coordination.">
+  <title>LCCS - Life Connection Crisis System</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data/cases.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+
+  <header class="site-header" data-header>
+    <nav class="top-nav" aria-label="เมนูหลัก">
+      <a class="brand" href="#hero" aria-label="LCCS home">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>
+          <strong>LCCS</strong>
+          <small>Life Connection Crisis System</small>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-controls="nav-menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="sr-only">เปิดเมนู</span>
+      </button>
+      <div class="nav-links" id="nav-menu">
+        <a href="#problem">ปัญหา</a>
+        <a href="#evidence">หลักฐาน</a>
+        <a href="#memory">ความทรงจำ</a>
+        <a href="#flow">ขั้นตอน</a>
+        <a href="#ecosystem">ผู้เกี่ยวข้อง</a>
+        <a href="#onboarding">ลงทะเบียน</a>
+        <a href="#shelter">ศูนย์พักพิง</a>
+        <a href="#finance">การเงิน</a>
+        <a href="#playground">ทดลองระบบ</a>
+        <a href="#mvp">MVP</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero section" id="hero" data-section>
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/placeholder-map.svg" alt="">
+      </div>
+      <div class="shell hero-grid">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">ต้นแบบระบบประสานงานภัยพิบัติ</p>
+          <h1>LCCS - Life Connection Crisis System</h1>
+          <p class="hero-subtitle">
+            ระบบที่เปลี่ยนสัญญาณกระจัดกระจายจากภัยพิบัติ ให้กลายเป็นภาพปฏิบัติการที่สั่งงาน ติดตาม และตรวจสอบได้
+          </p>
+          <p class="hero-text">
+            ในช่วงน้ำท่วม ข้อมูลไม่ได้หายไป แต่กระจายอยู่ในโทรศัพท์ แชต LINE ไฟล์ Excel เจ้าหน้าที่ท้องถิ่น ทีมกู้ภัย ศูนย์พักพิง ระบบจ่ายเงินช่วยเหลือ และระบบเคลมประกัน LCCS ทำหน้าที่เป็น Operational Memory ที่เชื่อมข้อมูลเหล่านี้ให้กลายเป็นภาพเดียวที่ใช้ช่วยชีวิตและฟื้นฟูหลังวิกฤตได้จริง
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#flow">ดูภาพรวมระบบ</a>
+            <a class="button ghost" href="#playground">เปิด Prototype</a>
+          </div>
+          <div class="hero-status" aria-label="สถานะตัวอย่าง">
+            <span><strong data-count="8">0</strong> โมดูล MVP</span>
+            <span><strong data-count="6">0</strong> live prototypes</span>
+            <span><strong data-count="17">0</strong> sections</span>
+          </div>
+        </div>
+
+        <div class="command-visual" data-reveal aria-label="แผนภาพเครือข่ายวิกฤต LCCS">
+          <div class="visual-grid" aria-hidden="true"></div>
+          <div class="op-node center">
+            <span>Operational</span>
+            <strong>Picture</strong>
+          </div>
+          <div class="op-node people">People</div>
+          <div class="op-node command">Command</div>
+          <div class="op-node rescue">Rescue</div>
+          <div class="op-node shelter">Shelter</div>
+          <div class="op-node aid">Aid</div>
+          <div class="op-node insurance">Insurance</div>
+          <svg class="network-lines" viewBox="0 0 640 520" aria-hidden="true">
+            <path d="M320 260 112 100M320 260 520 90M320 260 90 400M320 260 535 410M320 260 320 66M320 260 320 460" />
+            <path class="pulse-line" d="M112 100C210 140 254 186 320 260S445 367 535 410" />
+            <circle cx="320" cy="260" r="178" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section problem-section" id="problem" data-section>
+      <div class="shell split-layout">
+        <div data-reveal>
+          <p class="eyebrow">ปัญหา</p>
+          <h2>ภัยพิบัติไม่ได้ขาดคนช่วย แต่ขาดภาพรวมที่เชื่อมกัน</h2>
+          <p>
+            เมื่อเกิดภัยพิบัติ สัญญาณความช่วยเหลือเกิดขึ้นพร้อมกันหลายทาง บางคนโทรแจ้ง บางคนส่งแชต บางคนโพสต์ในโซเชียล บางทีมกู้ภัยใช้วิทยุ บางหน่วยเก็บรายชื่อใน Excel และบางข้อมูลอยู่ในความจำของเจ้าหน้าที่พื้นที่
+          </p>
+        </div>
+        <div class="scattered-signals" data-reveal aria-label="สัญญาณข้อมูลที่กระจัดกระจาย">
+          <div class="signal-card cyan">Phone Calls</div>
+          <div class="signal-card green">LINE Chat</div>
+          <div class="signal-card red">Facebook Posts</div>
+          <div class="signal-card amber">Excel Files</div>
+          <div class="signal-card cyan">Rescue Radio</div>
+          <div class="signal-card green">Shelter Records</div>
+          <div class="signal-card amber">Insurance Claims</div>
+          <div class="signal-card red">Aid Payment</div>
+          <div class="missing-picture">Missing<br>Operational<br>Picture</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section evidence-section" id="evidence" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Why Now / Scale of Impact</p>
+          <h2>ภัยพิบัติแต่ละครั้ง สร้างต้นทุนคนละรูปแบบ</h2>
+          <p>
+            LCCS ไม่ได้มองภัยพิบัติเป็นตัวเลขรวมก้อนเดียว แต่แยกให้เห็นว่าแต่ละเหตุการณ์สร้างต้นทุนหลายชั้นพร้อมกัน ทั้งความเสียหายจริง งบรัฐ เงินเยียวยา ความเสียหายภาคเอกชน สินไหมประกัน ครัวเรือนที่ได้รับผลกระทบ และกำลังคนที่ต้องลงพื้นที่
+          </p>
+        </div>
+
+        <div class="case-tabs" role="tablist" aria-label="Case evidence tabs" data-reveal>
+          <button id="tab-hatyai2568" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="case-panel" data-case="hatyai2568">หาดใหญ่ 2568</button>
+          <button id="tab-north2565to2568" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="north2565to2568">น้ำเหนือ 2565-2568</button>
+          <button id="tab-central2554" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="central2554">กรุงเทพฯ-ภาคกลาง 2554</button>
+          <button id="tab-compare" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="compare">เปรียบเทียบ</button>
+        </div>
+
+        <article class="case-panel" id="case-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-hatyai2568" data-reveal></article>
+      </div>
+    </section>
+
+    <section class="section memory-section" id="memory" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">แนวคิดหลัก</p>
+          <h2>หนึ่งวิกฤต หนึ่งความทรงจำปฏิบัติการ</h2>
+          <p>
+            LCCS ไม่ใช่แค่ระบบรับแจ้งเหตุ แต่เป็นชั้นความทรงจำกลางของวิกฤต ระบบเชื่อมผู้ประสบภัย ครอบครัว หน่วยกู้ภัย เจ้าหน้าที่รัฐ ทรัพยากร ศูนย์พักพิง เงินช่วยเหลือ และประกันภัยเข้าด้วยกัน
+          </p>
+        </div>
+        <div class="memory-grid">
+          <div class="memory-copy" data-reveal>
+            <div class="memory-line"><span>01</span> ทุกสัญญาณกลายเป็น record ที่ค้นหาได้</div>
+            <div class="memory-line"><span>02</span> ทุก record สามารถกลายเป็น mission</div>
+            <div class="memory-line"><span>03</span> ทุก mission ทิ้ง audit trail ไว้ตรวจสอบ</div>
+            <div class="signal-chain" aria-label="Signal to audit flow">
+              <span>สัญญาณ</span>
+              <span>บันทึก</span>
+              <span>ตัดสินใจ</span>
+              <span>ปฏิบัติการ</span>
+              <span>ตรวจสอบ</span>
+            </div>
+          </div>
+          <figure class="reference-figure" data-reveal>
+            <img src="assets/placeholder-network.svg" alt="ภาพแนวคิด operational layer model ของ LCCS">
+            <figcaption>ชั้นข้อมูลร่วมและชั้นเฉพาะโดเมนต้องอยู่ใน event memory เดียวกัน</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section flow-section" id="flow" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ขั้นตอนระบบ</p>
+          <h2>จากสัญญาณดิบสู่ภารกิจที่ตรวจสอบได้</h2>
+        </div>
+        <div class="pipeline" data-reveal aria-label="LCCS system flow">
+          <div class="flow-step">
+            <span>01</span>
+          <h3>รับสัญญาณ</h3>
+            <p>รับแจ้งจากโทรศัพท์ ลิงก์ ฟอร์ม เจ้าหน้าที่ และระบบภายนอก</p>
+          </div>
+          <div class="flow-step">
+            <span>02</span>
+          <h3>ตรวจสอบ</h3>
+            <p>ตรวจซ้ำ พิกัด ครัวเรือน ความเสี่ยง และความเร่งด่วน</p>
+          </div>
+          <div class="flow-step">
+            <span>03</span>
+          <h3>บันทึกวิกฤต</h3>
+            <p>ผูกข้อมูลเข้ากับ event ID และ household profile</p>
+          </div>
+          <div class="flow-step">
+            <span>04</span>
+          <h3>ตัดสินใจโดย ICP</h3>
+            <p>ศูนย์บัญชาการเห็น priority, route, capacity และ resource gap</p>
+          </div>
+          <div class="flow-step">
+            <span>05</span>
+          <h3>มอบหมายภารกิจ</h3>
+            <p>ส่งงานให้ทีมพร้อมเงื่อนไข fuel, route, access และ staging area</p>
+          </div>
+          <div class="flow-step">
+            <span>06</span>
+          <h3>ร่องรอยตรวจสอบ</h3>
+            <p>เก็บหลักฐานภารกิจ check-in เงินช่วยเหลือ และ claim signal</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ecosystem-section" id="ecosystem" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ระบบผู้เกี่ยวข้อง</p>
+          <h2>LCCS เชื่อมทุกฝ่ายที่เกี่ยวข้องในวิกฤต</h2>
+        </div>
+        <div class="actor-grid" data-reveal>
+          <article class="actor-card"><span>01</span><h3>ผู้ประสบภัย</h3><p>ส่งสัญญาณความต้องการและสถานะความปลอดภัย</p></article>
+          <article class="actor-card"><span>02</span><h3>ครอบครัวนอกพื้นที่</h3><p>แจ้งแทนและค้นหาสถานะคนในครอบครัว</p></article>
+          <article class="actor-card"><span>03</span><h3>ผู้นำชุมชน</h3><p>รวมข้อมูลหลายหลังคาเรือนและยืนยันพื้นที่</p></article>
+          <article class="actor-card"><span>04</span><h3>นายอำเภอ / เจ้าหน้าที่พื้นที่</h3><p>ตัดสินใจตาม priority และทรัพยากรที่มีจริง</p></article>
+          <article class="actor-card"><span>05</span><h3>ปภ. / ศูนย์บัญชาการ</h3><p>เห็นภาพรวมภารกิจ งบ และข้อจำกัดภาคสนาม</p></article>
+          <article class="actor-card"><span>06</span><h3>หน่วยกู้ภัย</h3><p>รับ mission พร้อม route, staging และ safety gate</p></article>
+          <article class="actor-card"><span>07</span><h3>EMS / mobile clinic</h3><p>ติดตามผู้ป่วย กลุ่มเปราะบาง และการส่งต่อรักษา</p></article>
+          <article class="actor-card"><span>08</span><h3>ตำรวจ / ทหาร</h3><p>สนับสนุน route control, access pass และ evacuation</p></article>
+          <article class="actor-card"><span>09</span><h3>อปท. / หน่วยงานท้องถิ่น</h3><p>ดูแล shelter capacity และข้อมูลครัวเรือน</p></article>
+          <article class="actor-card"><span>10</span><h3>บริษัทเอกชน / supplier</h3><p>เสนอทรัพยากรพร้อมข้อจำกัดการใช้งาน</p></article>
+          <article class="actor-card"><span>11</span><h3>บริษัทประกันภัย</h3><p>เชื่อม claim signal กับ disaster event ID</p></article>
+          <article class="actor-card"><span>12</span><h3>อาสาสมัคร / ผู้เชี่ยวชาญ</h3><p>เข้าร่วมด้วย profile ทักษะและ availability</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section onboarding-section" id="onboarding" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">การลงทะเบียนและนำเข้า</p>
+          <h2>ไม่ใช่ทุกคนควรเข้าสู่ระบบด้วยวิธีเดียวกัน</h2>
+          <p>ช่องทางลงทะเบียนต้องแยกตามความน่าเชื่อถือ ความเร่งด่วน และความพร้อมของผู้แจ้ง</p>
+        </div>
+        <div class="golap-grid" data-reveal>
+          <article class="golap-card"><strong>G</strong><h3>Government Console / API</h3><p>เชื่อมข้อมูลหน่วยงานรัฐและ command center</p></article>
+          <article class="golap-card"><strong>O</strong><h3>Organization / Unit Bulk</h3><p>เพิ่มทีม หน่วยงาน หรือทรัพยากรจำนวนมาก</p></article>
+          <article class="golap-card"><strong>L</strong><h3>Official Link / Chat Form</h3><p>รับแจ้งจากลิงก์ทางการหรือช่องทางแชต</p></article>
+          <article class="golap-card"><strong>A</strong><h3>App / QR Self Registration</h3><p>ให้ประชาชนหรืออาสาเข้าระบบด้วยตัวเอง</p></article>
+          <article class="golap-card"><strong>P</strong><h3>Phone Intake Exception</h3><p>โทรศัพท์เป็น signal collector ไม่ใช่ full registration channel</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section board-section" id="rapid-board" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">กระดานนำเข้าทรัพยากรเร็ว</p>
+          <h2>ทรัพยากรต้องเห็นทั้งความตั้งใจและความพร้อมใช้งานจริง</h2>
+        </div>
+        <div class="kanban-board" data-reveal aria-label="Rapid onboarding kanban board">
+          <section class="kanban-column" aria-labelledby="col-new">
+            <h3 id="col-new">รับเข้าใหม่</h3>
+            <article class="task-card">
+              <strong>ทีมเรือชุมชน 3 ลำ</strong>
+              <p>แจ้งพร้อมช่วย แต่ต้องยืนยันคนขับและจุดลงเรือ</p>
+              <div class="tags"><span>operator</span><span>staging area</span></div>
+            </article>
+            <article class="task-card">
+              <strong>น้ำดื่ม 1,200 ขวด</strong>
+              <p>พร้อมส่งจากคลังเอกชน</p>
+              <div class="tags"><span>loading staff</span><span>route</span></div>
+            </article>
+          </section>
+          <section class="kanban-column" aria-labelledby="col-support">
+            <h3 id="col-support">ต้องให้ ICP ช่วยก่อน</h3>
+            <article class="task-card warning">
+              <strong>รถบรรทุกสูง 2 คัน</strong>
+              <p>ต้องการ fuel, access pass และ local guide</p>
+              <div class="tags"><span>fuel</span><span>access pass</span><span>local guide</span></div>
+            </article>
+            <article class="task-card warning">
+              <strong>เครื่องปั่นไฟ 30 kVA</strong>
+              <p>รอรถยกและจุดติดตั้งปลอดภัย</p>
+              <div class="tags"><span>operator</span><span>staging area</span></div>
+            </article>
+          </section>
+          <section class="kanban-column" aria-labelledby="col-ready">
+            <h3 id="col-ready">พร้อมมอบหมาย</h3>
+            <article class="task-card ready">
+              <strong>อาสาแพทย์ฉุกเฉิน</strong>
+              <p>ทีม 5 คน พร้อม mobile kit</p>
+              <div class="tags"><span>ready</span><span>route</span></div>
+            </article>
+          </section>
+          <section class="kanban-column" aria-labelledby="col-assigned">
+            <h3 id="col-assigned">มอบหมายแล้ว / ปฏิบัติการ</h3>
+            <article class="task-card active">
+              <strong>ทีมขนส่งอาหาร</strong>
+              <p>รับ mission ส่งอาหารไปศูนย์พักพิงชุมชน</p>
+              <div class="tags"><span>assigned</span><span>route</span></div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section safety-section" id="safety" data-section>
+      <div class="shell safety-grid">
+        <div data-reveal>
+          <p class="eyebrow">Needs-first / Safety Gate</p>
+          <h2>ทรัพยากรบางอย่าง “พร้อม” ก็ต่อเมื่อได้รับการสนับสนุนก่อน</h2>
+          <p>
+            LCCS ป้องกันไม่ให้ผู้ช่วยและทรัพย์สินกลายเป็นผู้ประสบภัยเพิ่ม ด้วยการเปิด needs-first tags ก่อน assign ภารกิจ
+          </p>
+          <div class="readiness-flow" aria-label="Willing to operationally ready">
+            <span>พร้อมช่วย</span>
+            <span>พร้อมปฏิบัติการ</span>
+          </div>
+        </div>
+        <div class="tag-cloud" data-reveal aria-label="needs-first tags">
+          <span>fuel</span>
+          <span>route confirmation</span>
+          <span>staging area</span>
+          <span>access pass</span>
+          <span>radio channel</span>
+          <span>loading staff</span>
+          <span>operator</span>
+          <span>local guide</span>
+          <span>storage area</span>
+          <span>transport support</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section phone-section" id="phone" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">แจ้งผ่านโทรศัพท์ / สัญญาณที่แจ้งง่าย</p>
+          <h2>สัญญาณที่ส่งได้ง่ายช่วยประหยัดเวลาชีวิต</h2>
+        </div>
+        <div class="phone-grid" data-reveal>
+          <article class="phone-mock">
+            <span>สายเข้า 07:18</span>
+            <p>ผู้สูงอายุแจ้งว่าออกจากบ้านไม่ได้ 3 คน</p>
+            <strong>ตีความเป็น rescue signal</strong>
+          </article>
+          <article class="phone-mock">
+            <span>แชต 07:24</span>
+            <p>ลูกสาวอยู่นอกพื้นที่แจ้งแทนพ่อแม่</p>
+            <strong>ผูกกับ household match</strong>
+          </article>
+          <article class="phone-mock">
+            <span>อสม. 07:35</span>
+            <p>รายงานบ้านหลายหลังในซอยเดียวกัน</p>
+            <strong>สร้าง cluster request</strong>
+          </article>
+          <article class="phone-mock">
+            <span>แก้ไข 07:41</span>
+            <p>ผู้แจ้งตกใจ กรอกผิด แล้วแก้ข้อมูลใหม่</p>
+            <strong>เก็บ version history</strong>
+          </article>
+        </div>
+        <p class="output-line" data-reveal>เหตุการณ์ดิบที่ไม่สมบูรณ์ ถูกตีความเป็นสัญญาณกู้ภัยที่ใช้งานได้</p>
+      </div>
+    </section>
+
+    <section class="section shelter-section" id="shelter" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Shelter & Family Search</p>
+          <h2>จาก “ติดต่อครอบครัวไม่ได้” สู่สถานะที่ค้นหาได้</h2>
+        </div>
+        <div class="family-search" data-reveal>
+          <div class="search-panel">
+            <label for="family-search-input">ค้นหาด้วยนามสกุล</label>
+            <div class="search-box">
+              <input id="family-search-input" type="search" value="ศรีคลอง" aria-label="ค้นหาด้วยนามสกุล">
+              <button type="button">Search</button>
+            </div>
+            <div class="match-list">
+              <div><span>Household match</span><strong>บ้านเลขที่ 18/4 หมู่ 3</strong></div>
+              <div><span>Shelter check-in status</span><strong class="safe">Checked-in at วัดริมคลอง</strong></div>
+              <div><span>Mission status</span><strong>Picked up by Rescue Boat R-12</strong></div>
+            </div>
+          </div>
+          <div class="movement-timeline" aria-label="movement timeline">
+            <span class="done">Reported</span>
+            <span class="done">Assigned</span>
+            <span class="done">Picked up</span>
+            <span class="done">Shelter Check-in</span>
+            <span class="done">Safe</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section capacity-section" id="capacity" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ความจุศูนย์พักพิง</p>
+          <h2>ศูนย์พักพิงคือ node ความจุที่ต้องอัปเดตสด</h2>
+        </div>
+        <div class="shelter-grid" data-reveal>
+          <article class="shelter-card ready" style="--capacity:68%">
+            <div><h3>วัดริมคลอง</h3><span>พร้อมรับเพิ่ม</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>136</strong> / 200 คน</p>
+            <ul>
+              <li>medical support: มี</li>
+              <li>kitchen: เปิด</li>
+              <li>water: เพียงพอ</li>
+              <li>electricity: ปกติ</li>
+              <li>supply gap: ผ้าอ้อมผู้ใหญ่</li>
+            </ul>
+          </article>
+          <article class="shelter-card warning" style="--capacity:86%">
+            <div><h3>โรงเรียนบ้านเหนือ</h3><span>ใกล้เต็ม</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>258</strong> / 300 คน</p>
+            <ul>
+              <li>medical support: mobile clinic</li>
+              <li>kitchen: เปิด</li>
+              <li>water: ต้องเติมคืนนี้</li>
+              <li>electricity: generator</li>
+              <li>supply gap: ยาโรคเรื้อรัง</li>
+            </ul>
+          </article>
+          <article class="shelter-card danger" style="--capacity:96%">
+            <div><h3>อบต.กลางน้ำ</h3><span>จำกัดรับ</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>144</strong> / 150 คน</p>
+            <ul>
+              <li>medical support: ไม่มีประจำ</li>
+              <li>kitchen: เปิดบางช่วง</li>
+              <li>water: ต่ำ</li>
+              <li>electricity: ไม่เสถียร</li>
+              <li>supply gap: น้ำดื่มและไฟสำรอง</li>
+            </ul>
+          </article>
+          <article class="shelter-card ready" style="--capacity:42%">
+            <div><h3>ศูนย์พักพิงชุมชน</h3><span>พร้อมรับต่อ</span></div>
+            <div class="capacity-bar"><span></span></div>
+            <p><strong>84</strong> / 200 คน</p>
+            <ul>
+              <li>medical support: อสม.</li>
+              <li>kitchen: พร้อม</li>
+              <li>water: เพียงพอ</li>
+              <li>electricity: ปกติ</li>
+              <li>supply gap: เตียงสนาม</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section finance-section" id="finance" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ชั้นการเงินและประกันภัย</p>
+          <h2>การฟื้นฟูหลังภัยพิบัติต้องเห็นเส้นทางการเงินด้วย</h2>
+          <p>ใช้ “reported claims / insured-loss estimate” แทน “final paid amount” เว้นแต่มีข้อมูลจ่ายจริงแล้ว</p>
+        </div>
+        <div class="finance-grid" data-reveal>
+          <article class="finance-layer">
+            <span>01</span>
+            <h3>Government Aid Payment</h3>
+            <p>ผูกครัวเรือน ภารกิจ หลักฐานความเสียหาย และสถานะจ่ายเงินเข้าด้วยกัน</p>
+          </article>
+          <article class="finance-layer">
+            <span>02</span>
+            <h3>Insurance Claim Signal</h3>
+            <p>claim ไม่ใช่แค่เรื่องหลังเหตุการณ์ แต่เป็นหลักฐานว่าพื้นที่และทรัพย์สินเสียหายจริง</p>
+          </article>
+          <article class="finance-layer">
+            <span>03</span>
+            <h3>Donation / Supply Support</h3>
+            <p>เห็นของบริจาคเป็น supply node ที่มีแหล่งที่มา สถานะ และ audit trail</p>
+          </article>
+        </div>
+        <div class="claim-schema" data-reveal>
+          <h3>Claim data fields</h3>
+          <div>
+            <span>policy holder</span>
+            <span>asset type</span>
+            <span>damaged location</span>
+            <span>disaster event ID</span>
+            <span>claim status</span>
+            <span>adjuster status</span>
+            <span>estimated loss</span>
+            <span>approved payout</span>
+            <span>final paid amount</span>
+            <span>required evidence</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section playground-section" id="playground" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">พื้นที่ทดลอง Prototype</p>
+          <h2>ดู prototype ย่อยจากหน้าเดียว</h2>
+          <p>เลือก prototype ทางซ้ายเพื่อ preview ใน iframe ทางขวา หรือเปิดแยกในแท็บใหม่</p>
+        </div>
+        <div class="prototype-playground" data-reveal>
+          <div class="prototype-list" aria-label="Prototype list">
+            <button class="prototype-card active" type="button" data-title="Rapid Onboarding Board" data-src="prototypes/LCCS_Rapid_Onboarding_MCP.html">
+              <span>01</span>
+              <strong>Rapid Onboarding Board</strong>
+              <small>LCCS_Rapid_Onboarding_MCP.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Stakeholder Registration ORC" data-src="prototypes/LCCS_Stakeholder_Registration_ORC_Chart.html">
+              <span>02</span>
+              <strong>Stakeholder Registration ORC</strong>
+              <small>LCCS_Stakeholder_Registration_ORC_Chart.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Onboarding Activity Diagrams" data-src="prototypes/LCCS_Onboarding_Activity_Diagrams.html">
+              <span>03</span>
+              <strong>Onboarding Activity Diagrams</strong>
+              <small>LCCS_Onboarding_Activity_Diagrams.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Government Console / API Journey" data-src="prototypes/LCCS_Government_Console_API_User_Journey.html">
+              <span>04</span>
+              <strong>Government Console / API Journey</strong>
+              <small>LCCS_Government_Console_API_User_Journey.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Phone Alert Simulation" data-src="prototypes/lccs_phone_simulation_actors.html">
+              <span>05</span>
+              <strong>Phone Alert Simulation</strong>
+              <small>lccs_phone_simulation_actors.html</small>
+            </button>
+            <button class="prototype-card" type="button" data-title="Shelter Check-in & Family Search" data-src="prototypes/lccs_shelter_checkin_family_search.html">
+              <span>06</span>
+              <strong>Shelter Check-in & Family Search</strong>
+              <small>lccs_shelter_checkin_family_search.html</small>
+            </button>
+          </div>
+          <div class="prototype-preview">
+            <div class="prototype-toolbar">
+              <h3 id="prototype-title">Rapid Onboarding Board</h3>
+              <a class="button small" id="prototype-open" href="prototypes/LCCS_Rapid_Onboarding_MCP.html" target="_blank" rel="noopener">เปิด prototype ในแท็บใหม่</a>
+            </div>
+            <div class="iframe-shell">
+              <iframe id="prototype-frame" src="prototypes/LCCS_Rapid_Onboarding_MCP.html" title="Rapid Onboarding Board preview" loading="lazy"></iframe>
+              <div class="iframe-fallback" id="prototype-fallback" hidden>
+                Prototype file not found. Add this file to /prototypes/ to enable live preview.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section value-section" id="value" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">คุณค่าที่เปลี่ยนไป</p>
+          <h2>เมื่อมี LCCS สิ่งที่เปลี่ยนไปคืออะไร</h2>
+        </div>
+        <div class="before-after" data-reveal>
+          <article>
+            <h3>ก่อนมี LCCS</h3>
+            <ul>
+              <li>ข้อมูลกระจัดกระจายอยู่ในโทรศัพท์ แชต และ Excel</li>
+              <li>รายงานซ้ำและจัดลำดับความสำคัญยาก</li>
+              <li>ไม่เห็น shelter capacity แบบ real-time</li>
+              <li>ไม่รู้ว่าทรัพยากรไหนพร้อมใช้จริง</li>
+              <li>หลักฐานภารกิจไม่เชื่อมกับเงินช่วยเหลือ</li>
+              <li>สินไหมประกันแยกจาก event ที่เกิดขึ้นจริง</li>
+            </ul>
+          </article>
+          <article>
+            <h3>หลังมี LCCS</h3>
+            <ul>
+              <li>มี crisis memory กลาง</li>
+              <li>ศูนย์บัญชาการเห็น resource board</li>
+              <li>ค้นหาครอบครัวและสถานะผู้ประสบภัยได้</li>
+              <li>เห็น shelter capacity และ supply gap</li>
+              <li>เชื่อม aid / payment trace กับหลักฐานภาคสนาม</li>
+              <li>เห็น insurance claim signal ผูกกับ disaster event ID</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mvp-section" id="mvp" data-section>
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">ขอบเขต MVP</p>
+          <h2>เริ่มเล็ก พิสูจน์ผลกระทบให้เร็ว</h2>
+          <p>อย่าสร้างเกินจำเป็น เริ่มจากการตอบสนองน้ำท่วมก่อน</p>
+        </div>
+        <div class="mvp-grid" data-reveal>
+          <article><span>01</span><h3>Crisis Event Setup</h3></article>
+          <article><span>02</span><h3>Rapid Onboarding</h3></article>
+          <article><span>03</span><h3>Phone / Link Signal Intake</h3></article>
+          <article><span>04</span><h3>ICP Resource Board</h3></article>
+          <article><span>05</span><h3>Shelter Check-in</h3></article>
+          <article><span>06</span><h3>Family Search</h3></article>
+          <article><span>07</span><h3>Mission Movement Log</h3></article>
+          <article><span>08</span><h3>Aid / Insurance Tracking Layer</h3></article>
+        </div>
+        <div class="roadmap" data-reveal>
+          <div><span>Phase 1</span><strong>Intake + Resource Board</strong></div>
+          <div><span>Phase 2</span><strong>Shelter + Family Search</strong></div>
+          <div><span>Phase 3</span><strong>Aid + Insurance Layer</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section closing-section" id="closing" data-section>
+      <div class="shell closing-grid">
+        <div data-reveal>
+          <p class="eyebrow">สรุป</p>
+          <h2>LCCS คือชั้นความทรงจำสำหรับการประสานงานมนุษย์</h2>
+          <p>
+            เมื่อวิกฤตทำให้โครงสร้างปกติพังลง สิ่งที่สำคัญที่สุดคือการรักษาการเชื่อมต่อระหว่างคน ข้อมูล ทรัพยากร และการตัดสินใจ
+          </p>
+          <p>
+            LCCS ทำให้สัญญาณเล็ก ๆ จากผู้ประสบภัย กลายเป็นภารกิจ ทำให้ความตั้งใจช่วยเหลือ กลายเป็นทรัพยากรที่พร้อมใช้ ทำให้การ check-in กลายเป็นหลักฐานความปลอดภัย และทำให้การฟื้นฟูหลังภัยพิบัติมีข้อมูลที่ตรวจสอบได้
+          </p>
+          <blockquote>When crisis breaks the normal structure, LCCS keeps the connections alive.</blockquote>
+          <a class="button primary" href="#playground">เริ่ม prototype จาก ICP Resource Board + Shelter / Family Search</a>
+        </div>
+        <figure class="reference-figure compact" data-reveal>
+          <img src="assets/placeholder-map.svg" alt="ภาพ LCCS Operational GIS coordination layer">
+          <figcaption>GIS ไม่ใช่แค่แผนที่ แต่เป็น coordination layer สำหรับภาคสนาม</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="กลับขึ้นด้านบน" data-back-top>↑</button>
+</body>
+</html>

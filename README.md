@@ -1,4 +1,25 @@
-# LCCS - Life Connection Crisis System
+# LCCS Research — Life Connection Crisis System
+
+The homepage presents personal research into crisis coordination. It is a concept exploration, not an operational or field-validated system.
+
+Current homepage: [LCCS Research](https://vagueslim.github.io/LLCS/).
+
+## Current release — 27 October 2026
+
+The selected Coordination Closing version has five sections: Hero, Concept, Program Suites, Coordination, and Further Exploration, followed by the footer. Section 4 combines architectural artwork with HTML labels and SVG communication routes. ICS 200 and GIS remain possible directions without implemented detail pages.
+
+- `index.html`: current Thai homepage, static metadata, text and SVG.
+- `research/`: independent homepage styles, scripts, four illustrations, fonts and font license.
+- `index-legacy.html`: previous homepage, preserved with its original relative dependencies.
+- Existing prototype pages, `data/`, root styles/scripts and legacy assets are retained.
+
+Run `python -m http.server 8875 --bind 127.0.0.1` from this repository and visit `http://127.0.0.1:8875/`. No npm build is required. GitHub Pages publishes the repository root from `main`; `.nojekyll` keeps the site static. The version comparison toolbar is local-review UI and is omitted from the public homepage.
+
+The illustrations use fictional locations/data and do not represent field evidence. People still review information and decide; the site does not claim automatic radio-to-dashboard integration. The source review covered 390, 768, 1440 and 1920px in desktop Edge, keyboard/dialog behavior and no-JavaScript content; physical mobile devices were not tested.
+
+## Earlier prototype documentation
+
+The notes below describe `index-legacy.html` and the retained prototype files, not the current research homepage.
 
 เว็บไซต์ต้นแบบหน้าเดียวสำหรับอธิบาย LCCS ในฐานะระบบประสานงานภัยพิบัติที่เชื่อมสัญญาณจากประชาชน หน่วยงานรัฐ ทีมกู้ภัย ศูนย์พักพิง ทรัพยากร เงินช่วยเหลือ และประกันภัยให้เป็นภาพปฏิบัติการเดียว
 

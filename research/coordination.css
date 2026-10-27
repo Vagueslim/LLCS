@@ -1,0 +1,96 @@
+/* Section 4: HTML labels over a text-free architectural illustration.
+   Keep #safety so existing links remain valid. Coordinates share the SVG viewBox. */
+#safety.coordination { display:block; --report:#8953d1; --reply:#5e6365; }
+#safety .section-label { margin-bottom:28px; }
+#safety .coord-heading { display:grid; grid-template-columns:1.35fr 1fr; align-items:end; gap:36px; margin-bottom:32px; }
+#safety .coord-heading h2 { font-size:clamp(32px,3.2vw,56px); line-height:1.65; margin:0; }
+#safety .coord-heading p { font-size:18px; line-height:1.8; color:var(--muted); margin:0 0 8px; max-width:48ch; }
+#safety .coord-figure { margin:0; }
+#safety .coord-scene { position:relative; isolation:isolate; }
+#safety .coord-art { position:relative; aspect-ratio:1672/941; }
+#safety .coord-art > img { width:100%; height:auto; display:block; mix-blend-mode:multiply; }
+#safety .coord-routes { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+#safety .coord-route { fill:none; stroke:var(--report); stroke-width:2; stroke-dasharray:7 6; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+#safety .coord-route--reply { stroke:var(--reply); stroke-dasharray:6 6; }
+#safety .coord-route-halo { fill:none; stroke:var(--paper); stroke-width:6; opacity:.94; vector-effect:non-scaling-stroke; }
+#safety .coord-route--handoff { stroke-dasharray:none; }
+#safety .coord-map-key { display:none; }
+#safety .coord-map-pins { fill:var(--report); stroke:var(--paper); stroke-width:2; }
+#safety .coord-sources { list-style:none; padding:0; margin:0; }
+#safety .coord-source { position:absolute; left:var(--x); top:var(--y); transform:translateY(-100%); max-width:260px; border-left:2px solid var(--report); padding:6px 12px 24px; background:linear-gradient(90deg,rgba(250,250,247,.97) 78%,rgba(250,250,247,.8)); }
+#safety .coord-source h3 { display:flex; gap:10px; align-items:baseline; margin:0 0 4px; font-size:clamp(17px,1.25vw,23px); line-height:1.6; }
+#safety .coord-number { font:12px monospace; color:var(--purple); }
+#safety .coord-source p { display:flex; align-items:center; gap:9px; font-size:clamp(14px,1vw,17px); color:var(--muted); margin:0; line-height:1.7; }
+#safety .coord-icon { width:22px; height:22px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; color:var(--purple); }
+#safety .coord-channel-icons { display:flex; gap:5px; }
+#safety .coord-person { position:absolute; left:67.3%; top:50.3%; width:12.4%; text-align:center; background:rgba(250,250,247,.93); padding:8px 6px; }
+#safety .coord-person > .coord-icon { width:42px; height:42px; display:block; margin:0 auto 5px; }
+#safety .coord-person h3 { font-size:clamp(18px,1.3vw,24px); margin:0; line-height:1.6; }
+#safety .coord-person p { font-size:clamp(14px,1vw,17px); margin:2px 0 0; color:var(--muted); }
+#safety .coord-hub { position:absolute; left:80%; right:1%; top:74%; padding:8px 12px; border-left:1px solid var(--line); background:rgba(250,250,247,.96); }
+#safety .coord-hub h3 { margin:0; font-size:22px; line-height:1.4; }
+#safety .coord-hub h3 span { display:block; font-size:14px; font-weight:400; color:var(--muted); margin:5px 0 10px; }
+#safety .coord-hub ul { list-style:none; padding:0; margin:0; }
+#safety .coord-hub li { font-size:clamp(14px,1vw,17px); line-height:1.8; border-top:1px solid var(--line); padding:4px 0; }
+#safety .coord-hub-title { position:absolute; top:34%; left:83%; margin:0; font-size:clamp(24px,2vw,34px); font-weight:700; padding:0 8px; background:var(--paper); }
+#safety .coord-return { position:absolute; top:92%; left:57%; max-width:22%; font-size:14px; line-height:1.7; margin:0; color:var(--reply); background:rgba(250,250,247,.96); padding:4px 10px; }
+#safety .coord-return span { margin-right:6px; }
+#safety .coord-legend { position:static; display:flex; justify-content:space-between; gap:18px 30px; align-items:center; flex-wrap:wrap; font-family:Line,sans-serif; font-size:14px; line-height:1.75; letter-spacing:0; color:var(--muted); margin:24px 0 0; padding-top:20px; border-top:1px solid var(--line); }
+#safety .coord-legend-items { display:flex; flex-wrap:wrap; gap:12px 28px; }
+#safety .coord-legend-items > span { display:inline-flex; align-items:center; gap:10px; }
+#safety .coord-swatch { width:36px; display:inline-block; border-top:2px dashed var(--report); position:relative; }
+#safety .coord-swatch::after { content:""; width:6px; height:6px; border-top:2px solid var(--report); border-right:2px solid var(--report); transform:rotate(45deg); position:absolute; right:0; top:-4px; }
+#safety .coord-swatch--reply { border-color:var(--reply); }
+#safety .coord-swatch--reply::after { border-color:var(--reply); }
+#safety .coord-boundary { display:grid; grid-template-columns:1fr 1.7fr; gap:28px; border-top:1px solid var(--line); margin-top:28px; padding-top:24px; }
+#safety .coord-boundary h3 { font-size:20px; margin:0; }
+#safety .coord-boundary p { color:var(--muted); font-size:16px; margin:0; max-width:70ch; }
+#safety .coord-status { font-size:13px; line-height:1.8; color:var(--muted); margin:22px 0 0; }
+#safety .coord-mobile-label { display:none; }
+#safety .coord-symbols { position:absolute; width:0; height:0; overflow:hidden; }
+@media(min-width:1200px) and (max-width:1350px) {
+  #safety .coord-legend { margin-top:48px; }
+}
+
+/* The map remains a spatial overview. The same HTML labels flow beneath it
+   on smaller screens, so readers never have to zoom tiny raster text. */
+@media(max-width:1199px) {
+  #safety .coord-heading { grid-template-columns:1fr; gap:18px; }
+  #safety .coord-heading p { max-width:60ch; font-size:17px; }
+  #safety .coord-map-key { display:block; }
+  #safety .coord-map-pins { display:none; }
+  #safety .coord-map-key circle,#safety .coord-map-key rect { fill:var(--paper); stroke:var(--report); stroke-width:2; vector-effect:non-scaling-stroke; }
+  #safety .coord-map-key text { fill:var(--ink); font-family:Line,sans-serif; font-size:48px; text-anchor:middle; dominant-baseline:central; }
+  #safety .coord-map-key .coord-map-icc { font-size:42px; }
+  #safety .coord-map-key use { fill:none; stroke:var(--purple); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  #safety .coord-mobile-label { display:block; color:var(--purple); font-size:13px; margin:28px 0 14px; }
+  #safety .coord-sources { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px 28px; padding-bottom:28px; border-bottom:1px solid var(--line); }
+  #safety .coord-source { position:relative; left:auto; top:auto; transform:none; max-width:none; padding:0 0 0 16px; background:none; }
+  #safety .coord-source h3 { font-size:22px; }
+  #safety .coord-source p { font-size:16px; }
+  #safety .coord-person { position:relative; left:auto; top:auto; width:auto; max-width:400px; margin:46px auto 26px; padding:12px; background:none; }
+  #safety .coord-person::before { content:""; position:absolute; height:27px; border-left:2px dashed var(--report); left:50%; bottom:calc(100% + 6px); }
+  #safety .coord-person::after { content:""; position:absolute; width:7px; height:7px; border-right:2px solid var(--report); border-bottom:2px solid var(--report); transform:rotate(45deg); left:calc(50% - 3px); top:-13px; }
+  #safety .coord-person h3 { font-size:24px; }
+  #safety .coord-person p { font-size:17px; }
+  #safety .coord-hub { position:relative; left:auto; right:auto; top:auto; border:1px solid var(--line); padding:24px; background:none; }
+  #safety .coord-hub h3 { font-size:27px; }
+  #safety .coord-hub h3 span { font-size:17px; margin:8px 0 18px; }
+  #safety .coord-hub ul { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+  #safety .coord-hub li { font-size:16px; padding-top:14px; }
+  #safety .coord-hub-title { display:none; }
+  #safety .coord-return { position:static; max-width:none; margin:18px 0 0; padding:14px 0; font-size:16px; border-block:1px solid var(--line); background:none; }
+  #safety .coord-boundary { grid-template-columns:1fr; gap:12px; }
+}
+@media(max-width:600px) {
+  #safety .coord-heading h2 { font-size:32px; }
+  #safety .coord-heading { margin-bottom:24px; }
+  #safety .coord-heading p { font-size:17px; }
+  #safety .coord-sources { grid-template-columns:1fr; gap:22px; }
+  #safety .coord-source h3 { font-size:22px; }
+  #safety .coord-hub { padding:20px; }
+  #safety .coord-hub ul { grid-template-columns:1fr; gap:6px; }
+  #safety .coord-hub li { padding-block:10px 3px; }
+  #safety .coord-legend { margin-top:18px; gap:16px; }
+  #safety .coord-legend-items { display:grid; gap:10px; }
+}
