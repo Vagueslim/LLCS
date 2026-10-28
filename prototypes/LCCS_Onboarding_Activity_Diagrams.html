@@ -625,8 +625,16 @@
       }
     }
   </style>
+<link rel="stylesheet" href="../research/prototype-notice.css?v=showcase-20261028">
 </head>
 <body>
+<aside class="prototype-notice" aria-label="สถานะต้นแบบ">
+  <p class="prototype-notice-label">ต้นแบบ · ข้อมูลจำลอง</p>
+  <p>แผนภาพแนวคิดสำหรับอ่านประกอบ ยังไม่เชื่อม API หรือระบบรับข้อมูลจริง</p>
+  <p class="prototype-notice-scope">โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา · ไม่ใช่ช่องทางแจ้งเหตุหรือขอความช่วยเหลือจริง</p>
+  <a href="../index.html#prototype-library">กลับไปหน้าโชว์เคส LCCS</a>
+</aside>
+
   <main class="page">
     <div class="shell">
       <header>
@@ -643,7 +651,7 @@
       <div class="summary-grid">
         <section class="panel">
           <div class="panel-head">
-            <h2>Case Map</h2>
+            <h2>Case Map</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
             <span>ช่องทางรับทรัพยากร</span>
           </div>
           <div class="panel-body">
@@ -674,7 +682,7 @@
 
         <section class="panel">
           <div class="panel-head">
-            <h2>Design Warning</h2>
+            <h2>Design Warning</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
             <span>อย่าให้โทรศัพท์กินกำลังคน</span>
           </div>
           <div class="panel-body">
@@ -701,7 +709,7 @@
           <div class="case-title">
             <div class="badge">1</div>
             <div>
-              <h2>Phone Call Intake</h2>
+              <h2>Phone Call Intake</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>ใช้โทรศัพท์เพื่อจับสัญญาณแรกเท่านั้น แล้วผลักภาระการลงทะเบียนเต็มไปยัง link, local delegate หรือการลงทะเบียนเป็นกลุ่ม</p>
             </div>
             <div class="case-status">Primary risk: staff bottleneck</div>
@@ -767,7 +775,7 @@
           <div class="case-title">
             <div class="badge teal">2</div>
             <div>
-              <h2>Chat / Official Announcement Command</h2>
+              <h2>Chat / Official Announcement Command</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>หน่วยงานประกาศว่าใช้คำสั่งพิเศษหรือ link ใน chat เพื่อเรียก form ลงทะเบียน โดยเชื่อมกับการระบุตัวตนผ่านเครือข่ายโทรศัพท์และ application</p>
             </div>
             <div class="case-status">Primary channel: scalable self-entry</div>
@@ -824,7 +832,7 @@
           <div class="case-title">
             <div class="badge blue">3</div>
             <div>
-              <h2>Self Registration via App / QR</h2>
+              <h2>Self Registration via App / QR</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>จากประกาศมีช่องทาง download application หรือ QR ให้ผู้ช่วยยืนยันตัวตนและลงทะเบียนได้ด้วยตนเองทันที</p>
             </div>
             <div class="case-status">Primary strength: verified profile</div>
@@ -881,7 +889,7 @@
           <div class="case-title">
             <div class="badge amber">4</div>
             <div>
-              <h2>Government Direct Contact Overview</h2>
+              <h2>Government Direct Contact Overview</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>ภาครัฐขอสนับสนุนจากหน่วยงานเอกชน ผู้เชี่ยวชาญอิสระ หรือเจ้าของ asset โดยมีหน้าจอ onboard และดึงข้อมูลจากฐานข้อมูลกลาง/API ได้</p>
             </div>
             <div class="case-status">Primary strength: authoritative request</div>
@@ -939,7 +947,7 @@
           <div class="case-title">
             <div class="badge amber">4.1</div>
             <div>
-              <h2>Single Registration by Government Officer</h2>
+              <h2>Single Registration by Government Officer</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>เจ้าหน้าที่รัฐโทรขอความช่วยเหลือรายบุคคล สร้าง ID ทันที และส่ง link ให้เติมข้อมูลเชิงลึกเพื่อ update profile</p>
             </div>
             <div class="case-status">Use when: individual expert / one contact</div>
@@ -996,7 +1004,7 @@
           <div class="case-title">
             <div class="badge teal">4.2</div>
             <div>
-              <h2>Company / Organization List Submission</h2>
+              <h2>Company / Organization List Submission</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>บริษัทหรือองค์กรรวบรวมรายชื่อ ความสามารถ และทรัพยากรเอง แล้ว submit ผ่าน web เพื่อให้ระบบ pull เข้าสู่ resource and asset</p>
             </div>
             <div class="case-status">Use when: many people from one organization</div>
@@ -1053,7 +1061,7 @@
           <div class="case-title">
             <div class="badge blue">4.3</div>
             <div>
-              <h2>Special Equipment Registration</h2>
+              <h2>Special Equipment Registration</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>ลงทะเบียนเครื่องมือพิเศษจากเอกชนหรือรัฐ โดย task ควรเริ่มจากส่วนกลาง/ICP ก่อนส่งคำขอ และต้องระบุ operator, วิธีดูแล, ขนย้าย, เวลา และวิธีรับส่ง</p>
             </div>
             <div class="case-status">Use when: asset needs handling rules</div>
@@ -1115,7 +1123,7 @@
           <div class="case-title">
             <div class="badge violet">4.4</div>
             <div>
-              <h2>Donation / Supply Lot</h2>
+              <h2>Donation / Supply Lot</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
               <p>ลงทะเบียนของบริจาคเป็น lot โดยระบุประเภท ปริมาณ วิธีขนส่ง ของใช้ ของกิน อุปกรณ์สนับสนุน วันพร้อมส่ง และเงื่อนไขจัดเก็บ</p>
             </div>
             <div class="case-status">Use when: supplies must be matched and moved</div>

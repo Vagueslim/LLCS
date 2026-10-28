@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LCCS — Phone Alert Simulation · ต้นแบบ</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -126,8 +128,16 @@
     .result-grid{grid-template-columns:repeat(2,1fr);}
   }
 </style>
+<link rel="stylesheet" href="../research/prototype-notice.css?v=showcase-20261028">
 </head>
 <body>
+<aside class="prototype-notice" aria-label="สถานะต้นแบบ">
+  <p class="prototype-notice-label">ต้นแบบ · ข้อมูลจำลอง</p>
+  <p>การจำลองตามบทที่กำหนด ผลลัพธ์เป็นตัวอย่าง ไม่ค้นข้อมูลบุคคล ส่งแจ้งเตือน หรือบันทึกเข้าระบบจริง</p>
+  <p class="prototype-notice-scope">โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา · ไม่ใช่ช่องทางแจ้งเหตุหรือขอความช่วยเหลือจริง · กรุณาใช้ข้อมูลสมมติเท่านั้น</p>
+  <a href="../index.html#prototype-library">กลับไปหน้าโชว์เคส LCCS</a>
+</aside>
+
 
 <div class="header">
   <div class="title-block">
@@ -238,7 +248,7 @@
 </div>
 
 <!-- Result panel -->
-<div class="result-panel" id="resultPanel" style="display:none">
+<div class="result-panel" id="resultPanel" style="display:none"><p class="prototype-sample-label">ข้อมูลจำลอง · ผลสรุปตามบท ไม่ใช่การส่งแจ้งเหตุจริง</p>
   <h3>// ระบบได้อะไร — raw signal → interpreted</h3>
   <div class="result-grid">
     <div class="result-stat r"><div class="n" id="rCannot">0</div><div class="l">ออกไม่ได้ (คน)</div></div>

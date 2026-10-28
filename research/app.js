@@ -4,8 +4,10 @@ const shareFallback = document.getElementById("share-fallback");
 const shareText = document.getElementById("share-text");
 // Canonical is the intended public destination; never copy localhost.
 const shareMessage = [
-  "พร้อมช่วย ≠ พร้อมปฏิบัติงาน",
-  "ชวนดู LCCS — Life Connection Crisis System แนวคิดเชื่อมคน ข้อมูล และทรัพยากรในภาวะวิกฤต",
+  "LCCS — Life Connection Crisis System",
+  "LCCS คือระบบบริหารการเชื่อมต่อชีวิตในภาวะวิกฤต",
+  "โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา",
+  "ชวนสำรวจแนวคิดและร่วมให้ข้อเสนอแนะ",
   document.querySelector('link[rel="canonical"]').href
 ].join("\n");
 shareText.value = shareMessage;

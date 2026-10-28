@@ -6,7 +6,6 @@
   <meta name="description" content="LCCS - Life Connection Crisis System prototype for disaster-response coordination.">
   <title>LCCS - Life Connection Crisis System</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="data/cases.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -63,7 +62,7 @@
           </div>
           <div class="hero-status" aria-label="สถานะตัวอย่าง">
             <span><strong data-count="8">0</strong> โมดูล MVP</span>
-            <span><strong data-count="6">0</strong> live prototypes</span>
+            <span><strong data-count="4">0</strong> concept diagrams</span>
             <span><strong data-count="17">0</strong> sections</span>
           </div>
         </div>
@@ -114,22 +113,12 @@
 
     <section class="section evidence-section" id="evidence" data-section>
       <div class="shell">
-        <div class="section-heading" data-reveal>
-          <p class="eyebrow">Why Now / Scale of Impact</p>
-          <h2>ภัยพิบัติแต่ละครั้ง สร้างต้นทุนคนละรูปแบบ</h2>
-          <p>
-            LCCS ไม่ได้มองภัยพิบัติเป็นตัวเลขรวมก้อนเดียว แต่แยกให้เห็นว่าแต่ละเหตุการณ์สร้างต้นทุนหลายชั้นพร้อมกัน ทั้งความเสียหายจริง งบรัฐ เงินเยียวยา ความเสียหายภาคเอกชน สินไหมประกัน ครัวเรือนที่ได้รับผลกระทบ และกำลังคนที่ต้องลงพื้นที่
-          </p>
+        <div class="section-heading">
+          <p class="eyebrow">ทบทวนแหล่งข้อมูล</p>
+          <h2>พักสถิติเหตุการณ์จริงไว้ก่อน</h2>
+          <p>ตัวเลขกรณีศึกษาฉบับเดิมยังอยู่ระหว่างตรวจแหล่งที่มา หน่วย ปี และบริบท จึงนำออกจากหน้าสาธารณะก่อน โดยเก็บต้นฉบับและประวัติโครงการไว้สำหรับทบทวน</p>
+          <a class="button" href="index.html">อ่านโชว์เคส LCCS ฉบับปัจจุบัน</a>
         </div>
-
-        <div class="case-tabs" role="tablist" aria-label="Case evidence tabs" data-reveal>
-          <button id="tab-hatyai2568" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="case-panel" data-case="hatyai2568">หาดใหญ่ 2568</button>
-          <button id="tab-north2565to2568" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="north2565to2568">น้ำเหนือ 2565-2568</button>
-          <button id="tab-central2554" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="central2554">กรุงเทพฯ-ภาคกลาง 2554</button>
-          <button id="tab-compare" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="case-panel" data-case="compare">เปรียบเทียบ</button>
-        </div>
-
-        <article class="case-panel" id="case-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-hatyai2568" data-reveal></article>
       </div>
     </section>
 
@@ -493,7 +482,7 @@
         <div class="section-heading" data-reveal>
           <p class="eyebrow">พื้นที่ทดลอง Prototype</p>
           <h2>ดู prototype ย่อยจากหน้าเดียว</h2>
-          <p>เลือก prototype ทางซ้ายเพื่อ preview ใน iframe ทางขวา หรือเปิดแยกในแท็บใหม่</p>
+          <p>ต้นแบบแผนภาพสำหรับอ่านประกอบ · ข้อมูลจำลอง · เลือกหัวข้อทางซ้ายเพื่อดูในกรอบหรือเปิดแยก ไม่มีการรับข้อมูลหรือเชื่อม API จริง</p>
         </div>
         <div class="prototype-playground" data-reveal>
           <div class="prototype-list" aria-label="Prototype list">
@@ -516,16 +505,6 @@
               <span>04</span>
               <strong>Government Console / API Journey</strong>
               <small>LCCS_Government_Console_API_User_Journey.html</small>
-            </button>
-            <button class="prototype-card" type="button" data-title="Phone Alert Simulation" data-src="prototypes/lccs_phone_simulation_actors.html">
-              <span>05</span>
-              <strong>Phone Alert Simulation</strong>
-              <small>lccs_phone_simulation_actors.html</small>
-            </button>
-            <button class="prototype-card" type="button" data-title="Shelter Check-in & Family Search" data-src="prototypes/lccs_shelter_checkin_family_search.html">
-              <span>06</span>
-              <strong>Shelter Check-in & Family Search</strong>
-              <small>lccs_shelter_checkin_family_search.html</small>
             </button>
           </div>
           <div class="prototype-preview">
@@ -614,7 +593,7 @@
             LCCS ทำให้สัญญาณเล็ก ๆ จากผู้ประสบภัย กลายเป็นภารกิจ ทำให้ความตั้งใจช่วยเหลือ กลายเป็นทรัพยากรที่พร้อมใช้ ทำให้การ check-in กลายเป็นหลักฐานความปลอดภัย และทำให้การฟื้นฟูหลังภัยพิบัติมีข้อมูลที่ตรวจสอบได้
           </p>
           <blockquote>When crisis breaks the normal structure, LCCS keeps the connections alive.</blockquote>
-          <a class="button primary" href="#playground">เริ่ม prototype จาก ICP Resource Board + Shelter / Family Search</a>
+          <a class="button primary" href="#playground">อ่านต้นแบบแผนภาพการรับทรัพยากรและการประสานงาน</a>
         </div>
         <figure class="reference-figure compact" data-reveal>
           <img src="assets/placeholder-map.svg" alt="ภาพ LCCS Operational GIS coordination layer">

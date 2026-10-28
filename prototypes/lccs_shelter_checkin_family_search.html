@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LCCS — Shelter Check-in & Family Search · ต้นแบบ</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -127,8 +129,16 @@
     border-radius:8px;padding:12px;font-size:12px;line-height:1.7;color:var(--muted);}
   .insight strong{color:var(--text);}
 </style>
+<link rel="stylesheet" href="../research/prototype-notice.css?v=showcase-20261028">
 </head>
 <body>
+<aside class="prototype-notice" aria-label="สถานะต้นแบบ">
+  <p class="prototype-notice-label">ต้นแบบ · ข้อมูลจำลอง</p>
+  <p>การจำลองตามบทที่กำหนด ผลลัพธ์เป็นตัวอย่าง ไม่ค้นข้อมูลบุคคล ส่งแจ้งเตือน หรือบันทึกเข้าระบบจริง</p>
+  <p class="prototype-notice-scope">โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา · ไม่ใช่ช่องทางแจ้งเหตุหรือขอความช่วยเหลือจริง · กรุณาใช้ข้อมูลสมมติเท่านั้น</p>
+  <a href="../index.html#prototype-library">กลับไปหน้าโชว์เคส LCCS</a>
+</aside>
+
 <div class="wrapper">
 
   <div style="font-size:15px;font-weight:600;">LCCS — Shelter Check-in & Family Search</div>
@@ -141,7 +151,7 @@
   </div>
 
   <!-- ── PANEL 1: Capacity ── -->
-  <div class="panel active" id="panel-capacity">
+  <div class="panel active" id="panel-capacity"><p class="prototype-sample-label">ข้อมูลจำลอง · รายชื่อ ตัวเลข และผลลัพธ์เป็นตัวอย่าง</p>
     <div class="sec-head">สถานที่พักพิงในพื้นที่ — live capacity</div>
     <div class="shelter-grid">
       <div class="shelter-card warn" onclick="selectShelter('วัดหาดใหญ่ใน')">
@@ -200,7 +210,7 @@
   </div>
 
   <!-- ── PANEL 2: Check-in ── -->
-  <div class="panel" id="panel-checkin">
+  <div class="panel" id="panel-checkin"><p class="prototype-sample-label">ข้อมูลจำลอง · รายชื่อ ตัวเลข และผลลัพธ์เป็นตัวอย่าง</p>
     <div class="sec-head">check-in เข้าศูนย์พักพิง</div>
     <div class="form-card">
       <div class="form-row">
@@ -259,7 +269,7 @@
   </div>
 
   <!-- ── PANEL 3: Family Search ── -->
-  <div class="panel" id="panel-family">
+  <div class="panel" id="panel-family"><p class="prototype-sample-label">ข้อมูลจำลอง · รายชื่อ ตัวเลข และผลลัพธ์เป็นตัวอย่าง</p>
     <div class="sec-head">ค้นหาคนที่คุณตามหา</div>
 
     <div class="search-box">
@@ -342,7 +352,7 @@
   </div>
 
   <!-- ── PANEL 4: Movement Log ── -->
-  <div class="panel" id="panel-log">
+  <div class="panel" id="panel-log"><p class="prototype-sample-label">ข้อมูลจำลอง · รายชื่อ ตัวเลข และผลลัพธ์เป็นตัวอย่าง</p>
     <div class="sec-head">movement log — ครอบครัวสมิทธิ์</div>
     <div class="move-log">
       <div class="move-entry">

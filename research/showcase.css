@@ -1,0 +1,36 @@
+/* Showcase identity, honest status and feedback — 28 October 2026. */
+.hero-copy .showcase-definition{max-width:32ch;line-height:1.7}
+.showcase-status{border-left:2px solid var(--purple);padding-left:14px;font-size:15px;color:var(--purple);line-height:1.8;max-width:36ch}
+.showcase-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px 24px;margin-top:24px}
+.showcase-actions .button{margin:0;gap:25px}
+.showcase-explore{padding:12px 0;border-bottom:1px solid var(--ink);font-size:15px;display:inline-flex;gap:20px;align-items:center}
+.showcase-explore:hover,.portfolio-link:hover,.contact-email:hover{color:var(--purple)}
+.showcase-actions+.share-control{margin-top:18px}
+.sample-label{font-family:Line,sans-serif;font-size:14px;line-height:1.8;color:var(--purple);letter-spacing:0;margin:0 0 12px;display:flex;flex-wrap:wrap;gap:4px 14px}
+.sample-label span{color:var(--muted)}
+.coord-sample-label{grid-column:1/-1;margin-top:8px}
+.showcase-footer{display:grid;grid-template-columns:1.15fr 1fr;gap:32px 8%;padding:48px 4% 24px;align-items:start}
+.showcase-footer h2{font-size:clamp(22px,2vw,30px);letter-spacing:-.5px;line-height:1.5;margin:12px 0}
+.showcase-footer p{font-size:15px;line-height:1.8;color:var(--muted);margin-bottom:14px}
+.showcase-footer .eyebrow{font-size:12px;letter-spacing:1px;color:var(--purple)}
+.showcase-feedback .button{margin:0 0 12px;gap:28px}
+.portfolio-link{display:inline-block;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.portfolio-link span{margin-left:18px}
+.contact-email{display:block;width:fit-content;max-width:100%;overflow-wrap:anywhere;text-decoration:underline;text-underline-offset:4px;padding:6px 0;font-size:16px}
+.showcase-feedback .contact-note{font-size:13px;margin:8px 0 0}
+.showcase-footer-bottom{grid-column:1/-1;border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;gap:18px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.showcase-footer-bottom a{display:inline-block;color:var(--ink);padding-block:4px}
+#problem .showcase-prototypes{border-top:1px solid var(--line);margin-top:36px;padding-top:28px}
+#problem .showcase-prototypes h3{font-size:24px;margin:0 0 8px}
+#problem .prototype-note{font-size:15px;color:var(--muted);margin:0 0 20px;max-width:70ch}
+.prototype-list{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:0;margin:0;border-top:1px solid var(--line)}
+.prototype-list li{border-bottom:1px solid var(--line);min-width:0}
+.prototype-list li:nth-child(odd){border-right:1px solid var(--line)}
+.prototype-link{display:flex;flex-direction:column;height:100%;padding:24px;gap:8px}
+.prototype-link:hover{background:#f1edf7}
+.prototype-kind{font-size:13px;color:var(--purple)}
+.prototype-link strong{font-size:19px;font-weight:700}
+.prototype-description{font-size:15px;color:var(--muted);line-height:1.8}
+.prototype-action{font-size:14px;display:flex;justify-content:space-between;margin-top:auto;padding-top:12px;color:var(--purple)}
+@media(max-width:600px){.prototype-list{grid-template-columns:minmax(0,1fr)}.prototype-list li:nth-child(odd){border-right:0}.prototype-link{padding:22px 0}}
+@media(max-width:700px){.showcase-footer{grid-template-columns:minmax(0,1fr);padding:36px 6% 24px;gap:28px}.showcase-footer-bottom{display:block}.showcase-footer-bottom span{display:block;margin-bottom:12px}.showcase-status{font-size:15px}.showcase-actions{gap:10px 20px}}

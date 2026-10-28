@@ -1,97 +1,56 @@
-# LCCS Research — Life Connection Crisis System
+# LCCS — Life Connection Crisis System
 
-The homepage presents personal research into crisis coordination. It is a concept exploration, not an operational or field-validated system.
+**LCCS คือระบบบริหารการเชื่อมต่อชีวิตในภาวะวิกฤต**
 
-Current homepage: [LCCS Research](https://vagueslim.github.io/LLCS/).
+**โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา**
 
-## Current release — 28 October 2026
+[หน้าโชว์เคส LCCS](https://vagueslim.github.io/LLCS/) นำเสนอแนวคิดและต้นแบบเพื่อรับข้อเสนอแนะ ไม่ใช่บริการแจ้งเหตุ ระบบพร้อมใช้ภาคสนาม หรือหลักฐานว่าผ่านการทดสอบในพื้นที่จริง
 
-Section 4 now uses the approved central ICC composition: a text-free architectural image (`research/assets/coord-hub-base.png`) beneath native HTML labels and eight SVG paths. Four purple paths bring reports in; four slate paths communicate decisions/support back. The command wall and central room are the visual focus. Glow is static, with no animation or JavaScript dependency. Mobile keeps the map as an overview and reflows its numbered labels below it. People review information before communicating decisions; this is not a claim of automated commands or immediate assistance.
+ผู้ริเริ่มและออกแบบแนวคิด: **Dhittawat Thongkhum (Three)** · UX / Product Designer
 
-The selected Coordination Closing version has five sections: Hero, Concept, Program Suites, Coordination, and Further Exploration, followed by the footer. Section 4 combines architectural artwork with HTML labels and SVG communication routes. ICS 200 and GIS remain possible directions without implemented detail pages.
+- อีเมล: [dhittawat@gmail.com](mailto:dhittawat@gmail.com)
+- [เว็บไซต์ผลงาน](https://vagueslim.github.io/portfolio/index.html)
+- ปุ่ม “ร่วมให้ข้อเสนอแนะ” เปิดอีเมลหัวข้อ “ข้อเสนอแนะเกี่ยวกับ LCCS” ผู้ชมเป็นผู้เขียนและส่งเอง ไม่มี backend หรือฟอร์มรับข้อมูล
 
-- `index.html`: current Thai homepage, static metadata, text and SVG.
-- `research/`: independent homepage styles, scripts, four illustrations, fonts and font license.
-- `index-legacy.html`: previous homepage, preserved with its original relative dependencies.
-- Existing prototype pages, `data/`, root styles/scripts and legacy assets are retained.
+## รุ่นโชว์เคส — 28 ตุลาคม 2026
 
-Run `python -m http.server 8875 --bind 127.0.0.1` from this repository and visit `http://127.0.0.1:8875/`. No npm build is required. GitHub Pages publishes the repository root from `main`; `.nojekyll` keeps the site static. The version comparison toolbar is local-review UI and is omitted from the public homepage.
+คงลำดับ Hero → Concept → Program Suites → Coordination → Further Exploration และเพิ่มตัวตน/ช่องทางติดต่อใน footer ภาพ Section 4 ใช้ห้อง ICC กลางเครือข่าย เส้นสื่อสารเข้า–ออกเป็น SVG และข้อความ HTML โดยคนยังต้องทวนข้อมูลและตัดสินใจ ไม่สื่อว่าระบบส่งคำสั่งหรือความช่วยเหลือทันทีโดยอัตโนมัติ
 
-The illustrations use fictional locations/data and do not represent field evidence. People still review information and decide; the site does not claim automatic radio-to-dashboard integration. The latest source review covered 320, 390, 768, 1024, 1440 and 1920px in desktop Edge, keyboard/dialog behavior and no-JavaScript content; physical mobile devices were not tested.
+ภาพแชร์เป็น `research/assets/lccs-share.png` ขนาด 1200 × 630 พื้นดำ ตัวอักษร LCCS สีม่วง แยกจากภาพประกอบเนื้อหาทั้งหมด ภาพแผนที่และหน้าจอแนวคิดติดป้าย “ข้อมูลจำลอง”
 
-## Earlier prototype documentation
+## ต้นแบบที่เปิดจากหน้าโชว์เคส
 
-The notes below describe `index-legacy.html` and the retained prototype files, not the current research homepage.
+ทั้งสี่รายการเป็น **แผนภาพแนวคิดสำหรับอ่านประกอบ** ไม่มีระบบลงทะเบียนหรือ API ทำงานจริง ตัวเลข ชื่อ และเหตุการณ์ตัวอย่างเป็นข้อมูลจำลอง
 
-เว็บไซต์ต้นแบบหน้าเดียวสำหรับอธิบาย LCCS ในฐานะระบบประสานงานภัยพิบัติที่เชื่อมสัญญาณจากประชาชน หน่วยงานรัฐ ทีมกู้ภัย ศูนย์พักพิง ทรัพยากร เงินช่วยเหลือ และประกันภัยให้เป็นภาพปฏิบัติการเดียว
+| ไฟล์ใน `prototypes/` | เนื้อหา |
+|---|---|
+| `LCCS_Rapid_Onboarding_MCP.html` | เริ่มต้นเข้าร่วมช่วยเหลือและทบทวนความพร้อม |
+| `LCCS_Stakeholder_Registration_ORC_Chart.html` | ผู้เกี่ยวข้องและช่องทางลงทะเบียน |
+| `LCCS_Onboarding_Activity_Diagrams.html` | ลำดับกิจกรรมการรับข้อมูล |
+| `LCCS_Government_Console_API_User_Journey.html` | เส้นทางทำงานของเจ้าหน้าที่และแนวคิดการเชื่อมข้อมูล |
 
-## วิธีเปิดดูในเครื่อง
+เดโมโทรศัพท์และศูนย์พักพิงไม่ได้เปิดเป็น CTA ในหน้าโชว์เคส เพราะผลลัพธ์ยังเป็นบทจำลองและมีพฤติกรรมที่ต้องทบทวน โค้ดเดิมยังเก็บไว้พร้อมป้ายขอบเขต หน้า `lccs-onboarding.html` ไม่ถูกนำเสนอเป็นเดโมพร้อมใช้ เพราะยังไม่มีหลักฐานความสามารถ offline/sync ตามข้อความในต้นแบบเดิม
 
-เปิดไฟล์ `index.html` ได้โดยตรงในเบราว์เซอร์ หรือใช้ local static server เพื่อให้ iframe และการตรวจ prototype ทำงานใกล้เคียง GitHub Pages:
+สถิติเหตุการณ์จริงในหน้าเก่าและสไลด์ที่ยังไม่มีแหล่งตรวจสอบถูกพักจากการแสดงผล ไม่เปลี่ยนสถิติเหล่านั้นเป็นข้อมูลจำลอง ต้นฉบับยังอยู่ในประวัติ Git และสำรองนอกโฟลเดอร์เผยแพร่
+
+ICS 200 และ GIS ยังเป็นทางเลือกที่ไม่ได้ตัดสินใจ ไม่มีการเพิ่ม integration หรือหน้าปลายทางใหม่
+
+## โครงสร้างและการรัน
+
+- `index.html`: หน้าโชว์เคสปัจจุบัน พร้อม metadata และเนื้อหา HTML ที่อ่านได้เมื่อปิด JavaScript
+- `research/`: สไตล์ สคริปต์ ภาพ และฟอนต์ของหน้าโชว์เคส
+- `research/showcase.css`: สถานะโครงการ ลิงก์ต้นแบบ และส่วนตัวตน/ข้อเสนอแนะ
+- `research/prototype-notice.css`: ป้ายขอบเขตและข้อมูลจำลองของต้นแบบเก่า
+- `prototypes/`: แผนภาพและการจำลองเดิม
+- `index-legacy.html`: หน้าเก่าที่พักส่วนสถิติรอตรวจแหล่งอ้างอิง
+- `LCCS_20_Slide_Pitch_Deck.html`: หน้าสถานะของสไลด์เก่าที่พักเผยแพร่ระหว่างทบทวนข้อมูล
 
 ```bash
-python -m http.server 4173
+python -m http.server 8875 --bind 127.0.0.1
 ```
 
-จากนั้นเปิด:
+รันจากโฟลเดอร์ repository แล้วเปิด `http://127.0.0.1:8875/` ไม่มีขั้น npm build เว็บไซต์เป็น static HTML/CSS/JavaScript
 
-```txt
-http://localhost:4173/
-```
+GitHub Pages เผยแพร่จาก `main:/` ที่ `/LLCS/` ตามเดิม ไม่เปลี่ยนชื่อ repository, domain หรือ route `.nojekyll` รักษาการเผยแพร่ไฟล์ static
 
-ถ้ารันจากโฟลเดอร์หลักของโปรเจกต์ ให้เปิด:
-
-```txt
-http://localhost:4173/lccs-onepage/
-```
-
-## โครงสร้างไฟล์
-
-```txt
-lccs-onepage/
-  index.html
-  styles.css
-  app.js
-  data/
-    cases.js
-  prototypes/
-    LCCS_Rapid_Onboarding_MCP.html
-    LCCS_Stakeholder_Registration_ORC_Chart.html
-    LCCS_Onboarding_Activity_Diagrams.html
-    LCCS_Government_Console_API_User_Journey.html
-    lccs_phone_simulation_actors.html
-    lccs_shelter_checkin_family_search.html
-  assets/
-    placeholder-map.svg
-    placeholder-network.svg
-    lccs-layer-model.png
-    lccs-route-map.png
-    lccs-operational-gis.png
-```
-
-## วิธีอัปโหลดขึ้น GitHub Pages
-
-1. นำโฟลเดอร์ `lccs-onepage` ไปไว้ใน repository
-2. ตั้งค่า GitHub Pages ให้ publish จาก branch ที่ต้องการ
-3. ถ้า publish จาก root ของ repository ให้ย้ายไฟล์ใน `lccs-onepage` ไปไว้ที่ root หรือเลือก publish จากโฟลเดอร์ที่ตรงกับโครงสร้าง repository
-4. ตรวจสอบว่า path ของไฟล์ prototype ยังอยู่ใน `prototypes/` และ path ของ asset ยังอยู่ใน `assets/`
-
-## วิธีเพิ่ม prototype HTML
-
-วางไฟล์ HTML เพิ่มในโฟลเดอร์ `prototypes/` แล้วเพิ่มปุ่มใหม่ในส่วน `Prototype Playground` ของ `index.html` โดยระบุ `data-src` ให้ตรงกับ path ของไฟล์
-
-ถ้าไฟล์ prototype ไม่มีอยู่ ระบบจะแสดงข้อความ:
-
-```txt
-Prototype file not found. Add this file to /prototypes/ to enable live preview.
-```
-
-## วิธีเพิ่มภาษาอังกฤษภายหลัง
-
-ข้อมูล case อยู่ใน `data/cases.js` เพื่อแยกเนื้อหาออกจาก UI หลัก สามารถเพิ่ม field ภาษาอังกฤษ เช่น `titleEn`, `summaryEn`, `layersEn` คู่กับ field ภาษาไทยเดิม แล้วปรับ `app.js` ให้เลือกภาษาตามตัวแปรภาษาในอนาคต
-
-สำหรับข้อความคงที่ใน `index.html` แนะนำให้ย้ายไปเป็น object ภาษาในไฟล์ข้อมูลใหม่ เช่น `data/i18n.js` เมื่อเริ่มทำระบบสองภาษา
-
-## หมายเหตุด้านข้อมูล
-
-ตัวเลขใน prototype ใช้เพื่อออกแบบการสื่อสารและโครงสร้างข้อมูล ต้องตรวจสอบก่อนใช้เผยแพร่ทางการ โดยเฉพาะข้อมูลประกันภัยให้ใช้คำว่า `reported claims`, `insured-loss estimate`, `not final paid amount`, `working figure` และ `verify before official publication`
+การตรวจ responsive ใช้ viewport จำลองใน Edge ไม่ใช่อุปกรณ์จริง การตรวจ metadata และ URL รูปไม่ได้ยืนยันว่าการ์ด LINE แสดงถูกต้อง ต้องตรวจใน LINE แยกต่างหาก
