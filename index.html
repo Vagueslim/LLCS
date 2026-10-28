@@ -21,7 +21,7 @@
 <meta name="twitter:image" content="https://vagueslim.github.io/LLCS/research/assets/community.png">
 <link rel="icon" href="data:,"><link rel="stylesheet" href="research/styles.css">
 <link rel="stylesheet" href="research/program-suites.css">
-<link rel="stylesheet" href="research/coordination.css">
+<link rel="stylesheet" href="research/coordination.css?v=hub-20261028">
 <link rel="stylesheet" href="research/closing.css">
 </head>
 <body>
@@ -51,7 +51,7 @@
   <div class="section-label">04 / COORDINATION</div>
   <div class="coord-heading">
     <h2 id="coord-title">หลายจุดรายงาน<br>สู่ภาพรวมที่ ICC</h2>
-    <p>ข่าวจากหน้างานมาหลายช่องทาง ผู้ประสานงานรับฟัง ทวน และสรุป เพื่อให้ทีมเห็นข้อมูลร่วมกัน ก่อนสื่อสารกลับไปยังพื้นที่</p>
+    <p>ข้อมูลจากแต่ละจุดเชื่อมเข้าสู่ภาพรวมร่วม ผู้ประสานงานรับฟัง ทวน และสรุป ก่อนทีมตัดสินใจและสื่อสารแนวทางหรือการสนับสนุนกลับไปยังพื้นที่</p>
   </div>
   <svg class="coord-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
     <defs>
@@ -65,47 +65,56 @@
   <figure class="coord-figure" aria-labelledby="coord-title" aria-describedby="coord-caption coord-scope">
     <div class="coord-scene">
       <div class="coord-art">
-        <img src="research/assets/coordination-map-base.png" width="1672" height="941" loading="lazy" alt="ภาพแนวคิดชุมชนริมน้ำ เส้นทาง จุดส่งของ และศูนย์พักพิง อยู่ในพื้นที่เดียวกับอาคารประชุม ICC">
+        <img src="research/assets/coord-hub-base.png" width="1672" height="941" loading="lazy" alt="ภาพแนวคิดห้องประชุม ICC พร้อมจอภาพรวมอยู่กลางชุมชน โดยมีชุมชน เส้นทาง จุดส่งของ และศูนย์พักพิงล้อมรอบ">
         <svg class="coord-routes" viewBox="0 0 1672 941" aria-hidden="true" focusable="false">
           <defs>
-            <marker id="coord-report-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="m1 1 7 4-7 4" fill="none" stroke="#8953d1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
-            <marker id="coord-reply-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="m1 1 7 4-7 4" fill="none" stroke="#5e6365" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
-            <path id="coord-path-community" d="M196 295 C360 360 450 270 630 330 S960 430 1110 508"/>
-            <path id="coord-path-road" d="M850 280 C950 300 1020 390 1110 496"/>
-            <path id="coord-path-supply" d="M234 734 C310 825 490 815 520 670 C570 535 860 490 1110 525"/>
-            <path id="coord-path-shelter" d="M818 781 C770 750 760 670 805 620 S1010 555 1110 541"/>
-            <path id="coord-path-return" d="M1470 620 C1450 695 1210 665 1110 770 S955 875 818 781"/>
+            <marker id="coord-report-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="5" markerHeight="5" orient="auto"><path d="M2 1 10 6 2 11" fill="none" stroke="#8845d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+            <marker id="coord-reply-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="5" markerHeight="5" orient="auto"><path d="M2 1 10 6 2 11" fill="none" stroke="#4e6478" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+            <filter id="coord-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
           </defs>
-          <g class="coord-route-halo"><use href="#coord-path-community"/><use href="#coord-path-road"/><use href="#coord-path-supply"/><use href="#coord-path-shelter"/><use href="#coord-path-return"/></g>
-          <g class="coord-route" marker-end="url(#coord-report-arrow)"><use href="#coord-path-community"/><use href="#coord-path-road"/><use href="#coord-path-supply"/><use href="#coord-path-shelter"/></g>
-          <path class="coord-route coord-route--handoff" d="M1335 526 Q1380 526 1405 556" marker-end="url(#coord-report-arrow)"/>
-          <use class="coord-route coord-route--reply" href="#coord-path-return" marker-end="url(#coord-reply-arrow)"/>
-          <g class="coord-map-pins"><rect x="190" y="289" width="12" height="12"/><rect x="844" y="274" width="12" height="12"/><rect x="228" y="728" width="12" height="12"/><rect x="812" y="775" width="12" height="12"/></g>
+          <ellipse class="coord-orbit" cx="848" cy="497" rx="422" ry="242"/>
+          <g class="coord-route-glow" filter="url(#coord-glow)">
+            <path d="M348 220 C455 270 560 255 677 393"/><path d="M1382 220 C1260 271 1157 277 1037 394"/><path d="M317 658 C458 640 532 567 664 532"/><path d="M1360 668 C1240 660 1157 589 1048 540"/>
+          </g>
+          <g class="coord-route-halo">
+            <path d="M348 220 C455 270 560 255 677 393"/><path d="M1382 220 C1260 271 1157 277 1037 394"/><path d="M317 658 C458 640 532 567 664 532"/><path d="M1360 668 C1240 660 1157 589 1048 540"/>
+            <path d="M672 414 C552 292 461 314 359 248"/><path d="M1042 415 C1153 332 1265 317 1377 249"/><path d="M660 554 C519 593 472 692 331 677"/><path d="M1050 563 C1168 646 1237 691 1353 687"/>
+          </g>
+          <g class="coord-route-lines">
+            <path id="coord-report-community" class="coord-report-path" data-source="community" d="M348 220 C455 270 560 255 677 393" marker-end="url(#coord-report-arrow)"/>
+            <path id="coord-report-road" class="coord-report-path" data-source="road" d="M1382 220 C1260 271 1157 277 1037 394" marker-end="url(#coord-report-arrow)"/>
+            <path id="coord-report-supply" class="coord-report-path" data-source="supply" d="M317 658 C458 640 532 567 664 532" marker-end="url(#coord-report-arrow)"/>
+            <path id="coord-report-shelter" class="coord-report-path" data-source="shelter" d="M1360 668 C1240 660 1157 589 1048 540" marker-end="url(#coord-report-arrow)"/>
+            <path id="coord-reply-community" class="coord-reply-path" data-source="community" d="M672 414 C552 292 461 314 359 248" marker-end="url(#coord-reply-arrow)"/>
+            <path id="coord-reply-road" class="coord-reply-path" data-source="road" d="M1042 415 C1153 332 1265 317 1377 249" marker-end="url(#coord-reply-arrow)"/>
+            <path id="coord-reply-supply" class="coord-reply-path" data-source="supply" d="M660 554 C519 593 472 692 331 677" marker-end="url(#coord-reply-arrow)"/>
+            <path id="coord-reply-shelter" class="coord-reply-path" data-source="shelter" d="M1050 563 C1168 646 1237 691 1353 687" marker-end="url(#coord-reply-arrow)"/>
+          </g>
+          <g class="coord-map-pins"><rect x="340" y="212" width="16" height="16"/><rect x="1374" y="212" width="16" height="16"/><rect x="309" y="650" width="16" height="16"/><rect x="1352" y="660" width="16" height="16"/></g>
           <g class="coord-map-key">
-            <circle cx="196" cy="295" r="35"/><text x="196" y="295">1</text>
-            <circle cx="850" cy="280" r="35"/><text x="850" y="280">2</text>
-            <circle cx="234" cy="734" r="35"/><text x="234" y="734">3</text>
-            <circle cx="818" cy="781" r="35"/><text x="818" y="781">4</text>
-            <use href="#coord-headset" x="1182" y="480" width="85" height="85"/>
-            <rect x="1375" y="337" width="140" height="70" rx="2"/><text x="1445" y="372" class="coord-map-icc">ICC</text>
+            <circle cx="348" cy="190" r="42"/><text x="348" y="190">1</text>
+            <circle cx="1382" cy="190" r="42"/><text x="1382" y="190">2</text>
+            <circle cx="287" cy="615" r="42"/><text x="287" y="615">3</text>
+            <circle cx="1390" cy="625" r="42"/><text x="1390" y="625">4</text>
           </g>
         </svg>
+        <p class="coord-hub-title" aria-hidden="true">ICC<span>ภาพรวมข้อมูลร่วม</span></p>
       </div>
-      <p class="coord-mobile-label">จุดรายงานในพื้นที่ / 01–04</p>
-      <ol class="coord-sources" aria-label="จุดรายงานและช่องทางสื่อสาร">
-        <li class="coord-source" style="--x:11.7225%;--y:31.3496%">
+      <p class="coord-mobile-label">จุดรายงานรอบ ICC / 01–04</p>
+      <ol class="coord-sources" aria-label="จุดรายงานที่รับและส่งข้อมูลกับ ICC">
+        <li class="coord-source" style="--x:6%;--y:22%;--w:22%">
           <h3><span class="coord-number">01</span> ชุมชน</h3>
           <p><span class="coord-channel-icons" aria-hidden="true"><svg class="coord-icon"><use href="#coord-radio"/></svg><svg class="coord-icon"><use href="#coord-phone"/></svg></span>วิทยุ · โทรศัพท์</p>
         </li>
-        <li class="coord-source" style="--x:50.8373%;--y:29.7556%">
+        <li class="coord-source" style="--x:80%;--y:22%;--w:19%">
           <h3><span class="coord-number">02</span> เส้นทาง</h3>
           <p><svg class="coord-icon" aria-hidden="true"><use href="#coord-radio"/></svg>วิทยุ</p>
         </li>
-        <li class="coord-source" style="--x:13.9952%;--y:78.0021%">
+        <li class="coord-source" style="--x:3%;--y:68%;--w:24%">
           <h3><span class="coord-number">03</span> จุดส่งของ</h3>
           <p><span class="coord-channel-icons" aria-hidden="true"><svg class="coord-icon"><use href="#coord-message"/></svg><svg class="coord-icon"><use href="#coord-note"/></svg></span>ข้อความ · บันทึก</p>
         </li>
-        <li class="coord-source" style="--x:48.9234%;--y:82.9968%">
+        <li class="coord-source" style="--x:79%;--y:69%;--w:20%">
           <h3><span class="coord-number">04</span> ศูนย์พักพิง</h3>
           <p><span class="coord-channel-icons" aria-hidden="true"><svg class="coord-icon"><use href="#coord-phone"/></svg><svg class="coord-icon"><use href="#coord-message"/></svg></span>โทรศัพท์ · ข้อความ</p>
         </li>
@@ -115,19 +124,17 @@
         <h3>ผู้ประสานงาน</h3>
         <p>รับฟัง · ทวน · สรุป</p>
       </div>
-      <p class="coord-hub-title" aria-hidden="true">ICC</p>
-      <div class="coord-hub">
-        <h3>ICC <span>ข้อมูลให้ทีมร่วมพิจารณา</span></h3>
-        <ul><li>ภาพรวมสถานการณ์</li><li>ข้อมูลที่ต้องทวน</li><li>ประเด็นรอตัดสินใจ</li></ul>
-      </div>
-      <p class="coord-return"><span aria-hidden="true">↶</span>สื่อสารกลับไปยังจุดรายงาน</p>
     </div>
     <figcaption class="coord-legend" id="coord-caption">
-      <span class="coord-legend-items"><span><i class="coord-swatch" aria-hidden="true"></i>รายงานข้อมูล</span><span><i class="coord-swatch coord-swatch--reply" aria-hidden="true"></i>สื่อสารกลับ</span></span>
+      <span class="coord-legend-items"><span><i class="coord-swatch" aria-hidden="true"></i>รายงานข้อมูลเข้า</span><span><i class="coord-swatch coord-swatch--reply" aria-hidden="true"></i>คำสั่ง / การสนับสนุนกลับ</span></span>
       <span>เส้นเชื่อมแสดงการสื่อสาร ไม่ใช่เส้นทางเดินทาง</span>
     </figcaption>
   </figure>
-  <aside class="coord-boundary"><h3>ข้อมูลช่วยให้เห็นร่วมกัน<br>คนยังต้องทวนและตัดสินใจ</h3><p>นี่คือแนวคิดการประสานงาน ไม่ใช่การดึงเสียงวิทยุเข้าระบบอัตโนมัติ ผู้รับผิดชอบยังต้องทวนข้อมูล สรุปประเด็น และสื่อสารสิ่งที่ทีมตกลงกลับไปยังหน้างาน</p></aside>
+  <div class="coord-hub">
+    <h3>ICC <span>ข้อมูลให้ทีมร่วมพิจารณา</span></h3>
+    <ul><li>ภาพรวมสถานการณ์</li><li>ข้อมูลที่ต้องทวน</li><li>ประเด็นรอตัดสินใจ</li></ul>
+  </div>
+  <aside class="coord-boundary"><h3>ข้อมูลช่วยให้เห็นร่วมกัน<br>คนยังต้องทวนและตัดสินใจ</h3><p>ผู้รับผิดชอบทวนข้อมูล สรุปประเด็น และสื่อสารข้อสรุปกลับไปยังหน้างาน เส้นสองทิศทางแสดงแนวคิดการประสานงาน ยังไม่ใช่การส่งคำสั่งอัตโนมัติหรือการรับประกันว่าความช่วยเหลือจะถึงทันที</p></aside>
   <p class="coord-status" id="coord-scope">ภาพแนวคิดสร้างด้วย AI · พื้นที่และข้อมูลสมมติ · การศึกษาส่วนตัว · ยังไม่ได้ทดสอบภาคสนาม</p>
 </section>
 <section id="explore-next" class="section" aria-labelledby="explore-title">

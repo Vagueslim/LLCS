@@ -4,7 +4,9 @@ The homepage presents personal research into crisis coordination. It is a concep
 
 Current homepage: [LCCS Research](https://vagueslim.github.io/LLCS/).
 
-## Current release — 27 October 2026
+## Current release — 28 October 2026
+
+Section 4 now uses the approved central ICC composition: a text-free architectural image (`research/assets/coord-hub-base.png`) beneath native HTML labels and eight SVG paths. Four purple paths bring reports in; four slate paths communicate decisions/support back. The command wall and central room are the visual focus. Glow is static, with no animation or JavaScript dependency. Mobile keeps the map as an overview and reflows its numbered labels below it. People review information before communicating decisions; this is not a claim of automated commands or immediate assistance.
 
 The selected Coordination Closing version has five sections: Hero, Concept, Program Suites, Coordination, and Further Exploration, followed by the footer. Section 4 combines architectural artwork with HTML labels and SVG communication routes. ICS 200 and GIS remain possible directions without implemented detail pages.
 
@@ -15,7 +17,7 @@ The selected Coordination Closing version has five sections: Hero, Concept, Prog
 
 Run `python -m http.server 8875 --bind 127.0.0.1` from this repository and visit `http://127.0.0.1:8875/`. No npm build is required. GitHub Pages publishes the repository root from `main`; `.nojekyll` keeps the site static. The version comparison toolbar is local-review UI and is omitted from the public homepage.
 
-The illustrations use fictional locations/data and do not represent field evidence. People still review information and decide; the site does not claim automatic radio-to-dashboard integration. The source review covered 390, 768, 1440 and 1920px in desktop Edge, keyboard/dialog behavior and no-JavaScript content; physical mobile devices were not tested.
+The illustrations use fictional locations/data and do not represent field evidence. People still review information and decide; the site does not claim automatic radio-to-dashboard integration. The latest source review covered 320, 390, 768, 1024, 1440 and 1920px in desktop Edge, keyboard/dialog behavior and no-JavaScript content; physical mobile devices were not tested.
 
 ## Earlier prototype documentation
 
