@@ -3,743 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LCCS Rapid Onboarding MCP</title>
-  <style>
-    :root {
-      --bg: #f6f7f4;
-      --ink: #17201d;
-      --muted: #5a665f;
-      --line: #d9ded7;
-      --panel: #ffffff;
-      --panel-2: #eef3ee;
-      --green: #2f6f4e;
-      --green-2: #dff0e5;
-      --teal: #176b73;
-      --teal-2: #dceff0;
-      --amber: #9b6716;
-      --amber-2: #fff0cc;
-      --red: #9c3535;
-      --red-2: #f7dddd;
-      --blue: #315f91;
-      --blue-2: #e0ecf8;
-      --purple: #6d518f;
-      --purple-2: #ece5f4;
-      --shadow: 0 10px 24px rgba(30, 38, 33, .08);
-      --radius: 8px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.82), rgba(246,247,244,.94)),
-        repeating-linear-gradient(90deg, rgba(47,111,78,.04) 0 1px, transparent 1px 56px),
-        repeating-linear-gradient(0deg, rgba(47,111,78,.035) 0 1px, transparent 1px 56px),
-        var(--bg);
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-      letter-spacing: 0;
-    }
-
-    .page {
-      min-height: 100vh;
-      padding: 24px;
-    }
-
-    .shell {
-      width: min(1500px, 100%);
-      margin: 0 auto;
-    }
-
-    header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      align-items: end;
-      padding: 18px 0 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
-    h1 {
-      font-size: clamp(28px, 4vw, 48px);
-      line-height: 1.06;
-      font-weight: 760;
-      max-width: 920px;
-    }
-
-    .subtitle {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.55;
-      max-width: 980px;
-    }
-
-    .timestamp {
-      min-width: 260px;
-      padding: 14px 16px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      text-align: right;
-    }
-
-    .timestamp b {
-      display: block;
-      font-size: 14px;
-      color: var(--muted);
-      font-weight: 650;
-    }
-
-    .timestamp span {
-      display: block;
-      margin-top: 4px;
-      font-size: 22px;
-      font-weight: 760;
-      color: var(--green);
-    }
-
-    .status-bar {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin: 18px 0 18px;
-    }
-
-    .metric {
-      min-height: 94px;
-      padding: 14px;
-      border-radius: var(--radius);
-      background: var(--panel);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .metric .label {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 650;
-    }
-
-    .metric .value {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-top: 8px;
-      font-size: 30px;
-      font-weight: 780;
-    }
-
-    .metric .value small {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .metric .hint {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    .main-grid {
-      display: grid;
-      grid-template-columns: 330px minmax(0, 1fr) 350px;
-      gap: 16px;
-      align-items: start;
-    }
-
-    section {
-      min-width: 0;
-    }
-
-    .panel {
-      background: rgba(255,255,255,.86);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(238,243,238,.7);
-    }
-
-    .panel-header h2 {
-      font-size: 17px;
-      line-height: 1.25;
-    }
-
-    .panel-header .mini {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 650;
-      white-space: nowrap;
-    }
-
-    .panel-body {
-      padding: 14px 16px 16px;
-    }
-
-    .activation {
-      display: grid;
-      gap: 10px;
-    }
-
-    .law-chip {
-      display: inline-flex;
-      width: fit-content;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      color: #213f2e;
-      background: var(--green-2);
-      border: 1px solid #b8dcc5;
-      font-size: 12px;
-      font-weight: 720;
-    }
-
-    .flow {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .flow-step {
-      display: grid;
-      grid-template-columns: 38px 1fr;
-      gap: 10px;
-      align-items: start;
-    }
-
-    .step-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--green);
-      font-weight: 760;
-    }
-
-    .flow-step:nth-child(2) .step-icon {
-      background: var(--teal);
-    }
-
-    .flow-step:nth-child(3) .step-icon {
-      background: var(--blue);
-    }
-
-    .flow-step:nth-child(4) .step-icon {
-      background: var(--amber);
-    }
-
-    .step-text {
-      padding-bottom: 10px;
-      border-bottom: 1px dashed var(--line);
-    }
-
-    .flow-step:last-child .step-text {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .step-text b {
-      display: block;
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    .step-text span {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .intake-list {
-      display: grid;
-      gap: 9px;
-    }
-
-    .intake-item {
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 10px;
-      align-items: center;
-      padding: 10px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-    }
-
-    .intake-icon {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--panel-2);
-      color: var(--green);
-      font-weight: 800;
-    }
-
-    .intake-item b {
-      display: block;
-      font-size: 13px;
-    }
-
-    .intake-item span {
-      color: var(--muted);
-      display: block;
-      font-size: 12px;
-      line-height: 1.35;
-      margin-top: 2px;
-    }
-
-    .board {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(145px, 1fr));
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .lane {
-      min-height: 550px;
-      background: rgba(255,255,255,.78);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .lane-title {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-      padding: 12px;
-      border-bottom: 1px solid var(--line);
-      background: var(--panel-2);
-    }
-
-    .lane-title b {
-      font-size: 14px;
-      line-height: 1.2;
-    }
-
-    .count {
-      min-width: 26px;
-      height: 26px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 760;
-    }
-
-    .cards {
-      padding: 10px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .resource-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-left: 5px solid var(--green);
-      border-radius: var(--radius);
-      padding: 11px;
-      box-shadow: 0 6px 14px rgba(30,38,33,.06);
-    }
-
-    .resource-card.team {
-      border-left-color: var(--teal);
-    }
-
-    .resource-card.asset {
-      border-left-color: var(--blue);
-    }
-
-    .resource-card.supply {
-      border-left-color: var(--amber);
-    }
-
-    .resource-card.alert {
-      border-left-color: var(--red);
-    }
-
-    .card-top {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: start;
-      gap: 10px;
-    }
-
-    .card-top b {
-      display: block;
-      font-size: 14px;
-      line-height: 1.25;
-    }
-
-    .id {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 760;
-      overflow-wrap: anywhere;
-      white-space: normal;
-    }
-
-    .meta {
-      margin-top: 8px;
-      display: grid;
-      gap: 5px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 22px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      border: 1px solid transparent;
-      background: var(--green-2);
-      color: #244c34;
-    }
-
-    .chip.teal {
-      color: #16525a;
-      background: var(--teal-2);
-      border-color: #b8dadd;
-    }
-
-    .chip.blue {
-      color: #254e7b;
-      background: var(--blue-2);
-      border-color: #bdd4ea;
-    }
-
-    .chip.amber {
-      color: #745017;
-      background: var(--amber-2);
-      border-color: #ead19a;
-    }
-
-    .chip.red {
-      color: #7d2929;
-      background: var(--red-2);
-      border-color: #e1b6b6;
-    }
-
-    .chip.purple {
-      color: #594276;
-      background: var(--purple-2);
-      border-color: #d6c7e4;
-    }
-
-    .mission-map {
-      display: grid;
-      grid-template-columns: 1fr 42px 1fr 42px 1fr;
-      align-items: center;
-      gap: 6px;
-      margin-top: 14px;
-    }
-
-    .map-node {
-      min-height: 82px;
-      padding: 11px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-    }
-
-    .map-node b {
-      display: block;
-      font-size: 13px;
-      line-height: 1.3;
-    }
-
-    .map-node span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .arrow {
-      height: 2px;
-      background: var(--line);
-      position: relative;
-    }
-
-    .arrow::after {
-      content: "";
-      position: absolute;
-      right: -1px;
-      top: -5px;
-      border-left: 8px solid var(--line);
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-    }
-
-    .right-stack {
-      display: grid;
-      gap: 16px;
-    }
-
-    .type-grid {
-      display: grid;
-      gap: 9px;
-    }
-
-    .type-row {
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 10px;
-      align-items: center;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-    }
-
-    .type-letter {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      border-radius: var(--radius);
-      color: #fff;
-      background: var(--green);
-      font-size: 18px;
-      font-weight: 820;
-    }
-
-    .type-row:nth-child(2) .type-letter {
-      background: var(--teal);
-    }
-
-    .type-row:nth-child(3) .type-letter {
-      background: var(--blue);
-    }
-
-    .type-row:nth-child(4) .type-letter {
-      background: var(--amber);
-    }
-
-    .type-row:nth-child(5) .type-letter {
-      background: var(--purple);
-    }
-
-    .type-row b {
-      font-size: 13px;
-      display: block;
-    }
-
-    .type-row span {
-      margin-top: 2px;
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .script-box {
-      padding: 12px;
-      border-radius: var(--radius);
-      border: 1px solid #cbd8cc;
-      background: #f8fbf7;
-      color: #2f4237;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .script-box b {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--green);
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .safety-list {
-      display: grid;
-      gap: 8px;
-    }
-
-    .safety-list div {
-      display: grid;
-      grid-template-columns: 24px 1fr;
-      gap: 8px;
-      align-items: start;
-      font-size: 13px;
-      color: #2b3932;
-      line-height: 1.35;
-    }
-
-    .check {
-      width: 24px;
-      height: 24px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--green-2);
-      color: var(--green);
-      font-weight: 900;
-    }
-
-    .footer-band {
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: var(--radius);
-      background: #17201d;
-      color: #eef3ee;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .footer-band b {
-      font-size: 15px;
-    }
-
-    .footer-band span {
-      display: block;
-      margin-top: 3px;
-      color: #c8d5cd;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-
-    @media (max-width: 1240px) {
-      .main-grid {
-        grid-template-columns: 300px minmax(0, 1fr);
-      }
-
-      .right-stack {
-        grid-column: 1 / -1;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .right-stack .panel:last-child {
-        grid-column: 1 / -1;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .page {
-        padding: 14px;
-      }
-
-      header,
-      .main-grid,
-      .status-bar,
-      .right-stack,
-      .footer-band {
-        grid-template-columns: 1fr;
-      }
-
-      .timestamp {
-        text-align: left;
-        min-width: 0;
-      }
-
-      .board {
-        grid-template-columns: 1fr;
-      }
-
-      .lane {
-        min-height: 0;
-      }
-
-      .mission-map {
-        grid-template-columns: 1fr;
-      }
-
-      .arrow {
-        width: 2px;
-        height: 28px;
-        justify-self: center;
-      }
-
-      .arrow::after {
-        right: -5px;
-        top: 20px;
-        border-top: 8px solid var(--line);
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-bottom: 0;
-      }
-
-      .legend {
-        justify-content: flex-start;
-      }
-    }
-  </style>
-<link rel="stylesheet" href="../research/prototype-notice.css?v=showcase-20261028">
+  <meta name="description" content="ทำความเข้าใจแนวคิด LCCS Rapid Onboarding ผ่านภาพการทำงาน 4 ช่วง ตั้งแต่เปิดรับความช่วยเหลือ เก็บข้อมูล รวมบัตรทรัพยากร จนถึงการทบทวนโดยคนก่อนมอบหมายงาน">
+  <meta name="theme-color" content="#f8f8f5">
+  <title>เริ่มต้นเข้าร่วมช่วยเหลือ — LCCS Research</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="rapid-onboarding.css">
 </head>
 <body>
-<aside class="prototype-notice" aria-label="สถานะต้นแบบ">
-  <p class="prototype-notice-label">ต้นแบบ · ข้อมูลจำลอง</p>
-  <p>แผนภาพแนวคิดสำหรับอ่านประกอบ ยังไม่เชื่อม API หรือระบบรับข้อมูลจริง</p>
-  <p class="prototype-notice-scope">โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา · ไม่ใช่ช่องทางแจ้งเหตุหรือขอความช่วยเหลือจริง</p>
-  <a href="../index.html#prototype-library">กลับไปหน้าโชว์เคส LCCS</a>
-</aside>
+  <a class="skip-link" href="#main">ข้ามไปเนื้อหา</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="../index.html" aria-label="หน้าแรก LCCS Research">LCCS<span aria-hidden="true">_</span> <small>RESEARCH</small></a>
+    <a class="back-link" href="../index.html#prototype-library"><span aria-hidden="true">↖</span> กลับไปหน้าโชว์เคส</a>
+  </header>
+  <main id="main" class="wrap">
+    <section class="intro intro--visual" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <p class="eyebrow">FIELD GUIDE / 01 — RAPID ONBOARDING</p>
+        <p class="hero-status">แนวคิดและต้นแบบ</p>
+        <h1 id="page-title">จากพร้อมช่วย<br><em>สู่พร้อมรับภารกิจ</em></h1>
+        <p class="intro-lead">รับรู้ความช่วยเหลือที่มีอยู่ เห็นเงื่อนไขที่ยังขาด<br class="desktop-break"> แล้วให้คนทบทวนก่อนมอบหมายงาน</p>
+        <p class="hero-question">“ช่วยอะไรได้ และต้องการอะไรก่อน?”</p>
+        <a class="text-link" href="#journey">ดูการรับความช่วยเหลือ 4 ช่วง <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="intro-visual" aria-labelledby="hero-context-title">
+        <img class="hero-context-art" src="assets/rapid-onboarding/coordination-cycle-hero-linework.jpg" width="1536" height="1024" loading="eager" fetchpriority="high" alt="ภาพแนวคิดลายเส้นสถาปัตยกรรม แสดงการเชื่อมงานขององค์กร ทีมเหตุการณ์ จุดรับคำขอ คลังและการขนส่ง ไปถึงจุดรับสิ่งของ ใช้อธิบายบริบทการประสานงานห้าช่วงด้วยข้อมูลจำลอง">
+        <figcaption>
+          <div class="hero-visual-meta"><span id="hero-context-title">บริบทการประสานงาน 5 ช่วง</span><a class="full-image-link" href="assets/rapid-onboarding/coordination-cycle-hero-linework.jpg" target="_blank" rel="noopener noreferrer" aria-label="เปิดภาพบริบทการประสานงานขนาดเต็มในแท็บใหม่">เปิดภาพขนาดเต็ม ↗</a></div>
+          <ol class="hero-cycle-index" aria-label="ลำดับบริบทการประสานงาน"><li><span>01</span>องค์กร</li><li><span>02</span>ทีมเหตุการณ์</li><li><span>03</span>คำขอ</li><li><span>04</span>ขนส่ง</li><li><span>05</span>ตรวจรับ</li></ol>
+        </figcaption>
+      </figure>
+      <details class="hero-context-details">
+        <summary><span><b>อ่านบริบทของภาพ</b><small>กรณีสาธิต: ขอ 50 แพ็ก → รับจริง 47 แพ็ก / ตรวจส่วนต่าง 3 แพ็ก</small></span><span class="summary-icon" aria-hidden="true">+</span></summary>
+        <div class="hero-context-body">
+          <p class="hero-context-intro">ภาพนี้แสดงบริบทตั้งแต่เข้าร่วมจนถึงส่งมอบ ส่วนเนื้อหาด้านล่างขยายเฉพาะการรับข้อมูลและทบทวนความพร้อมก่อนมอบหมายงาน</p>
+          <ol class="hero-context-stages">
+            <li><b>เลือกหรือสร้างองค์กร</b><p>เลือกองค์กรเดิมหรือสร้างใหม่ องค์กรเดิมใช้ต่อได้หลายเหตุการณ์</p></li>
+            <li><b>สร้างทีมสำหรับเหตุการณ์</b><p>แยกทีมตามแต่ละเหตุการณ์ เข้าร่วมผ่าน QR ของทีม โดยส่ง PIN แยกกัน หากไม่มี PIN ให้รอฝ่ายเลขานุการทบทวน ส่วนผู้มีอำนาจอนุมัติทีมยังไม่ได้ยืนยัน</p></li>
+            <li><b>คำขอและพูลร่วม</b><p>กรณีสาธิต A1 ขอรับน้ำดื่ม 50 แพ็ก และ B1 ยืนยันและเปิดพูลร่วม</p></li>
+            <li><b>จัดสรรและขนส่ง</b><p>S1 เสนอขนส่ง · P1 ตรวจยืนยัน · B1 จัดสรรจากพูลร่วม แล้วออกเที่ยวขนส่ง</p></li>
+            <li><b>รับของและกระทบยอด</b><p>A1 รับจริง 47 แพ็ก แล้ว A1 และ B1 ทวนส่วนต่าง 3 แพ็ก <strong>จบเที่ยวขนส่งไม่เท่ากับปิดคำขอ</strong></p></li>
+          </ol>
+          <p class="hero-context-note">เส้นวนกลับสื่อถึงการส่งต่อข้อมูลและความพร้อม ไม่ได้เปิดคำขอเดิมซ้ำโดยอัตโนมัติ และไม่ได้สร้างองค์กรใหม่ ภาพสร้างด้วย AI เพื่ออธิบายแนวคิดและกรณีสาธิต ไม่ใช่ผลการปฏิบัติงานจริง</p>
+        </div>
+      </details>
+    </section>
+    <p class="scope-line">หน้านี้อธิบายแนวคิดการทำงาน ยังไม่เชื่อม API หรือระบบรับข้อมูลจริง และไม่ใช่ช่องทางแจ้งเหตุ</p>
 
-  <main class="page">
-    <div class="shell">
-      <header>
+    <section id="journey" class="journey" aria-labelledby="journey-title">
+      <div class="section-topline"><h2 id="journey-title">ความช่วยเหลือหนึ่งรายการ เดินต่ออย่างไร</h2><span class="eyebrow">คน · ข้อมูล · การตัดสินใจ</span></div>
+      <figure class="journey-figure">
+        <div class="journey-art">
+          <img src="assets/rapid-onboarding/coordination-journey-linework-v2.jpg" width="1536" height="1024" fetchpriority="high" alt="ภาพแนวคิดลายเส้นสถาปัตยกรรมมุมสูง ขาว–เทาและน้ำฟ้าอ่อน แสดงคนและทรัพยากร จุดรับข้อมูล บอร์ดทรัพยากร และเจ้าหน้าที่ร่วมทบทวนก่อนมอบหมายงาน เชื่อมเป็นเส้นทางสี่ช่วง">
+          <a class="scene-pin pin-one" href="#step-1" aria-label="ช่วงที่ 1 เปิดรับความช่วยเหลือ"><span>01</span><b>เปิดรับ</b></a>
+          <a class="scene-pin pin-two" href="#step-2" aria-label="ช่วงที่ 2 เก็บข้อมูลที่จำเป็น"><span>02</span><b>รับข้อมูล</b></a>
+          <a class="scene-pin pin-three" href="#step-3" aria-label="ช่วงที่ 3 รวมเป็นบัตรทรัพยากร"><span>03</span><b>เห็นร่วมกัน</b></a>
+          <a class="scene-pin pin-four" href="#step-4" aria-label="ช่วงที่ 4 คนทบทวนก่อนมอบหมาย"><span>04</span><b>ทวนก่อนใช้</b></a>
+        </div>
+        <figcaption><span>เลือกหมายเลขเพื่ออ่านแต่ละช่วง · <a class="full-image-link" href="assets/rapid-onboarding/coordination-journey-linework-v2.jpg" target="_blank" rel="noopener noreferrer" aria-label="เปิดภาพขนาดเต็มในแท็บใหม่">เปิดภาพขนาดเต็ม ↗</a></span><span>ภาพสร้างด้วย AI เพื่ออธิบายแนวคิด · ไม่ใช่สถานที่ปฏิบัติงานจริง</span></figcaption>
+      </figure>
+      <ol class="journey-index" aria-label="อ่านตามลำดับการทำงาน">
+        <li><a href="#step-1"><span class="index-number">01</span><span>เปิดรับความช่วยเหลือ<small>หลายช่องทาง จุดเริ่มเดียวกัน</small></span><span aria-hidden="true">↘</span></a></li>
+        <li><a href="#step-2"><span class="index-number">02</span><span>เก็บข้อมูลที่จำเป็น<small>ใคร · ที่ไหน · ช่วยอะไรได้</small></span><span aria-hidden="true">↘</span></a></li>
+        <li><a href="#step-3"><span class="index-number">03</span><span>รวมเป็นบัตรทรัพยากร<small>เห็นข้อมูลและสิ่งที่ยังขาด</small></span><span aria-hidden="true">↘</span></a></li>
+        <li><a href="#step-4"><span class="index-number">04</span><span>คนทบทวนก่อนมอบหมาย<small>ช่วยให้พร้อม ก่อนเริ่มงาน</small></span><span aria-hidden="true">↘</span></a></li>
+      </ol>
+    </section>
+
+    <section class="walkthrough" aria-label="อธิบายการทำงานทีละช่วง">
+      <article class="step" id="step-1" aria-labelledby="step-title-1">
+        <div class="step-heading"><p class="eyebrow"><span class="step-number">01</span> OFFICIAL CALL FOR SUPPORT</p><h2 id="step-title-1">เปิดรับความช่วยเหลือ<br>จากหลายช่องทาง</h2><p class="step-who">ผู้ที่พร้อมช่วย → เจ้าหน้าที่รับข้อมูล</p></div>
+        <div class="step-content"><p class="step-lead">ความช่วยเหลืออาจเริ่มจากสายโทรศัพท์ ลิงก์ หรือรายชื่อจากหน่วยงาน เป้าหมายคือให้แต่ละรายการมีข้อมูลที่นำมาทำงานต่อร่วมกันได้</p><ul class="channel-list"><li><span aria-hidden="true">↗</span><div><b>โทรศัพท์</b><p>เจ้าหน้าที่รับข้อมูลสั้น ๆ แล้วส่งลิงก์ให้เติมต่อ</p></div></li><li><span aria-hidden="true">↗</span><div><b>ลิงก์ทางการ / แชท / QR</b><p>ผู้ที่พร้อมช่วยเริ่มให้ข้อมูลด้วยตนเอง</p></div></li><li><span aria-hidden="true">↗</span><div><b>รายชื่อจากหน่วยงาน</b><p>เจ้าหน้าที่ลงทะเบียนเป็นรายคนหรือเป็นชุด</p></div></li></ul><p class="handoff"><b>ส่งต่อ:</b> ข้อมูลตั้งต้นของคน ทีม อุปกรณ์ หรือสิ่งของที่พร้อมเสนอความช่วยเหลือ</p></div>
+      </article>
+
+      <article class="step" id="step-2" aria-labelledby="step-title-2">
+        <div class="step-heading"><p class="eyebrow"><span class="step-number">02</span> FAST INTAKE</p><h2 id="step-title-2">ถามเท่าที่จำเป็น<br>เพื่อให้ทำงานต่อได้</h2><p class="step-who">ผู้ให้ข้อมูล ↔ เจ้าหน้าที่รับข้อมูล</p></div>
+        <div class="step-content"><p class="step-lead">ยังไม่ต้องเริ่มด้วยประวัติยาว ๆ ให้รู้ก่อนว่าเป็นใคร ติดต่ออย่างไร และมีเงื่อนไขอะไรที่ต้องช่วยจัดการ</p><dl class="intake-fields"><div><dt>ใคร</dt><dd>ชื่อและองค์กร</dd></div><div><dt>ติดต่ออย่างไร</dt><dd>เบอร์ติดต่อ / ผู้ประสานงาน</dd></div><div><dt>อยู่ที่ไหน</dt><dd>ตำแหน่งหรือจุดนัดหมาย</dd></div><div><dt>พร้อมเมื่อไร</dt><dd>เวลาที่เริ่มได้ / ETA</dd></div><div><dt>ช่วยอะไรได้</dt><dd>กำลังคน อุปกรณ์ จำนวน และขีดความสามารถ</dd></div><div><dt>ยังต้องการอะไร</dt><dd>เงื่อนไขก่อนเริ่มงาน เช่น น้ำมันหรือเส้นทาง</dd></div></dl><p class="handoff"><b>ส่งต่อ:</b> ข้อมูลพอให้เจ้าหน้าที่ติดต่อกลับและทบทวนความพร้อม ไม่ใช่การยืนยันว่าพร้อมออกงานแล้ว</p></div>
+      </article>
+
+      <article class="step" id="step-3" aria-labelledby="step-title-3">
+        <div class="step-heading"><p class="eyebrow"><span class="step-number">03</span> RESOURCE CARD</p><h2 id="step-title-3">จากข้อมูลหลายที่<br>สู่บัตรที่เห็นร่วมกัน</h2><p class="step-who">เจ้าหน้าที่รับข้อมูล → ทีมประสานงาน</p><p class="step-side-note">แนวคิดคือมีรหัสอ้างอิงของแต่ละรายการ เพื่อให้ทีมกลับมาดูข้อมูลเดียวกัน แทนการตามจากแชทหรือความจำ</p></div>
+        <div class="step-content"><p class="sample-label">ตัวอย่างจากต้นแบบเดิม · ข้อมูลจำลอง</p><div class="example-resource"><div class="example-top"><span class="eyebrow">A-20260530-0008</span><span class="needs-label">ต้องการการสนับสนุนก่อน</span></div><h3>รถบรรทุกสูง 2 คัน</h3><dl><div><dt>อยู่ที่</dt><dd>คลังเทศบาล</dd></div><div><dt>ยังขาด</dt><dd>น้ำมัน + การยืนยันเส้นทาง</dd></div></dl><p class="example-observation">เห็นรถแล้ว แต่ยังต้องเห็นเงื่อนไข<br><strong>ก่อนนำไปจับคู่กับภารกิจ</strong></p></div><p class="handoff"><b>ส่งต่อ:</b> บัตรทรัพยากรพร้อมข้อมูลที่มี และสิ่งที่ต้องทวนหรือสนับสนุนเพิ่ม</p></div>
+      </article>
+
+      <article class="step decision-step" id="step-4" aria-labelledby="step-title-4">
+        <div class="step-heading"><p class="eyebrow"><span class="step-number">04</span> MISSION DECISION</p><h2 id="step-title-4">คนทวนความพร้อม<br>ก่อนเลือกภารกิจ</h2><p class="step-who">เจ้าหน้าที่ / ผู้รับผิดชอบ → ทีมปฏิบัติงาน</p><p class="step-side-note"><strong>Safety Gate</strong> คือคนทบทวนก่อนมอบหมาย<br>ไม่ใช่ตรารับรองความปลอดภัย</p></div>
+        <div class="step-content"><p class="step-lead">การมีรายการอยู่ในระบบช่วยให้มองเห็น แต่การนำไปใช้ยังต้องทวนข้อมูล ความเหมาะสม และเงื่อนไขของงานโดยผู้รับผิดชอบ</p><div class="decision-branches"><section class="branch support-branch" aria-labelledby="support-title"><p class="branch-label">ถ้ายังมีเงื่อนไขค้าง</p><h3 id="support-title">สนับสนุนก่อน</h3><p>ประสานสิ่งที่ยังขาด เช่น น้ำมัน เส้นทาง หรือผู้ควบคุมอุปกรณ์ แล้วกลับมาทวนความพร้อม</p><span class="branch-return"><span aria-hidden="true">↶</span> กลับมาทบทวน</span></section><section class="branch ready-branch" aria-labelledby="ready-title"><p class="branch-label">เมื่อผู้รับผิดชอบทวนแล้ว</p><h3 id="ready-title">พร้อมให้พิจารณามอบหมาย</h3><p>เลือกภารกิจที่เหมาะกับทรัพยากร พร้อมผู้รับช่วงงาน และติดตามสถานะหลังมอบหมาย</p><span class="branch-return"><span aria-hidden="true">→</span> มอบหมาย / ติดตามงาน</span></section></div><p class="decision-note"><strong>พร้อมให้มอบหมาย ≠ ถูกมอบหมายแล้ว</strong><br>การเปลี่ยนสถานะยังขึ้นกับการพิจารณาและการประสานงานของคน</p><details class="gate-details"><summary>คนต้องทวนอะไรบ้าง <span aria-hidden="true">+</span></summary><ul><li>ติดต่อได้จริง และมีผู้ติดต่อสำรองเมื่อเป็นทีมใหญ่</li><li>ตำแหน่งและเวลาที่คาดว่าจะมาถึงน่าเชื่อถือพอสำหรับวางงาน</li><li>ขีดความสามารถสอดคล้องกับภารกิจ</li><li>เงื่อนไขเรื่องผู้ควบคุม ผู้นำทาง เส้นทาง น้ำมัน วิทยุ และการเข้าพื้นที่</li></ul></details></div>
+      </article>
+    </section>
+
+    <section class="reference-section" aria-labelledby="reference-title">
+      <div class="section-topline"><div><p class="eyebrow">READ FURTHER</p><h2 id="reference-title">รายละเอียดสำหรับคนอยากดูต่อ</h2></div><a class="text-link" href="#journey">กลับไปภาพรวม <span aria-hidden="true">↑</span></a></div>
+      <details class="reference-details" id="original-reference"><summary><span><b>ข้อมูลและบอร์ดจากต้นแบบเดิม</b><small>LCCS Rapid Onboarding MCP · ช่องทางรับข้อมูล · ประเภท A–E · สถานะ · Needs First · Safety Gate</small></span><span class="summary-icon" aria-hidden="true">+</span></summary><div class="reference-intro"><p><b>ส่วนนี้เก็บรายละเอียดต้นฉบับเพื่อใช้ศึกษาต่อ</b> รายการ ตัวเลข และสถานะ “ICP Intake Live” เป็นข้อมูลจำลอง ไม่ใช่การรายงานสด</p><p>ยอดสรุปกับจำนวนในแต่ละช่องของบอร์ดยังไม่ได้ตรวจสอบความสัมพันธ์กัน จึงไม่ควรใช้เป็นยอดปฏิบัติงานจริง “0–30 นาทีแรก” เป็นช่วงเวลาที่เสนอในแนวคิด ไม่ใช่ผลทดสอบความเร็ว ส่วนรายการอ้างอิงกฎหมายยังต้องทบทวนกับแหล่งทางการ</p></div><div class="legacy">
+
+      <header class="legacy-heading">
         <div>
-          <h1>LCCS Rapid Onboarding MCP</h1>
+          <h3>LCCS Rapid Onboarding MCP</h3>
           <p class="subtitle">ภาพรวมการรับทรัพยากรช่วยเหลือเข้าสู่ ICP หลัง ปภ. เรียกประชุมตั้งศูนย์บัญชาการเหตุการณ์ ใช้เพื่อเห็นความช่วยเหลือที่พร้อมใช้ ก่อนข้อมูลกระจายไปอยู่ในโทรศัพท์ แชท Excel และความจำรายบุคคล</p>
         </div>
         <div class="timestamp" aria-label="activation status">
@@ -780,7 +138,7 @@
           </div>
           <div class="panel-body">
             <div class="activation">
-              <span class="law-chip">พ.ร.บ. ป้องกันฯ 2550 ม.21-27</span>
+              <span class="law-chip" title="รายการอ้างอิงในต้นแบบเดิม ยังไม่ได้ตรวจสอบข้อกฎหมายในหน้านี้">พ.ร.บ. ป้องกันฯ 2550 ม.21-27</span>
               <p class="subtitle" style="font-size: 13px;">คำถามหลัก: มีความช่วยเหลืออะไรอยู่ที่ไหน จะใช้ได้เมื่อไร และต้องการอะไรจาก ICP ก่อนเริ่มงานอย่างปลอดภัย</p>
             </div>
 
@@ -1116,7 +474,10 @@
           <span class="chip purple">assigned</span>
         </div>
       </div>
-    </div>
+
+      </div></details>
+    </section>
   </main>
+  <footer class="site-footer wrap"><div><b>LCCS Research</b><p>Life Connection Crisis System</p></div><p>โครงการส่วนตัว · แนวคิดและต้นแบบ · ยังไม่ได้ทดสอบภาคสนาม<br>ภาพสร้างด้วย AI และข้อมูลจำลองใช้เพื่ออธิบายการทำงาน ไม่ใช่บริการรับข้อมูลหรือแจ้งเหตุ</p><a class="text-link" href="../index.html#prototype-library">กลับไป LCCS <span aria-hidden="true">↗</span></a></footer>
 </body>
 </html>
