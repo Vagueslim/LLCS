@@ -1,581 +1,147 @@
 <!doctype html>
-<html lang="th">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LCCS Stakeholder Registration ORC Chart</title>
-  <style>
-    :root {
-      --bg: #f7f8f5;
-      --ink: #17201d;
-      --muted: #5b665f;
-      --line: #d7ddd5;
-      --panel: #ffffff;
-      --soft: #eef3ee;
-      --gov: #9b6716;
-      --gov-soft: #fff0cc;
-      --org: #176b73;
-      --org-soft: #dceff0;
-      --self: #2f6f4e;
-      --self-soft: #dff0e5;
-      --app: #315f91;
-      --app-soft: #e0ecf8;
-      --phone: #9c3535;
-      --phone-soft: #f7dddd;
-      --violet: #65508a;
-      --violet-soft: #ece6f3;
-      --shadow: 0 10px 26px rgba(28, 39, 33, .08);
-      --radius: 8px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.92), rgba(247,248,245,.96)),
-        repeating-linear-gradient(90deg, rgba(47,111,78,.035) 0 1px, transparent 1px 64px),
-        repeating-linear-gradient(0deg, rgba(47,111,78,.03) 0 1px, transparent 1px 64px),
-        var(--bg);
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-      letter-spacing: 0;
-    }
-
-    .page {
-      min-height: 100vh;
-      padding: 24px;
-    }
-
-    .shell {
-      width: min(1500px, 100%);
-      margin: 0 auto;
-    }
-
-    header {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 24px;
-      align-items: end;
-      padding: 18px 0 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
-    h1 {
-      max-width: 980px;
-      font-size: clamp(30px, 4vw, 52px);
-      line-height: 1.06;
-      font-weight: 780;
-    }
-
-    .subtitle {
-      max-width: 1050px;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.55;
-    }
-
-    .mode-card {
-      min-width: 250px;
-      padding: 14px 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      text-align: right;
-    }
-
-    .mode-card b {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .mode-card span {
-      display: block;
-      margin-top: 4px;
-      color: var(--self);
-      font-size: 22px;
-      font-weight: 780;
-    }
-
-    .rule {
-      margin: 18px 0;
-      padding: 14px 16px;
-      border: 1px solid #dfc79a;
-      border-radius: var(--radius);
-      background: #fff8e7;
-      color: #614715;
-      box-shadow: var(--shadow);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .rule b {
-      display: block;
-      margin-bottom: 3px;
-      font-size: 15px;
-    }
-
-    .topology {
-      display: grid;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-
-    .root {
-      padding: 18px;
-      border-radius: var(--radius);
-      background: #17201d;
-      color: #eef3ee;
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-
-    .root b {
-      display: block;
-      font-size: 24px;
-      line-height: 1.2;
-    }
-
-    .root span {
-      display: block;
-      margin-top: 5px;
-      color: #cbd7cf;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .channels {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .channel {
-      min-height: 154px;
-      padding: 14px;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      position: relative;
-    }
-
-    .channel::before {
-      content: "";
-      position: absolute;
-      left: 14px;
-      right: 14px;
-      top: -14px;
-      height: 14px;
-      border-left: 2px solid var(--line);
-      border-right: 2px solid transparent;
-    }
-
-    .channel.gov {
-      border-top: 5px solid var(--gov);
-    }
-
-    .channel.org {
-      border-top: 5px solid var(--org);
-    }
-
-    .channel.self {
-      border-top: 5px solid var(--self);
-    }
-
-    .channel.app {
-      border-top: 5px solid var(--app);
-    }
-
-    .channel.phone {
-      border-top: 5px solid var(--phone);
-    }
-
-    .channel h2 {
-      font-size: 16px;
-      line-height: 1.25;
-    }
-
-    .channel p {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.43;
-    }
-
-    .channel .count {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 9px;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      color: #fff;
-      font-weight: 820;
-    }
-
-    .gov .count {
-      background: var(--gov);
-    }
-
-    .org .count {
-      background: var(--org);
-    }
-
-    .self .count {
-      background: var(--self);
-    }
-
-    .app .count {
-      background: var(--app);
-    }
-
-    .phone .count {
-      background: var(--phone);
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 10px;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 24px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 12px;
-      font-weight: 720;
-      white-space: normal;
-    }
-
-    .chip.gov {
-      color: #765017;
-      background: var(--gov-soft);
-      border-color: #ead19a;
-    }
-
-    .chip.org {
-      color: #16525a;
-      background: var(--org-soft);
-      border-color: #b8dadd;
-    }
-
-    .chip.self {
-      color: #244c34;
-      background: var(--self-soft);
-      border-color: #bfdcc9;
-    }
-
-    .chip.app {
-      color: #254e7b;
-      background: var(--app-soft);
-      border-color: #bdd4ea;
-    }
-
-    .chip.phone {
-      color: #7d2929;
-      background: var(--phone-soft);
-      border-color: #e1b6b6;
-    }
-
-    .chip.violet {
-      color: #53406f;
-      background: var(--violet-soft);
-      border-color: #d6c7e4;
-    }
-
-    .map {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .stakeholder {
-      min-height: 178px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.92);
-      box-shadow: var(--shadow);
-    }
-
-    .stakeholder h3 {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 10px;
-      font-size: 16px;
-      line-height: 1.25;
-    }
-
-    .stakeholder h3 span {
-      min-width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      color: #fff;
-      background: var(--violet);
-      font-size: 12px;
-      font-weight: 820;
-    }
-
-    .stakeholder p {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .route-row {
-      margin-top: 10px;
-      display: grid;
-      gap: 7px;
-    }
-
-    .route {
-      display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 8px;
-      align-items: start;
-      font-size: 12px;
-      line-height: 1.35;
-      color: #2f3b35;
-    }
-
-    .route b {
-      color: var(--muted);
-      text-transform: uppercase;
-      font-size: 11px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 20px 0 12px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-title h2 {
-      font-size: 22px;
-      line-height: 1.25;
-    }
-
-    .section-title span {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-      text-align: right;
-    }
-
-    .matrix {
-      display: grid;
-      grid-template-columns: 1.1fr repeat(5, minmax(88px, .7fr));
-      gap: 1px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .cell {
-      min-height: 48px;
-      padding: 10px;
-      background: var(--panel);
-      font-size: 13px;
-      line-height: 1.35;
-      display: grid;
-      align-items: center;
-    }
-
-    .cell.head {
-      background: var(--soft);
-      font-weight: 780;
-      color: #26352d;
-      text-align: center;
-    }
-
-    .cell.role {
-      font-weight: 760;
-    }
-
-    .mark {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      justify-self: center;
-      color: #fff;
-      font-weight: 850;
-      font-size: 13px;
-    }
-
-    .mark.primary {
-      background: var(--self);
-    }
-
-    .mark.secondary {
-      background: var(--app);
-    }
-
-    .mark.exception {
-      background: var(--phone);
-    }
-
-    .footer {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: var(--radius);
-      background: #17201d;
-      color: #eef3ee;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .footer b {
-      display: block;
-      font-size: 15px;
-    }
-
-    .footer span {
-      display: block;
-      margin-top: 4px;
-      color: #c8d5cd;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    @media (max-width: 1180px) {
-      .channels,
-      .map {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .matrix {
-        grid-template-columns: 1.2fr repeat(5, minmax(72px, .6fr));
-      }
-    }
-
-    @media (max-width: 760px) {
-      .page {
-        padding: 14px;
-      }
-
-      header,
-      .footer {
-        grid-template-columns: 1fr;
-      }
-
-      .mode-card {
-        text-align: left;
-        min-width: 0;
-      }
-
-      .channels,
-      .map {
-        grid-template-columns: 1fr;
-      }
-
-      .channel::before {
-        display: none;
-      }
-
-      .section-title {
-        display: block;
-      }
-
-      .section-title span {
-        display: block;
-        margin-top: 5px;
-        text-align: left;
-      }
-
-      .matrix {
-        display: block;
-        border: 0;
-        background: transparent;
-        box-shadow: none;
-      }
-
-      .cell.head {
-        display: none;
-      }
-
-      .cell {
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        margin-bottom: 8px;
-        min-height: 0;
-      }
-
-      .cell.role {
-        background: var(--soft);
-        margin-top: 12px;
-        margin-bottom: 6px;
-      }
-    }
-  </style>
-<link rel="stylesheet" href="../research/prototype-notice.css?v=showcase-20261028">
-</head>
-<body>
-<aside class="prototype-notice" aria-label="สถานะต้นแบบ">
+<html lang="th" data-theme="dark">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="LCCS Onboarding flow ตามข้อยุติ 14 พฤศจิกายน 2026 แยกบัญชี องค์กร ทีม การเข้าร่วมเหตุ สิทธิ์ และความพร้อม พร้อมเรื่องที่ยังรอตัดสินใจ"><title>LCCS Onboarding Flow — ข้อยุติและเรื่องที่ยังเปิด</title><link rel="stylesheet" href="../research/prototype-notice.css?v=showcase-20261028"><style>
+@font-face{font-family:LineSeed;src:url('../research/assets/LINESeedSansTH_W_Rg.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:LineSeed;src:url('../research/assets/LINESeedSansTH_W_Bd.woff2') format('woff2');font-weight:600 800;font-display:swap}
+:root{--page:#0e1a26;--surface:#192b3b;--text:#f5f7fb;--muted:#bed0e1;--border:#415c72;--confirmed:#6cdeae;--open:#d0b2fb;--reference:#a8bed4;--accent:#ffdb82;--notice:#172535;--button:#1bce8d}
+:root[data-theme="light"]{--page:#f4f7f9;--surface:#fff;--text:#183049;--muted:#415c74;--border:#a9bece;--confirmed:#076547;--open:#75459a;--reference:#536c83;--accent:#765200;--notice:#e7eef4;--button:#08764f}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--text);font-family:LineSeed,"Segoe UI",sans-serif;line-height:1.6}h1,h2,h3,p{margin:0}a{color:var(--confirmed);text-underline-offset:4px}button,select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);padding:8px 13px;border-radius:8px;min-height:44px}button{cursor:pointer}button:hover,a:hover{filter:brightness(1.12)}:focus-visible{outline:3px solid var(--confirmed);outline-offset:3px}.prototype-notice{margin:0!important;border:0!important;border-radius:0!important;background:var(--notice)!important;color:var(--muted)!important;padding:16px 24px!important;font:14px/1.6 LineSeed,sans-serif!important}.prototype-notice-label{color:var(--accent)!important;font-weight:700}.prototype-notice a{color:var(--confirmed)!important}.page{max-width:1840px;margin:auto;padding:30px 24px 48px}.eyebrow{color:var(--accent);font-size:14px;font-weight:700;letter-spacing:.08em}.page-header{display:flex;gap:24px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}h1{font-size:clamp(28px,3.4vw,44px);line-height:1.5;margin:8px 0 14px}.subtitle{max-width:1000px;font-size:18px;color:var(--muted)}.stamp{white-space:nowrap;font-size:14px;color:var(--muted);border-left:2px solid var(--confirmed);padding-left:16px}.toc{display:flex;flex-wrap:wrap;gap:9px;margin:25px 0}.toc a{padding:7px 12px;border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;font-size:15px}.key-note{border-left:4px solid var(--accent);background:var(--surface);padding:15px 18px;color:var(--muted);margin:18px 0}.key-note strong{color:var(--text)}.figure-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 10px}.controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.controls label{font-size:14px;color:var(--muted)}h2{font-size:26px;line-height:1.5}.flow-wrap{overflow:auto;width:100%;border:1px solid var(--border);border-radius:12px;background:var(--page)}.flow-wrap svg{display:block;max-width:none;margin:auto}.flow-wrap text{font-family:LineSeed,"Segoe UI",sans-serif}.edge-label{paint-order:stroke;stroke:var(--page);stroke-width:8px;stroke-linejoin:round}.figure-caption{font-size:14px;color:var(--muted);margin:10px 0 32px}section.doc-section{padding:24px 0;border-top:1px solid var(--border)}section.doc-section>p{color:var(--muted);margin:10px 0 18px}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px;margin-top:16px}table{border-collapse:collapse;width:100%;min-width:780px;font-size:16px}th,td{padding:15px 18px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left}thead{background:var(--surface)}tbody th{color:var(--reference);font-size:14px;min-width:170px}tbody td{min-width:250px}tbody tr:last-child>*{border-bottom:0}.state-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}.state-card{padding:20px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}.state-card h3{font-size:20px;color:var(--text);margin-bottom:10px}.state-card p{color:var(--muted)}.tag{display:inline-block;font-size:13px;font-weight:700;margin-bottom:10px;color:var(--confirmed)}.tag.open{color:var(--open)}details{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:26px 0;background:var(--surface)}summary{cursor:pointer;font-size:20px;font-weight:700}details[open] summary{margin-bottom:20px}.archive-note{border-left:3px solid var(--open);padding:12px 16px;color:var(--muted);margin-bottom:22px}.archive-note strong{color:var(--text)}.legacy h2{font-size:23px;margin:25px 0 12px}.legacy h3{font-size:19px}.legacy .channels{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.legacy .channel,.legacy .stakeholder{border:1px solid var(--border);border-radius:10px;padding:16px;background:var(--page)}.legacy .channel h2{font-size:18px;margin:6px 0}.legacy p{font-size:15px;color:var(--muted);margin:8px 0}.legacy .count{font-weight:700;color:var(--reference);font-size:24px}.legacy .prototype-sample-label{display:block;font-size:12px;color:var(--open)!important;background:transparent!important;border-color:var(--border)!important}.legacy .map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.legacy .stakeholder h3 span{font-size:13px;color:var(--reference)}.legacy .route{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:14px}.legacy .route b{color:var(--reference);min-width:70px}.legacy .chip{color:var(--muted)}.legacy .matrix{display:grid;grid-template-columns:minmax(240px,1.5fr) repeat(5,minmax(90px,1fr));min-width:850px;background:var(--border);gap:1px}.legacy .cell{padding:10px;background:var(--page);font-size:14px}.legacy .cell.head{font-weight:700;background:var(--notice)}.legacy .cell:not(.role){text-align:center}.legacy .mark{font-weight:700;color:var(--reference)}footer{color:var(--muted);font-size:14px;padding-top:24px;border-top:1px solid var(--border)}footer p+p{margin-top:8px}code{font-family:ui-monospace,monospace;font-size:.9em;overflow-wrap:anywhere}.sr-only{position:absolute;width:1px;height:1px;clip:rect(0,0,0,0);overflow:hidden}
+@media(max-width:1100px){.legacy .channels{grid-template-columns:repeat(2,minmax(0,1fr))}.legacy .map{grid-template-columns:repeat(2,minmax(0,1fr))}.state-grid{grid-template-columns:1fr}.page-header{align-items:flex-start;flex-direction:column}.stamp{white-space:normal}}
+@media(max-width:640px){.page{padding:22px 15px}.prototype-notice{padding:14px 15px!important}.subtitle{font-size:16px}.toc{gap:7px}.toc a{font-size:14px}.legacy .channels,.legacy .map{grid-template-columns:1fr}.figure-tools{align-items:flex-start}.controls{gap:7px}h2{font-size:23px}details{padding:15px}summary{font-size:18px}th,td{padding:13px}.figure-caption{font-size:13px}.stamp{font-size:13px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+@media print{.prototype-notice,.toc,.controls,details,footer,.doc-section,.page-header,.key-note,.figure-caption{display:none!important}.page{padding:0;max-width:none}.flow-wrap{overflow:visible;border:0}.flow-wrap svg{width:100%!important;height:auto!important}.figure-tools{margin:0}.figure-tools h2{font-size:18px}}
+</style></head>
+<body><aside class="prototype-notice" aria-label="สถานะต้นแบบ">
   <p class="prototype-notice-label">ต้นแบบ · ข้อมูลจำลอง</p>
   <p>แผนภาพแนวคิดสำหรับอ่านประกอบ ยังไม่เชื่อม API หรือระบบรับข้อมูลจริง</p>
   <p class="prototype-notice-scope">โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา · ไม่ใช่ช่องทางแจ้งเหตุหรือขอความช่วยเหลือจริง</p>
   <a href="../index.html#prototype-library">กลับไปหน้าโชว์เคส LCCS</a>
 </aside>
-
-  <main class="page">
-    <div class="shell">
-      <header>
-        <div>
-          <h1>LCCS Stakeholder Registration ORC Chart</h1>
-          <p class="subtitle">ตั้งต้นจากผู้เกี่ยวข้องก่อน แล้วค่อยกำหนดช่องทางลงทะเบียนที่เหมาะสม: ใครควรเข้าระบบผ่านรัฐ ใครผ่านหน่วยงานต้นสังกัด ใคร self-register และโทรศัพท์ควรเป็นทางฉุกเฉินเท่านั้น</p>
-        </div>
-        <div class="mode-card">
-          <b>Channels</b>
-          <span>5 ช่องทางหลัก</span>
-        </div>
-      </header>
-
-      <div class="rule">
-        <b>หลักตั้งต้น</b>
-        กลุ่มที่มี chain of command หรือมีองค์กรต้นสังกัด ไม่ควรลงทะเบียนรายคนผ่านโทรศัพท์เป็นหลัก ให้ใช้ Government Console/API หรือ Unit Coordinator Bulk ส่วนประชาชนและผู้เชี่ยวชาญอิสระใช้ Official Link, App/QR และยืนยันตัวตนด้วยเบอร์โทรหรือ application
-      </div>
-
-      <section class="topology" aria-label="registration channel org chart">
-        <div class="root">
-          <b>LCCS Rapid Onboarding</b>
-          <span>เปลี่ยนผู้เกี่ยวข้องให้เป็น Resource / Unit / Asset / Supply Card ที่ ICP ใช้สั่งงานได้</span>
-        </div>
-
-        <div class="channels">
+<main class="page">
+<header class="page-header"><div><p class="eyebrow">LCCS · STAKEHOLDER REGISTRATION / ORC</p><h1>เข้าร่วมอย่างไร<br>และจุดไหนยังต้องตัดสินใจ</h1><p class="subtitle">แยกบัญชี องค์กร ทีม การเข้าร่วมเหตุ สิทธิ์ และความพร้อม ให้เห็นทั้งเส้นทางในภาพเดียว โดยไม่ทำให้การลงทะเบียนกลายเป็นสิทธิ์ปฏิบัติงานโดยอัตโนมัติ</p></div><p class="stamp">ข้อยุติอัปเดต 14 พฤศจิกายน 2026<br>สถานะโค้ดอ้างการตรวจ 13 พฤศจิกายน 2026</p></header>
+<nav class="toc" aria-label="สารบัญ"><a href="#overview">ภาพรวมเส้นทาง</a><a href="#confirmed">ยืนยันแล้ว</a><a href="#pending">ยังต้องตัดสินใจ</a><a href="#implementation">มีแล้วในโค้ดแค่ไหน</a><a href="#legacy">ข้อเสนอช่องทางเดิม</a></nav>
+<p class="key-note"><strong>ยืนยันนโยบาย ≠ ทำแล้วในระบบ</strong> ภาพนี้รวมข้อยุติที่ยืนยันแล้วกับขั้นที่ยังออกแบบต่อ ป้ายและเส้นประแสดงจุดเปิดไว้ชัดเจน ลำดับการจัดวางเป็นข้อเสนอเพื่อทบทวน ไม่ได้อนุมัติกฎเพิ่มเติมจากภาพ</p>
+<section id="overview" aria-labelledby="overview-title"><div class="figure-tools"><h2 id="overview-title">เส้นทาง Onboarding ในภาพเดียว</h2><div class="controls"><label for="zoom">ขนาดภาพ</label><select id="zoom"><option value="fit">พอดีหน้าจอ</option><option value="1">100% · อ่านรายละเอียด</option><option value="0.75">75%</option></select><button id="theme" type="button">Light</button><button id="print" type="button">พิมพ์ภาพ</button></div></div><div class="flow-wrap" tabindex="0" aria-label="แผนภาพ Onboarding เลื่อนดูได้"><svg id="orc-flow" xmlns="http://www.w3.org/2000/svg" width="1840" height="1320" viewBox="0 0 1840 1320" role="img" aria-labelledby="flow-title flow-description"><title id="flow-title">LCCS Onboarding: บัญชี องค์กร ทีม และการเข้าร่วมเหตุ</title><desc id="flow-description">ภาพรวมตามข้อยุติวันที่14พฤศจิกายน2026 สมัครด้วยมือถือและOTP เลือกหรือสร้างองค์กร ผู้ดูแลเหตุรับรองผู้ดูแลองค์กรคนแรก ผู้ดูแลเดิมใช้ต่อข้ามเหตุ ทีมใหม่เฉพาะเหตุ แยกสมาชิกQR PINจากการอนุญาตเข้าเหตุที่ยังรอตัดสินใจ และแยกสิทธิ์กับความพร้อมก่อนทำงาน ลำดับภาพเป็นข้อเสนอเพื่อทบทวน ไม่ใช่ระบบรับสมัครจริง</desc><defs><marker id="arrow-flow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto"><path d="M0 0L10 4L0 8Z" fill="var(--confirmed)"/></marker><marker id="arrow-open" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto"><path d="M0 0L10 4L0 8Z" fill="var(--open)"/></marker><pattern id="dot-grid" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="var(--border)" opacity=".4"/></pattern></defs><rect width="1840" height="1320" fill="var(--page)"/><rect width="1840" height="1320" fill="url(#dot-grid)"/>
+<text x="50" y="55" font-size="23" fill="var(--accent)" font-weight="700" text-anchor="start" class="">LCCS / ONBOARDING FLOW</text>
+<text x="50" y="108" font-size="42" fill="var(--text)" font-weight="700" text-anchor="start" class="">จากบัญชีคน → องค์กร → ทีม → สิทธิ์ในเหตุ</text>
+<text x="50" y="152" font-size="24" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ลำดับภาพเป็นข้อเสนอจากข้อยุติ • ป้ายเขียวคือยืนยันนโยบาย ไม่ได้หมายถึงสร้างระบบครบแล้ว</text>
+<path d="M50 195H115" fill="none" stroke="var(--confirmed)" stroke-width="2.8" stroke-linejoin="round" marker-end="url(#arrow-flow)"/>
+<text x="133" y="202" font-size="21" fill="var(--muted)" font-weight="400" text-anchor="start" class="">เส้นทางตามข้อยุติ</text>
+<path d="M465 195H530" fill="none" stroke="var(--open)" stroke-width="2.8" stroke-linejoin="round" stroke-dasharray="9 6" marker-end="url(#arrow-open)"/>
+<text x="548" y="202" font-size="21" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ขั้นที่ยังต้องเลือกกติกา</text>
+<path d="M890 195H955" fill="none" stroke="var(--reference)" stroke-width="2.8" stroke-linejoin="round" stroke-dasharray="3 7"/>
+<text x="973" y="202" font-size="21" fill="var(--muted)" font-weight="400" text-anchor="start" class="">บริบท / ความสัมพันธ์</text>
+<text x="1790" y="202" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="end" class="">อัปเดต 14 พ.ย. 2026</text>
+<rect x="1300" y="245" width="490" height="155" rx="16" fill="var(--surface)" stroke="var(--open)" stroke-width="1.8" stroke-dasharray="8 6"/>
+<text x="1322" y="284" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">บริบทเหตุ + ผู้ดูแลเหตุ</text>
+<text x="1322" y="315" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">ORC-P01 · ยังต้องตัดสินใจ</text>
+<text x="1322" y="352" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ใครสร้างเหตุ / ใครแต่งตั้งผู้ดูแลเหตุ</text>
+<text x="1322" y="380" font-size="20" fill="var(--open)" font-weight="700" text-anchor="start" class="">? ไม่ถือว่า Admin สร้างได้แล้ว</text>
+<path d="M1545 400V455" fill="none" stroke="var(--reference)" stroke-width="2.8" stroke-linejoin="round" stroke-dasharray="3 7"/>
+<text x="1693" y="430" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">incidentId / ขอบเขต</text>
+<path d="M350 515H434" fill="none" stroke="var(--confirmed)" stroke-width="2.8" stroke-linejoin="round" marker-end="url(#arrow-flow)"/>
+<text x="390" y="470" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">เลือก /</text><text x="390" y="496" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">สร้าง</text>
+<path d="M760 515H800V400H844" fill="none" stroke="var(--confirmed)" stroke-width="2.8" stroke-linejoin="round" marker-end="url(#arrow-flow)"/>
+<text x="805" y="350" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">องค์กร</text><text x="805" y="378" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">ใหม่</text>
+<path d="M760 515H800V660H844" fill="none" stroke="var(--confirmed)" stroke-width="2.8" stroke-linejoin="round" marker-end="url(#arrow-flow)"/>
+<text x="799" y="620" font-size="19" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">ผู้ดูแล</text><text x="799" y="648" font-size="19" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">เดิม</text>
+<path d="M1210 400H1250V515H1294" fill="none" stroke="var(--confirmed)" stroke-width="2.8" stroke-linejoin="round" marker-end="url(#arrow-flow)"/>
+<path d="M1210 660H1250V600H1294" fill="none" stroke="var(--confirmed)" stroke-width="2.8" stroke-linejoin="round" marker-end="url(#arrow-flow)"/>
+<rect x="50" y="425" width="300" height="225" rx="16" fill="var(--surface)" stroke="var(--confirmed)" stroke-width="1.8"/>
+<text x="72" y="464" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">01  บัญชีบุคคล</text>
+<text x="72" y="495" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">OT-03 · ยืนยันหลักการ</text>
+<text x="72" y="532" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">สมัครด้วยมือถือ + OTP</text>
+<text x="72" y="563" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">PIN ทีมไม่แทน OTP</text>
+<text x="72" y="594" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">การกู้บัญชี / provider ยังเปิด</text>
+<text x="72" y="630" font-size="20" fill="var(--confirmed)" font-weight="700" text-anchor="start" class="">● ยังไม่ใช่ OTP ที่ทำแล้ว</text>
+<rect x="440" y="425" width="320" height="225" rx="16" fill="var(--surface)" stroke="var(--confirmed)" stroke-width="1.8"/>
+<text x="462" y="464" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">02  ทะเบียนองค์กร</text>
+<text x="462" y="495" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">U01–U03 · องค์กรใช้ซ้ำ</text>
+<text x="462" y="532" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ค้นหาและใช้องค์กรเดิม</text>
+<text x="462" y="563" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">หรือสร้างองค์กรใหม่</text>
+<text x="462" y="594" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">เลือกชื่อ ≠ มีสิทธิ์แทนองค์กร</text>
+<text x="462" y="630" font-size="20" fill="var(--confirmed)" font-weight="700" text-anchor="start" class="">● สิทธิ์ผู้แทนต้องแยก</text>
+<rect x="850" y="300" width="360" height="225" rx="16" fill="var(--surface)" stroke="var(--confirmed)" stroke-width="1.8"/>
+<text x="872" y="339" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">องค์กรใหม่ / ผู้ดูแลคนแรก</text>
+<text x="872" y="370" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">OT-04a · ยืนยันผู้รับรอง</text>
+<text x="872" y="407" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ผู้ดูแลเหตุการณ์รับรองสิทธิ์</text>
+<text x="872" y="438" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ผู้ดูแลองค์กรคนแรก</text>
+<text x="872" y="469" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ไม่ใช่อนุมัติทีมเข้าทุกเหตุ</text>
+<text x="872" y="505" font-size="20" fill="var(--confirmed)" font-weight="700" text-anchor="start" class="">● รับรองหน้าที่คนแรก</text>
+<rect x="850" y="570" width="360" height="190" rx="16" fill="var(--surface)" stroke="var(--confirmed)" stroke-width="1.8"/>
+<text x="872" y="609" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">ผู้ดูแลองค์กรเดิม</text>
+<text x="872" y="640" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">OT-04b · ใช้ต่อข้ามเหตุ</text>
+<text x="872" y="677" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ตำแหน่งที่รับรองแล้วใช้ต่อได้</text>
+<text x="872" y="708" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">แต่สิทธิ์ในแต่ละเหตุตรวจแยก</text>
+<text x="872" y="740" font-size="20" fill="var(--confirmed)" font-weight="700" text-anchor="start" class="">● ไม่ดึงทีม/สมาชิกเดิมเข้าอัตโนมัติ</text>
+<rect x="1300" y="460" width="490" height="250" rx="16" fill="var(--surface)" stroke="var(--confirmed)" stroke-width="1.8"/>
+<text x="1322" y="499" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">03  ทีมใหม่เฉพาะเหตุ</text>
+<text x="1322" y="530" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">OT-01 · teamId + organizationId + incidentId</text>
+<text x="1322" y="567" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">สร้าง / เลือกทีมที่อยู่ในเหตุนี้</text>
+<text x="1322" y="598" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ใช้ทะเบียนองค์กรเดิมได้</text>
+<text x="1322" y="629" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">เหตุใหม่ใช้ทีมใหม่ ไม่ดึงสมาชิกเดิม</text>
+<text x="1322" y="660" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">รายละเอียดข้อมูลเป็นแบบจำลองเป้าหมาย</text>
+<text x="1322" y="690" font-size="20" fill="var(--confirmed)" font-weight="700" text-anchor="start" class="">● ไม่ยกทีมถาวรเป็นข้อยุติ</text>
+<path d="M1545 710V814" fill="none" stroke="var(--confirmed)" stroke-width="2.8" stroke-linejoin="round" marker-end="url(#arrow-flow)"/>
+<path d="M1390 710V790H1030V814" fill="none" stroke="var(--open)" stroke-width="2.8" stroke-linejoin="round" stroke-dasharray="9 6" marker-end="url(#arrow-open)"/>
+<text x="1500" y="755" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">แยกการเตรียมสมาชิก</text>
+<text x="1500" y="783" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">จากการอนุญาตเข้าเหตุ</text>
+<rect x="1300" y="820" width="490" height="285" rx="16" fill="var(--surface)" stroke="var(--confirmed)" stroke-width="1.8"/>
+<text x="1322" y="859" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">04  สมาชิกเข้า QR / PIN</text>
+<text x="1322" y="890" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">OT-02 · บัญชี + สมาชิกทีม + สมาชิกองค์กร</text>
+<text x="1322" y="927" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">QR ลิงก์ทีม; บัญชีใหม่ใช้ OTP</text>
+<text x="1322" y="958" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">PIN ถูก → สมาชิกทีม + องค์กรทันที</text>
+<text x="1322" y="989" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ไม่กรอก PIN → รอเลขานุการตรวจ</text>
+<text x="1322" y="1020" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ไม่เพิ่มอนุมัติสังกัดซ้ำในทาง PIN</text>
+<text x="1322" y="1051" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">PIN 4 หลักส่งแยก; ไม่ให้สิทธิ์ DAO</text>
+<text x="1322" y="1085" font-size="20" fill="var(--confirmed)" font-weight="700" text-anchor="start" class="">● สมาชิกไม่ได้แปลว่าพร้อมรับงาน</text>
+<rect x="850" y="820" width="360" height="285" rx="16" fill="var(--surface)" stroke="var(--open)" stroke-width="1.8" stroke-dasharray="8 6"/>
+<text x="872" y="859" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">05  อนุญาตเข้าร่วมเหตุ</text>
+<text x="872" y="890" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">OT-04c · ยังไม่ได้เลือก</text>
+<text x="872" y="927" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ก  ฝ่ายเหตุอนุมัติแต่ละทีม</text>
+<text x="872" y="958" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ข  ฝ่ายเหตุให้ขอบเขตองค์กร</text>
+<text x="872" y="989" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">    แล้วองค์กรอนุมัติทีมของตน</text>
+<text x="872" y="1020" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ไม่ใช้ PIN ข้ามขั้นนี้</text>
+<text x="872" y="1051" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ผู้รับรององค์กรอื่นยังต้องกำหนด</text>
+<text x="872" y="1085" font-size="20" fill="var(--open)" font-weight="700" text-anchor="start" class="">? ก / ข ยังเป็นทางเลือก</text>
+<path d="M850 955H766" fill="none" stroke="var(--open)" stroke-width="2.8" stroke-linejoin="round" stroke-dasharray="9 6" marker-end="url(#arrow-open)"/>
+<text x="807" y="910" font-size="21" fill="var(--open)" font-weight="500" text-anchor="middle" class="edge-label">scope</text>
+<text x="807" y="938" font-size="21" fill="var(--open)" font-weight="500" text-anchor="middle" class="edge-label">ในเหตุ</text>
+<rect x="440" y="820" width="320" height="285" rx="16" fill="var(--surface)" stroke="var(--open)" stroke-width="1.8" stroke-dasharray="8 6"/>
+<text x="462" y="859" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">06  สิทธิ์ + ความพร้อม</text>
+<text x="462" y="890" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">ORC-P04 · รายละเอียดเปิด</text>
+<text x="462" y="927" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ตรวจคน / ทีม / เหตุ / action</text>
+<text x="462" y="958" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ตรวจคนและทรัพยากรพร้อมจริง</text>
+<text x="462" y="989" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">อายุสิทธิ์ / ผู้ตรวจ / การคืนงาน</text>
+<text x="462" y="1020" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ยังต้องกำหนดแยก</text>
+<text x="462" y="1051" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ไม่ให้สิทธิ์จากการลงทะเบียน</text>
+<text x="462" y="1085" font-size="20" fill="var(--open)" font-weight="700" text-anchor="start" class="">? ไม่ใช่การอนุญาตเข้าพื้นที่</text>
+<path d="M440 955H356" fill="none" stroke="var(--open)" stroke-width="2.8" stroke-linejoin="round" stroke-dasharray="9 6" marker-end="url(#arrow-open)"/>
+<text x="392" y="910" font-size="21" fill="var(--open)" font-weight="500" text-anchor="middle" class="edge-label">ตามสิทธิ์</text>
+<text x="392" y="938" font-size="21" fill="var(--open)" font-weight="500" text-anchor="middle" class="edge-label">ที่มีผล</text>
+<rect x="50" y="820" width="300" height="285" rx="16" fill="var(--surface)" stroke="var(--open)" stroke-width="1.8" stroke-dasharray="8 6"/>
+<text x="72" y="859" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">07  ไปสู่งานปฏิบัติการ</text>
+<text x="72" y="890" font-size="19" fill="var(--reference)" font-weight="400" text-anchor="start" class="">ขอบเขตต่อจาก Onboarding</text>
+<text x="72" y="927" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">คิวงาน / Pool / ข้อเสนอทีม</text>
+<text x="72" y="958" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ตรวจเงื่อนไขและจัดสรร</text>
+<text x="72" y="989" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">ตามกติกางานแต่ละประเภท</text>
+<text x="72" y="1020" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">การลงทะเบียนไม่สร้างภารกิจ</text>
+<text x="72" y="1051" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">หรือถือว่าทีมรับงานแล้ว</text>
+<text x="72" y="1085" font-size="20" fill="var(--open)" font-weight="700" text-anchor="start" class="">? จุดเชื่อมงานยังต้องทบทวน</text>
+<path d="M1545 1105V1148H600V1111" fill="none" stroke="var(--reference)" stroke-width="2.8" stroke-linejoin="round" stroke-dasharray="3 7"/>
+<text x="1070" y="1137" font-size="21" fill="var(--reference)" font-weight="500" text-anchor="middle" class="edge-label">สมาชิก + สิทธิ์ที่มีผล + ความพร้อม เป็นข้อมูลคนละชุด</text>
+<rect x="50" y="690" width="710" height="110" rx="12" fill="var(--notice)" stroke="var(--reference)"/>
+<text x="72" y="721" font-size="24" fill="var(--text)" font-weight="700">สมาชิกของทีมที่มีอยู่: เริ่มที่ 04</text>
+<text x="72" y="754" font-size="22" fill="var(--muted)">เปิด QR / คำเชิญ → ใช้บัญชีหรือสมัคร OTP → PIN</text>
+<text x="72" y="783" font-size="21" fill="var(--reference)">ไม่ต้องสร้างองค์กรหรือทีมใหม่ • แยกเส้นสมาชิกจากผู้ดูแล</text>
+<rect x="50" y="1190" width="1740" height="96" rx="16" fill="var(--surface)" stroke="var(--border)" stroke-width="1.8"/>
+<text x="72" y="1227" font-size="28" fill="var(--text)" font-weight="700" text-anchor="start" class="">บัญชียืนยันมือถือ ≠ สมาชิกทีม ≠ อนุญาตเข้าเหตุ ≠ พร้อมรับงาน</text>
+<text x="72" y="1265" font-size="22" fill="var(--muted)" font-weight="400" text-anchor="start" class="">สถานะโค้ดจากการตรวจ 13 พ.ย.: มีบัญชี/องค์กร/ทีมพื้นฐาน + เดโมน้ำหนึ่งเที่ยว; OTP / การรับรองแรก / admission / ทรัพยากรยังไม่ครบ</text>
+</svg></div><p class="figure-caption">สมาชิกของทีมที่มีอยู่เริ่มที่ 04 โดยเปิด QR/คำเชิญ ไม่ต้องสร้างองค์กรหรือทีมใหม่ • เปิดบนมือถือแสดงขนาดเต็มและเลื่อนภายในกรอบได้ • ขั้นเตรียมสมาชิกกับการขอเข้าร่วมเหตุแยกกัน; เวลาเปิดรับสมาชิกและเงื่อนไขระหว่างสองขั้นยังไม่ล็อกด้วยลำดับภาพนี้</p></section>
+<section class="doc-section" id="confirmed"><h2>ข้อยุติที่ยืนยันแล้ว</h2><p>ใช้รหัส OT เดิมเมื่อมีอยู่แล้ว เพื่อไม่สร้างข้อยุติซ้ำ การยืนยันเป็นนโยบายผลิตภัณฑ์ ไม่ได้ยืนยันว่าระบบทำตามครบแล้ว</p><div class="table-wrap" tabindex="0" aria-label="ตาราง เลื่อนแนวนอนได้"><table><thead><tr><th scope="col">รหัส / สถานะ</th><th scope="col">ข้อยุติ</th><th scope="col">ขอบเขตที่ต้องรักษา</th></tr></thead><tbody><tr><th scope="row">OT-03 · Q04 บางส่วน</th><td>สมัครบัญชีใหม่ด้วยมือถือ + OTP</td><td>ไม่สรุปเรื่องผู้ให้บริการ OTP การกู้บัญชี การเข้าใช้ครั้งต่อไป หรือการย้ายบัญชีเดิมแทนผู้ใช้</td></tr><tr><th scope="row">U01–U03</th><td>ทะเบียนองค์กรใช้ซ้ำข้ามเหตุได้</td><td>แยกทะเบียนองค์กรจากการเข้าร่วมและขอบเขตสิทธิ์ของแต่ละเหตุ</td></tr><tr><th scope="row">OT-04a · Q05 บางส่วน</th><td>ผู้ดูแลเหตุรับรองสิทธิ์ผู้ดูแลองค์กรคนแรก</td><td>รับรองหน้าที่แรก ไม่ได้ถือว่าองค์กร ทีม และคุณสมบัติทั้งหมดผ่านแล้ว</td></tr><tr><th scope="row">OT-04b</th><td>คงสถานะผู้ดูแลองค์กรเดิมเมื่อเปลี่ยนเหตุ</td><td>ยังตรวจสิทธิ์ปฏิบัติงานในเหตุใหม่; ไม่รับรองตำแหน่งเดิมซ้ำเพียงเพราะเปลี่ยนเหตุ</td></tr><tr><th scope="row">OT-01 · Q06</th><td>สร้างทีมใหม่เฉพาะแต่ละเหตุ</td><td>ไม่ดึงทีม สมาชิก รถ หรือความพร้อมจากเหตุเก่าเข้ามาอัตโนมัติ</td></tr><tr><th scope="row">OT-02 · U05–U09</th><td>PIN ถูก: เข้าเป็นสมาชิกทีมและองค์กรทันที; ไม่กรอก: รอเลขานุการ</td><td>QR มีเฉพาะลิงก์ทีม ส่ง PIN 4 หลักแยก; ไม่เพิ่มอนุมัติสังกัดซ้ำในทาง PIN</td></tr><tr><th scope="row">U09</th><td>เปลี่ยน PIN หรือปิดรับ ไม่ทำให้สมาชิกเดิมหลุดทีม</td><td>คำขอที่ยังค้างและช่องทางเชิญอื่นยังต้องเลือกกติกา</td></tr><tr><th scope="row">ขอบเขตอำนาจ</th><td>สมาชิกหรือ badge ต้นสังกัดไม่ให้สิทธิ์ DAO และไม่ทำให้พร้อมปฏิบัติการ</td><td>การลงทะเบียน การรับเข้าเหตุ การมอบสิทธิ์ ความพร้อม และการรับภารกิจแยกกัน</td></tr></tbody></table></div></section>
+<section class="doc-section" id="pending"><h2>เรื่องที่ยังต้องตัดสินใจ</h2><p>Q04 ยืนยันหลักมือถือ+OTP แต่รายละเอียดยังเปิด; Q05 ยืนยันผู้รับรองคนแรกและความต่อเนื่องบางส่วน; Q06 ยืนยันทีมใหม่เฉพาะเหตุแล้ว รหัส ORC-P01–P05 ใช้จัดกลุ่มคำถามบนหน้านี้ ไม่แทนรหัสเดิมในสเปก</p><div class="table-wrap" tabindex="0" aria-label="ตาราง เลื่อนแนวนอนได้"><table><thead><tr><th scope="col">รหัส</th><th scope="col">คำถาม</th><th scope="col">ขอบเขต / ทางเลือกที่ยังไม่เลือก</th></tr></thead><tbody><tr><th scope="row">OT-04c · Q05 ส่วนที่ยังเปิด</th><td>ใครอนุญาตทีมเข้าร่วมเหตุ</td><td>ก ฝ่ายเหตุอนุมัติรายทีม / ข ฝ่ายเหตุอนุญาตองค์กรและขอบเขตก่อน แล้วผู้ดูแลองค์กรอนุมัติทีมของตนภายในขอบเขตนั้น — ยังไม่เลือก</td></tr><tr><th scope="row">ORC-P01</th><td>ใครสร้างเหตุ และใครแต่งตั้งผู้ดูแลเหตุ</td><td>Admin สร้างเหตุและแต่งตั้งเป็นข้อเสนอ ยังไม่ได้ยืนยันเป็นกติกาหรือความสามารถปัจจุบัน</td></tr><tr><th scope="row">ORC-P02 · Q04 รายละเอียด</th><td>ระบบบัญชีและ OTP</td><td>ผู้ให้บริการ การกู้บัญชี การเข้าใช้ครั้งต่อไป เลขซ้ำ/บัญชีเดิม/Person กลาง และวิธีสำรองเมื่อ OTP ใช้ไม่ได้</td></tr><tr><th scope="row">ORC-P03</th><td>ข้อยกเว้นสมาชิกและผู้แทนองค์กร</td><td>คำขอค้างเมื่อปิดรับ คำเชิญที่ไม่ผ่าน QR ผู้แทนคนอื่น หลักฐาน/ชื่อซ้ำ/รวมองค์กร และการกู้สิทธิ์เมื่อไม่มีผู้ดูแล</td></tr><tr><th scope="row">ORC-P04</th><td>สิทธิ์และความพร้อมก่อนทำงาน</td><td>ผู้ให้สิทธิ์ราย action อายุ/การสิ้นสุดสิทธิ์ของบทบาทนี้ ผู้ตรวจความพร้อม และผู้รับช่วงงานค้าง ต้องออกแบบเฉพาะเรื่อง; ผู้ช่วยยืนยันได้เฉพาะ action ที่ DAO มอบ ไม่ใช้การสมัครแทน</td></tr><tr><th scope="row">ORC-P05</th><td>ช่องทางลงทะเบียนของแต่ละกลุ่ม</td><td>5 ช่องทาง / 12 กลุ่ม รวม Government API, bulk import, app/link และโทรศัพท์เป็นข้อยกเว้น ยังเป็นข้อเสนอเดิม ไม่ใช่ข้อยุติการเชื่อมระบบ</td></tr></tbody></table></div></section>
+<section class="doc-section" id="implementation"><h2>ข้อยุติกับสิ่งที่มีในโค้ด</h2><p>สแนปช็อตจากการตรวจโค้ด 13 พฤศจิกายน 2026 แยกจากวันที่ปรับเอกสาร และไม่ใช่สถานะข้อมูลผู้ใช้สด</p><div class="state-grid"><article class="state-card"><span class="tag">มีในระบบท้องถิ่น / เดโม</span><h3>ฐานบัญชี องค์กร ทีม</h3><p>มีบัญชีและสิทธิ์พื้นฐาน การสร้างองค์กร คำเชิญ สมาชิกทีม และเดโมน้ำหนึ่งเที่ยวที่แยกคำขอ ข้อเสนอทีม จัดสรร และผลรับจริง</p></article><article class="state-card"><span class="tag open">ยังไม่ครบตามเป้าหมาย</span><h3>รับเข้าเหตุและทรัพยากร</h3><p>มือถือ+OTP การรับรองผู้ดูแลองค์กรคนแรก การอนุญาตทีมเข้าเหตุ QR/PIN ตามข้อยุติ และทะเบียนทรัพยากรยังไม่ครบ; Audit กลางยังไม่ครบ</p></article><article class="state-card"><span class="tag open">ยังเป็นข้อเสนอช่องทาง</span><h3>Gov API / Bulk / App</h3><p>หน้านี้ไม่มี API รับข้อมูลจริง ไม่มีการส่ง OTP และไม่มีการอนุมัติจากหน่วยงานจริง การวางช่องทางไม่ได้ยืนยันว่าต่อระบบภายนอกแล้ว</p></article></div></section>
+<details id="legacy" class="legacy"><summary>ข้อเสนอช่องทางเดิม — ยังไม่ยืนยัน</summary><p class="archive-note"><strong>เก็บไว้เป็นประวัติแนวคิด ไม่ใช้เป็นข้อยุติล่าสุด</strong><br>5 ช่องทางและ 12 กลุ่มด้านล่างเป็นสมมติฐานการแบ่งช่องทางเดิม ทุกคำว่า Primary / Secondary / Exception เป็นข้อเสนอ ไม่ใช่สิทธิ์จริงหรือข้อตกลงเชื่อมระบบ ข้อเสนอ “โทรศัพท์เฉพาะจำเป็น” ยังไม่เป็นนโยบายที่ยืนยัน และเป็นคนละเรื่องกับ “สมัครด้วยมือถือ+OTP”</p><h2>5 ช่องทางที่เคยเสนอ</h2><div class="channels">
           <article class="channel gov">
             <span class="count">G</span>
             <h2>Government Console / API</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
@@ -610,15 +176,7 @@
             <p>ใช้เมื่อจำเป็นเท่านั้น เก็บข้อมูลขั้นต่ำ สร้าง Temporary ID แล้วส่ง link หรือส่งต่อให้หน่วยงานย่อยรวบรวม</p>
             <div class="legend"><span class="chip phone">ไม่ใช่ช่องทางหลัก</span></div>
           </article>
-        </div>
-      </section>
-
-      <div class="section-title">
-        <h2>Stakeholder → Registration Route</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
-        <span>Primary = ช่องทางหลัก, Secondary = ใช้เสริม, Exception = เฉพาะจำเป็น</span>
-      </div>
-
-      <section class="map" aria-label="stakeholder route cards">
+        </div><h2>12 กลุ่มผู้เกี่ยวข้องและช่องทางที่เคยเสนอ</h2><section class="map" aria-label="stakeholder route cards">
         <article class="stakeholder">
           <h3>ทหาร <span>01</span></h3>
           <p>เป็นหน่วยมี chain of command ชัด ควรเข้าด้วยคำสั่ง/การประสานทางการ ไม่ใช่ self-register รายคน</p>
@@ -738,14 +296,7 @@
             <div class="route"><b>Open</b><span class="chip self">Official supply form</span></div>
           </div>
         </article>
-      </section>
-
-      <div class="section-title">
-        <h2>Quick Matrix</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
-        <span>● primary, ◐ secondary, ! exception</span>
-      </div>
-
-      <section class="matrix" aria-label="registration channel matrix">
+      </section><h2>เมทริกซ์ช่องทางเดิม — ข้อเสนอ</h2><p>● ช่องทางหลักที่เสนอ · ◐ ช่องทางเสริมที่เสนอ · ! ข้อยกเว้นที่เสนอ</p><div class="table-wrap" tabindex="0" aria-label="เมทริกซ์ช่องทางเดิม เลื่อนแนวนอนได้"><section class="matrix" aria-label="registration channel matrix">
         <div class="cell head">ผู้เกี่ยวข้อง</div>
         <div class="cell head">G รัฐ/API</div>
         <div class="cell head">O หน่วย/องค์กร</div>
@@ -765,22 +316,17 @@
         <div class="cell role">สื่อมวลชน / PR</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"></div><div class="cell"></div>
         <div class="cell role">ผู้ประเมินพื้นที่ / damage survey</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"></div>
         <div class="cell role">เอกชน / คลังสินค้า / ซัพพลายเออร์</div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"><span class="mark primary">●</span></div><div class="cell"><span class="mark secondary">◐</span></div><div class="cell"></div><div class="cell"></div>
-      </section>
+      </section></div></details>
+<footer><p><strong>ฐานเอกสาร:</strong> <code>LCCS-Onboarding-Decision-Record-2026-11-14.md</code> ใน Obsidian · สเปกองค์กร/ทีม/ขนส่ง v0.3 (2 พ.ย. 2026) อ่านพร้อมข้อยุติที่อัปเดต · รหัส OT-01–04b ที่ยืนยันและ OT-04c ที่ยังเปิด</p><p>การปรับหน้านี้ไม่เปิดสิทธิ์ DAO ไม่อนุญาตเข้าพื้นที่ ไม่สร้างบัญชีหรือเปลี่ยนข้อมูลระบบปฏิบัติงาน · <a href="../index.html#prototype-library">กลับหน้าโชว์เคส LCCS</a></p></footer>
+</main>
+<script>
+(function(){
+const root=document.documentElement,zoom=document.getElementById('zoom'),svg=document.getElementById('orc-flow'),button=document.getElementById('theme'),key='lccs.orc.theme';
+try{const value=localStorage.getItem(key);if(value==='dark'||value==='light')root.dataset.theme=value}catch{}
+function themeLabel(){button.textContent=root.dataset.theme==='dark'?'Light':'Dark';button.setAttribute('aria-label',root.dataset.theme==='dark'?'เปลี่ยนเป็นธีมสว่าง':'เปลี่ยนเป็นธีมมืด')}
+themeLabel();button.addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem(key,root.dataset.theme)}catch{}themeLabel()});
+function setSize(){const factor=zoom.value==='fit'?Math.min(1,document.querySelector('.flow-wrap').clientWidth/1840):Number(zoom.value);svg.style.width=1840*factor+'px';svg.style.height=1320*factor+'px'}
+zoom.value=innerWidth>=1100?'fit':'1';setSize();zoom.addEventListener('change',setSize);window.addEventListener('resize',()=>{if(zoom.value==='fit')setSize()});document.getElementById('print').addEventListener('click',()=>window.print());
+})();
+</script></body></html>
 
-      <div class="footer">
-        <div>
-          <b>ORC Decision</b>
-          <span>ตอนนี้มี 5 registration channels. ใช้โทรศัพท์เป็น exception, ใช้ bulk/delegate สำหรับหน่วยที่มีองค์กร, ใช้ app/link สำหรับประชาชนและผู้เชี่ยวชาญอิสระ, และใช้รัฐ/API สำหรับหน่วยที่มีอำนาจสั่งการหรือฐานข้อมูลกลาง</span>
-        </div>
-        <div class="legend">
-          <span class="chip gov">G</span>
-          <span class="chip org">O</span>
-          <span class="chip self">L</span>
-          <span class="chip app">A</span>
-          <span class="chip phone">P</span>
-        </div>
-      </div>
-    </div>
-  </main>
-</body>
-</html>
