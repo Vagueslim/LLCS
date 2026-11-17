@@ -1,0 +1,121 @@
+/* Section 3 only: artwork stays separate from readable sample information. */
+#problem .program-illustration{--psi-accent:var(--purple);--psi-soft:#f0eafa;--psi-pending:#955b26;margin:36px 0 0}
+#problem .program-illustration .psi-composition{position:relative;isolation:isolate;background:#fff;border:1px solid var(--line)}
+#problem .program-illustration .psi-scene{position:relative;aspect-ratio:1672/941;background:#fff url('assets/program-suites-background-v1.png') center/100% 100% no-repeat}
+#problem .program-illustration .psi-connections{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+#problem .program-illustration .psi-route-halo{fill:none;stroke:#fff;stroke-width:7;stroke-linecap:round;opacity:.85}
+#problem .program-illustration .psi-route{fill:none;stroke:var(--psi-accent);stroke-width:3.2;stroke-dasharray:8 7;stroke-linecap:round;marker-end:url(#psi-route-arrow)}
+#problem .program-illustration .psi-callout{fill:none;stroke:var(--psi-accent);stroke-width:2.5;stroke-linecap:round}
+#problem .program-illustration .psi-pin{position:absolute;width:44px;height:44px;transform:translate(-50%,-50%);display:grid;place-items:center;z-index:3;color:var(--psi-accent);text-decoration:none}
+#problem .program-illustration .psi-pin span{display:grid;place-items:center;min-width:34px;height:34px;border-radius:50%;border:3px solid white;background:var(--psi-accent);color:#fff;font:700 12px/1 Line,sans-serif;box-shadow:0 2px 9px #20113730}
+#problem .program-illustration .psi-pin:hover span{background:var(--ink)}
+#problem .program-illustration .psi-pin--resources{left:14%;top:61%}
+#problem .program-illustration .psi-pin--supplies{left:47%;top:52%}
+#problem .program-illustration .psi-pin--shelter{left:85%;top:66%}
+#problem .program-illustration .psi-route-labels{position:absolute;inset:0;pointer-events:none;z-index:2}
+#problem .program-illustration .psi-route-labels span{position:absolute;transform:translate(-50%,-50%);padding:3px 12px;background:#fff;border:1px solid #e7e2ed;border-radius:20px;color:var(--ink);font-size:13px;line-height:1.5;box-shadow:0 2px 7px #29213210;white-space:nowrap}
+#problem .program-illustration .psi-label-move{left:31%;top:57%}
+#problem .program-illustration .psi-label-deliver{left:59%;top:62%}
+#problem .program-illustration .psi-label-handover{left:73%;top:66%}
+#problem .program-illustration .psi-cards{list-style:none;margin:0;padding:0}
+#problem .program-illustration .psi-card{display:flex;flex-direction:column;background:#fff;border:1px solid #e1dce8;border-radius:9px;box-shadow:0 8px 24px #2421320c;padding:18px 19px;min-width:0;scroll-margin-top:28px}
+#problem .program-illustration .psi-card:focus-visible{outline:3px solid var(--psi-accent);outline-offset:5px}
+#problem .program-illustration .psi-card-number{display:block;font:700 13px/1.4 Line,sans-serif;color:var(--psi-accent);margin-bottom:2px}
+#problem .program-illustration .psi-card h3{font-size:clamp(20px,1.6vw,25px);line-height:1.35;letter-spacing:-.4px;margin:0 0 4px;color:var(--ink)}
+#problem .program-illustration .psi-question{font-size:clamp(14px,1.05vw,17px);line-height:1.55;color:var(--muted);margin:0 0 13px}
+#problem .program-illustration .psi-highlight{display:flex;align-items:center;gap:11px;background:var(--psi-soft);border-radius:6px;padding:9px 10px;font-size:14px;line-height:1.5;color:var(--psi-accent);font-weight:700;margin:0 0 5px;min-width:0}
+#problem .program-illustration .psi-icon{width:25px;height:25px;flex:0 0 25px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+#problem .program-illustration .psi-icon--machine{width:39px;flex-basis:39px;height:27px}
+#problem .program-illustration .psi-data{display:grid;gap:5px;margin:0 0 14px;padding:0}
+#problem .program-illustration .psi-description-button{min-height:44px;padding:9px 12px;font-size:14px;line-height:1.5;margin-top:auto;border-color:var(--psi-accent);color:var(--psi-accent)}
+#problem .program-illustration .psi-description-button:hover{background:var(--ink);border-color:var(--ink);color:#fff}
+#problem .program-illustration .psi-description-button:focus-visible{outline:3px solid var(--psi-accent);outline-offset:3px}
+#problem .program-illustration .psi-row{display:grid;grid-template-columns:25px minmax(0,1fr) auto;gap:9px;align-items:center;border:1px solid #eeecf1;border-radius:6px;background:#fdfcfe;min-height:36px;padding:5px 8px;font-size:13px;line-height:1.5;color:#545461}
+#problem .program-illustration .psi-row dt,#problem .program-illustration .psi-row dd{margin:0;min-width:0}
+#problem .program-illustration .psi-value{border:1px solid #e8e5ec;background:#fff;border-radius:5px;padding:2px 8px;white-space:nowrap;font-size:13px;line-height:1.5}
+#problem .program-illustration .psi-value--pending{color:var(--psi-pending);background:#fbf8f2;border-color:#ece2d3}
+#problem .program-illustration .psi-value--unknown{color:var(--muted)}
+#problem .program-illustration .psi-count{font-size:20px;line-height:1.1;font-weight:700;padding-inline:5px}
+#problem .program-illustration .psi-card--shelter .psi-row .psi-icon{color:var(--psi-accent)}
+#problem .program-illustration figcaption{margin:12px 0 30px;font-size:13px;line-height:1.7;color:var(--muted)}
+@media(min-width:1200px){
+ #problem .program-illustration .psi-composition{padding-top:80px}
+ #problem .program-illustration .psi-route-labels{top:80px}
+ #problem .program-illustration .psi-card{position:absolute;width:25%;max-width:350px;z-index:4}
+ #problem .program-illustration .psi-card--resources{left:2%;top:8%}
+ #problem .program-illustration .psi-card--supplies{left:50%;top:3%;transform:translateX(-50%)}
+ #problem .program-illustration .psi-card--shelter{right:2%;top:8%}
+}
+@media(min-width:1200px) and (max-width:1359px){
+ #problem .program-illustration .psi-composition{padding-top:96px}
+ #problem .program-illustration .psi-route-labels{top:96px}
+}
+@media(max-width:1199px){
+ #problem .program-illustration .psi-composition{border:0;background:transparent}
+ #problem .program-illustration .psi-scene{border:1px solid var(--line)}
+ #problem .program-illustration .psi-callout{display:none}
+ #problem .program-illustration .psi-route-labels{position:static;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:12px 0 18px;pointer-events:auto}
+ #problem .program-illustration .psi-route-labels span{position:static;transform:none;font-size:13px}
+ #problem .program-illustration .psi-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+ #problem .program-illustration .psi-card{padding:17px 15px;box-shadow:none}
+ #problem .program-illustration .psi-card h3{font-size:21px}
+ #problem .program-illustration .psi-question{font-size:15px}
+ #problem .program-illustration .psi-row{grid-template-columns:22px minmax(0,1fr);gap:5px 8px;font-size:14px;padding:7px 8px}
+ #problem .program-illustration .psi-row dd{grid-column:2}
+ #problem .program-illustration .psi-row .psi-icon{width:22px;height:22px;grid-row:1/span 2}
+ #problem .program-illustration .psi-card--shelter .psi-count{font-size:20px}
+}
+@media(max-width:800px){
+ #problem .program-illustration .psi-cards{grid-template-columns:1fr;gap:14px}
+ #problem .program-illustration .psi-card{padding:20px 22px}
+ #problem .program-illustration .psi-card h3{font-size:24px}
+ #problem .program-illustration .psi-card-number{font-size:14px}
+ #problem .program-illustration .psi-question{font-size:16px}
+ #problem .program-illustration .psi-highlight{font-size:15px}
+ #problem .program-illustration .psi-row{grid-template-columns:25px minmax(0,1fr) auto;gap:10px;font-size:15px;padding:8px 10px}
+ #problem .program-illustration .psi-row dd{grid-column:auto}
+ #problem .program-illustration .psi-row .psi-icon{grid-row:auto;width:25px;height:25px}
+ #problem .program-illustration .psi-value{font-size:14px}
+ #problem .program-illustration .psi-pin span{min-width:30px;height:30px;font-size:11px;border-width:2px}
+ #problem .program-illustration .psi-route{stroke-width:4}
+}
+@media(max-width:390px){
+ #problem .program-illustration .psi-card{padding:18px 15px}
+ #problem .program-illustration .psi-card h3{font-size:23px}
+ #problem .program-illustration .psi-row{gap:7px;font-size:13px;padding:7px}
+ #problem .program-illustration .psi-value{padding-inline:6px;font-size:13px}
+ #problem .program-illustration .psi-highlight{font-size:14px}
+ #problem .program-illustration .psi-route-labels{gap:6px}
+ #problem .program-illustration .psi-route-labels span{padding-inline:10px}
+}
+@media print{
+ #problem .program-illustration .psi-composition{padding-top:0}
+ #problem .program-illustration .psi-description-button{display:none}
+ #problem .program-illustration .psi-card{position:static;transform:none;width:auto;max-width:none;box-shadow:none}
+ #problem .program-illustration .psi-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+ #problem .program-illustration .psi-callout{display:none}
+ #problem .program-illustration .psi-scene{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* Each resources illustration is paired with one existing module item. */
+#problem dialog.has-resource-scenes{width:min(1280px,calc(100% - 32px));max-height:85dvh;overflow:auto;overscroll-behavior:contain}
+#problem dialog.has-resource-scenes .close{position:sticky;top:0;z-index:2;min-height:44px;background:#fff}
+#problem dialog .resource-scene-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;list-style:none;padding:0;margin:26px 0 28px}
+#problem dialog .resource-scene{min-width:0;margin:0;padding:0}
+#problem dialog .resource-scene figure{margin:0}
+#problem dialog .resource-scene img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain;border:0;background:#fff}
+#problem dialog .resource-scene figcaption{position:static;display:flex;align-items:flex-start;justify-content:flex-start;gap:10px;margin:16px 0 0;font-family:Line,sans-serif;font-size:16px;line-height:1.7;letter-spacing:0;color:var(--ink)}
+#problem dialog .resource-scene figcaption p{margin:0;min-width:0}
+#problem dialog .resource-scene-number{flex:0 0 auto;font:13px/2 Line,sans-serif;color:var(--purple)}
+@media(max-width:999px){
+ #problem dialog.has-resource-scenes{width:min(760px,calc(100% - 32px))}
+ #problem dialog .resource-scene-grid{grid-template-columns:1fr;gap:30px}
+ #problem dialog .resource-scene figure{max-width:560px;margin-inline:auto}
+ #problem dialog .resource-scene+.resource-scene{border-top:1px solid var(--line);padding-top:24px}
+}
+@media(max-width:600px){
+ #problem dialog.has-resource-scenes{width:calc(100% - 24px);padding:20px;max-height:85dvh}
+ #problem dialog.has-resource-scenes .dialog-sub{font-size:16px;line-height:1.7}
+ #problem dialog .resource-scene-grid{margin:20px 0 24px;gap:24px}
+ #problem dialog .resource-scene figcaption{font-size:16px;margin-top:12px}
+}
