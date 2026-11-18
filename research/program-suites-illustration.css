@@ -97,25 +97,25 @@
  #problem .program-illustration .psi-scene{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 
-/* Each resources illustration is paired with one existing module item. */
-#problem dialog.has-resource-scenes{width:min(1280px,calc(100% - 32px));max-height:85dvh;overflow:auto;overscroll-behavior:contain}
-#problem dialog.has-resource-scenes .close{position:sticky;top:0;z-index:2;min-height:44px;background:#fff}
-#problem dialog .resource-scene-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;list-style:none;padding:0;margin:26px 0 28px}
-#problem dialog .resource-scene{min-width:0;margin:0;padding:0}
-#problem dialog .resource-scene figure{margin:0}
-#problem dialog .resource-scene img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain;border:0;background:#fff}
-#problem dialog .resource-scene figcaption{position:static;display:flex;align-items:flex-start;justify-content:flex-start;gap:10px;margin:16px 0 0;font-family:Line,sans-serif;font-size:16px;line-height:1.7;letter-spacing:0;color:var(--ink)}
-#problem dialog .resource-scene figcaption p{margin:0;min-width:0}
-#problem dialog .resource-scene-number{flex:0 0 auto;font:13px/2 Line,sans-serif;color:var(--purple)}
+/* Each module illustration is paired with one existing module item. */
+#problem dialog.has-module-scenes{width:min(1280px,calc(100% - 32px));max-height:85dvh;overflow:auto;overscroll-behavior:contain}
+#problem dialog.has-module-scenes .close{position:sticky;top:0;z-index:2;min-height:44px;background:#fff}
+#problem dialog .module-scene-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;list-style:none;padding:0;margin:26px 0 28px}
+#problem dialog .module-scene{min-width:0;margin:0;padding:0}
+#problem dialog .module-scene figure{margin:0}
+#problem dialog .module-scene img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain;border:0;background:#fff}
+#problem dialog .module-scene figcaption{position:static;display:flex;align-items:flex-start;justify-content:flex-start;gap:10px;margin:16px 0 0;font-family:Line,sans-serif;font-size:16px;line-height:1.7;letter-spacing:0;color:var(--ink)}
+#problem dialog .module-scene figcaption p{margin:0;min-width:0}
+#problem dialog .module-scene-number{flex:0 0 auto;font:13px/2 Line,sans-serif;color:var(--purple)}
 @media(max-width:999px){
- #problem dialog.has-resource-scenes{width:min(760px,calc(100% - 32px))}
- #problem dialog .resource-scene-grid{grid-template-columns:1fr;gap:30px}
- #problem dialog .resource-scene figure{max-width:560px;margin-inline:auto}
- #problem dialog .resource-scene+.resource-scene{border-top:1px solid var(--line);padding-top:24px}
+ #problem dialog.has-module-scenes{width:min(760px,calc(100% - 32px))}
+ #problem dialog .module-scene-grid{grid-template-columns:1fr;gap:30px}
+ #problem dialog .module-scene figure{max-width:560px;margin-inline:auto}
+ #problem dialog .module-scene+.module-scene{border-top:1px solid var(--line);padding-top:24px}
 }
 @media(max-width:600px){
- #problem dialog.has-resource-scenes{width:calc(100% - 24px);padding:20px;max-height:85dvh}
- #problem dialog.has-resource-scenes .dialog-sub{font-size:16px;line-height:1.7}
- #problem dialog .resource-scene-grid{margin:20px 0 24px;gap:24px}
- #problem dialog .resource-scene figcaption{font-size:16px;margin-top:12px}
+ #problem dialog.has-module-scenes{width:calc(100% - 24px);padding:20px;max-height:85dvh}
+ #problem dialog.has-module-scenes .dialog-sub{font-size:16px;line-height:1.7}
+ #problem dialog .module-scene-grid{margin:20px 0 24px;gap:24px}
+ #problem dialog .module-scene figcaption{font-size:16px;margin-top:12px}
 }
