@@ -1,736 +1,162 @@
 <!doctype html>
 <html lang="th">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LCCS Government Console / API User Journey</title>
-  <style>
-    :root {
-      --bg: #f7f8f5;
-      --ink: #17201d;
-      --muted: #5b665f;
-      --line: #d8ded6;
-      --panel: #ffffff;
-      --soft: #eef3ee;
-      --dark: #17201d;
-      --gov: #9b6716;
-      --gov-soft: #fff0cc;
-      --green: #2f6f4e;
-      --green-soft: #dff0e5;
-      --teal: #176b73;
-      --teal-soft: #dceff0;
-      --blue: #315f91;
-      --blue-soft: #e0ecf8;
-      --red: #9c3535;
-      --red-soft: #f7dddd;
-      --violet: #65508a;
-      --violet-soft: #ece6f3;
-      --shadow: 0 10px 26px rgba(28, 39, 33, .08);
-      --radius: 8px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.92), rgba(247,248,245,.96)),
-        repeating-linear-gradient(90deg, rgba(47,111,78,.035) 0 1px, transparent 1px 64px),
-        repeating-linear-gradient(0deg, rgba(47,111,78,.03) 0 1px, transparent 1px 64px),
-        var(--bg);
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-      letter-spacing: 0;
-    }
-
-    .page {
-      min-height: 100vh;
-      padding: 24px;
-    }
-
-    .shell {
-      width: min(1500px, 100%);
-      margin: 0 auto;
-    }
-
-    header {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 24px;
-      align-items: end;
-      padding: 18px 0 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
-    h1 {
-      max-width: 1050px;
-      font-size: clamp(30px, 4vw, 52px);
-      line-height: 1.06;
-      font-weight: 780;
-    }
-
-    .subtitle {
-      max-width: 1060px;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.55;
-    }
-
-    .mode-card {
-      min-width: 270px;
-      padding: 14px 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      text-align: right;
-    }
-
-    .mode-card b {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .mode-card span {
-      display: block;
-      margin-top: 4px;
-      color: var(--gov);
-      font-size: 22px;
-      font-weight: 780;
-    }
-
-    .overview {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 14px;
-      margin: 18px 0;
-    }
-
-    .panel {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.9);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(238,243,238,.75);
-    }
-
-    .panel-head h2 {
-      font-size: 18px;
-      line-height: 1.25;
-    }
-
-    .panel-head span {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 720;
-      text-align: right;
-    }
-
-    .panel-body {
-      padding: 16px;
-    }
-
-    .scenario {
-      min-height: 100%;
-      display: grid;
-      gap: 12px;
-    }
-
-    .scenario-main {
-      padding: 16px;
-      border-radius: var(--radius);
-      background: var(--dark);
-      color: #eef3ee;
-    }
-
-    .scenario-main b {
-      display: block;
-      font-size: 20px;
-      line-height: 1.25;
-    }
-
-    .scenario-main span {
-      display: block;
-      margin-top: 6px;
-      color: #cbd7cf;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .mini {
-      min-height: 94px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-    }
-
-    .mini b {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .mini span {
-      display: block;
-      margin-top: 6px;
-      font-size: 18px;
-      font-weight: 780;
-      line-height: 1.2;
-    }
-
-    .actor-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .actor {
-      min-height: 95px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-    }
-
-    .actor b {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      line-height: 1.25;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--gov);
-      flex: 0 0 auto;
-    }
-
-    .dot.blue {
-      background: var(--blue);
-    }
-
-    .dot.green {
-      background: var(--green);
-    }
-
-    .dot.teal {
-      background: var(--teal);
-    }
-
-    .actor span {
-      display: block;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .journey {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(150px, 1fr));
-      gap: 10px;
-      margin-top: 18px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-
-    .stage {
-      min-height: 350px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.92);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      min-width: 150px;
-    }
-
-    .stage-head {
-      min-height: 94px;
-      padding: 12px;
-      background: var(--gov-soft);
-      border-bottom: 1px solid #e9d09c;
-      position: relative;
-    }
-
-    .stage:nth-child(2) .stage-head {
-      background: var(--violet-soft);
-      border-bottom-color: #d8c9e6;
-    }
-
-    .stage:nth-child(3) .stage-head {
-      background: var(--blue-soft);
-      border-bottom-color: #bdd4ea;
-    }
-
-    .stage:nth-child(4) .stage-head {
-      background: var(--teal-soft);
-      border-bottom-color: #b8dadd;
-    }
-
-    .stage:nth-child(5) .stage-head {
-      background: var(--green-soft);
-      border-bottom-color: #bfdcc9;
-    }
-
-    .stage:nth-child(6) .stage-head {
-      background: var(--red-soft);
-      border-bottom-color: #e1b6b6;
-    }
-
-    .stage:nth-child(7) .stage-head {
-      background: var(--soft);
-      border-bottom-color: var(--line);
-    }
-
-    .stage-no {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--gov);
-      font-size: 13px;
-      font-weight: 820;
-    }
-
-    .stage:nth-child(2) .stage-no {
-      background: var(--violet);
-    }
-
-    .stage:nth-child(3) .stage-no {
-      background: var(--blue);
-    }
-
-    .stage:nth-child(4) .stage-no {
-      background: var(--teal);
-    }
-
-    .stage:nth-child(5) .stage-no {
-      background: var(--green);
-    }
-
-    .stage:nth-child(6) .stage-no {
-      background: var(--red);
-    }
-
-    .stage:nth-child(7) .stage-no {
-      background: var(--dark);
-    }
-
-    .stage-head h3 {
-      margin-top: 10px;
-      font-size: 15px;
-      line-height: 1.25;
-    }
-
-    .stage-body {
-      padding: 12px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .journey-row {
-      min-height: 72px;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--gov);
-      border-radius: var(--radius);
-      background: #fbfcfa;
-    }
-
-    .journey-row.system {
-      border-left-color: var(--blue);
-    }
-
-    .journey-row.external {
-      border-left-color: var(--teal);
-    }
-
-    .journey-row.icp {
-      border-left-color: var(--green);
-    }
-
-    .journey-row.risk {
-      border-left-color: var(--red);
-      background: #fff8f8;
-    }
-
-    .journey-row b {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      line-height: 1.2;
-    }
-
-    .journey-row span {
-      display: block;
-      margin-top: 5px;
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    .output {
-      display: inline-flex;
-      width: fit-content;
-      margin-top: 8px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      color: #765017;
-      background: var(--gov-soft);
-      border: 1px solid #ead19a;
-      font-size: 11px;
-      font-weight: 740;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 22px 0 12px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-title h2 {
-      font-size: 22px;
-      line-height: 1.25;
-    }
-
-    .section-title span {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-      text-align: right;
-    }
-
-    .flow-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .flow-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.92);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .flow-card h3 {
-      padding: 13px 15px;
-      border-bottom: 1px solid var(--line);
-      background: var(--soft);
-      font-size: 17px;
-      line-height: 1.25;
-    }
-
-    .flow-steps {
-      padding: 14px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .step {
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 10px;
-      align-items: start;
-    }
-
-    .step-num {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--gov);
-      font-weight: 820;
-    }
-
-    .step-text {
-      min-height: 48px;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed var(--line);
-    }
-
-    .step:last-child .step-text {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .step-text b {
-      display: block;
-      font-size: 14px;
-      line-height: 1.3;
-    }
-
-    .step-text span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .data-list {
-      padding: 14px;
-      display: grid;
-      gap: 9px;
-    }
-
-    .data-item {
-      display: grid;
-      grid-template-columns: 112px 1fr;
-      gap: 10px;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fbfcfa;
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    .data-item b {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .small-card {
-      min-height: 110px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-left: 5px solid var(--green);
-      border-radius: var(--radius);
-      background: var(--panel);
-      box-shadow: var(--shadow);
-    }
-
-    .small-card:nth-child(2) {
-      border-left-color: var(--blue);
-    }
-
-    .small-card:nth-child(3) {
-      border-left-color: var(--teal);
-    }
-
-    .small-card:nth-child(4) {
-      border-left-color: var(--red);
-    }
-
-    .small-card b {
-      display: block;
-      font-size: 14px;
-      line-height: 1.3;
-    }
-
-    .small-card span {
-      display: block;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .footer {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: var(--radius);
-      background: var(--dark);
-      color: #eef3ee;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .footer b {
-      display: block;
-      font-size: 15px;
-    }
-
-    .footer span {
-      display: block;
-      margin-top: 4px;
-      color: #c8d5cd;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      justify-content: flex-end;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 24px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 12px;
-      font-weight: 720;
-    }
-
-    .chip.gov {
-      color: #765017;
-      background: var(--gov-soft);
-      border-color: #ead19a;
-    }
-
-    .chip.blue {
-      color: #254e7b;
-      background: var(--blue-soft);
-      border-color: #bdd4ea;
-    }
-
-    .chip.green {
-      color: #244c34;
-      background: var(--green-soft);
-      border-color: #bfdcc9;
-    }
-
-    .chip.red {
-      color: #7d2929;
-      background: var(--red-soft);
-      border-color: #e1b6b6;
-    }
-
-    @media (max-width: 1180px) {
-      .overview,
-      .flow-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .journey {
-        grid-template-columns: repeat(7, minmax(210px, 1fr));
-      }
-
-      .cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 760px) {
-      .page {
-        padding: 14px;
-      }
-
-      header,
-      .footer {
-        grid-template-columns: 1fr;
-      }
-
-      .mode-card {
-        text-align: left;
-        min-width: 0;
-      }
-
-      .mini-grid,
-      .actor-list,
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .journey {
-        display: block;
-        overflow: visible;
-      }
-
-      .stage {
-        min-height: 0;
-        margin-bottom: 10px;
-      }
-
-      .section-title {
-        display: block;
-      }
-
-      .section-title span {
-        display: block;
-        margin-top: 5px;
-        text-align: left;
-      }
-
-      .data-item {
-        grid-template-columns: 1fr;
-      }
-
-      .legend {
-        justify-content: flex-start;
-      }
-    }
-  </style>
-<link rel="stylesheet" href="../research/prototype-notice.css?v=showcase-20261028">
-</head>
-<body>
-<aside class="prototype-notice" aria-label="สถานะต้นแบบ">
-  <p class="prototype-notice-label">ต้นแบบ · ข้อมูลจำลอง</p>
-  <p>แผนภาพแนวคิดสำหรับอ่านประกอบ ยังไม่เชื่อม API หรือระบบรับข้อมูลจริง</p>
-  <p class="prototype-notice-scope">โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา · ไม่ใช่ช่องทางแจ้งเหตุหรือขอความช่วยเหลือจริง</p>
-  <a href="../index.html#prototype-library">กลับไปหน้าโชว์เคส LCCS</a>
-</aside>
-
-  <main class="page">
-    <div class="shell">
-      <header>
-        <div>
-          <h1>Government Console / API User Journey</h1>
-          <p class="subtitle">Journey ง่ายสุดของช่องทางที่รัฐเป็นผู้เริ่ม: ICP เห็นความต้องการ → เจ้าหน้าที่ค้นฐานข้อมูลหรือ API → ขอสนับสนุน → บันทึกคำตอบ → Resource Card ขึ้น board</p>
-        </div>
-        <div class="mode-card">
-          <b>Channel</b>
-          <span>G: Government-led</span>
-        </div>
-      </header>
-
-      <section class="overview">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="อ่านแนวคิดช่องทาง Government-led ของ LCCS ผ่าน 7 จุด ตั้งแต่ความต้องการในพื้นที่ การติดต่อหน่วยสนับสนุน และทวนเงื่อนไข ก่อนส่งข้อมูลให้ ICP พิจารณาต่อ"><title>LCCS Government Console / API User Journey</title><meta name="theme-color" content="#f8f8f5"><link rel="icon" href="data:,"><link rel="stylesheet" href="government-journey.css?v=reader-20261118"><script src="government-journey.js?v=reader-20261118" defer></script></head>
+<body class="government-reader">
+<a class="gj-skip-link" href="#main">ข้ามไปเนื้อหา</a>
+<header class="gj-site-header"><a class="gj-wordmark" href="../index.html" aria-label="หน้าแรก LCCS Research">LCCS<span aria-hidden="true">_</span><small>RESEARCH</small></a><nav class="gj-backlinks" aria-label="กลับไปอ่าน"><a href="LCCS_Stakeholder_Registration_ORC_Chart.html">กลับไปภาพรวมการเข้าร่วม ↗</a><a href="../index.html#prototype-library">หน้าโชว์เคส LCCS ↗</a></nav></header>
+<main id="main" class="gj-shell" tabindex="-1">
+<section class="gj-hero" aria-labelledby="government-title"><div class="gj-hero-grid"><div class="gj-hero-copy"><p class="gj-eyebrow">LCCS / GOVERNMENT-LED JOURNEY</p><h1 id="government-title">จากความต้องการในพื้นที่<br>สู่ทรัพยากรที่ประสานต่อได้</h1><p class="gj-lead">แนวคิดเครื่องมือสำหรับเจ้าหน้าที่ ตั้งแต่ระบุสิ่งที่ต้องการ ค้นและติดต่อหน่วยสนับสนุน ไปจนถึงทวนเงื่อนไขและรวบรวมข้อมูลให้ ICP พิจารณาต่อ</p><p class="gj-concept">แนวคิดและต้นแบบ · ยังไม่เชื่อม API หรือระบบรับข้อมูลจริง</p><div class="gj-actions"><a class="gj-button gj-button-primary" href="#government-journey">อ่านเส้นทาง 7 จุด <span aria-hidden="true">↓</span></a><a class="gj-button" href="#result-states">ดูสถานะที่เสนอ <span aria-hidden="true">↗</span></a></div></div><figure class="gj-hero-art"><img src="assets/government-journey/government-console-overview-v1.png" width="1536" height="1024" fetchpriority="high" alt="ภาพแนวคิดกึ่งจริงแบบสถาปัตยกรรมบนฐานเดียว ด้านซ้ายเจ้าหน้าที่ดูความต้องการบนแผนที่ ตรงกลางติดต่อหน่วยสนับสนุนใกล้รถและเครื่องกำเนิดไฟฟ้า ด้านขวาทีมคนทบทวนข้อมูลร่วมกันหน้าจอ"><figcaption>ภาพแนวคิดสร้างด้วย AI · พื้นที่และข้อมูลสมมติ</figcaption></figure></div>
+<ol class="gj-phases"><li><span>01–03 / ระบุและค้นหา</span><strong>รู้ว่าขาดอะไร และใครอาจช่วย</strong><p>ระบุความต้องการ ค้นข้อมูล และคัดรายชื่อ</p></li><li><span class="gj-phase-arrow" aria-hidden="true">→</span><span>04–05 / ติดต่อและบันทึก</span><strong>คุยกับเจ้าของทรัพยากร</strong><p>รับคำตอบพร้อมเวลาและเงื่อนไขที่ยังขาด</p></li><li><span class="gj-phase-arrow" aria-hidden="true">→</span><span>06–07 / ทบทวนและส่งต่อ</span><strong>ให้คนทวน ก่อนส่งข้อมูลต่อ</strong><p>เห็นเงื่อนไขร่วมกัน แล้วให้ ICP พิจารณา</p></li></ol></section>
+<aside class="gj-boundary"><strong>พบรายชื่อ ≠ ยืนยันความพร้อม · ขึ้นบอร์ด ≠ อนุญาตปฏิบัติงาน</strong><p>Safety Gate เป็นการทบทวนโดยคน ไม่ใช่การรับรองความปลอดภัย ผู้ตรวจความพร้อมและผู้ให้สิทธิ์ยังต้องกำหนดแยกกัน</p></aside>
+<section class="gj-section" id="government-journey" aria-labelledby="gj-reader-title" data-government-reader><header class="gj-section-intro"><p class="gj-eyebrow">USER JOURNEY / EXPLAINED</p><h2 id="gj-reader-title">เลือกอ่าน จากคำขอถึงการส่งต่อ</h2><p>7 จุดสำหรับทำความเข้าใจแนวคิด ไม่ใช่แบบฟอร์มสมัครหรือหน้าทำรายการจริง</p></header><nav aria-label="เลือกอ่าน Government Journey"><ol class="gj-stepbar"><li><a href="#government-step-1" id="gj-tab-1" data-government-tab="1"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v16H4zM8 5V2h8v3M8 10h8M8 14h8M8 18h4"/></svg><span class="gj-tab-number">01</span><span class="gj-tab-name">ระบุความต้องการ</span></a></li><li><a href="#government-step-2" id="gj-tab-2" data-government-tab="2"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6M7 10h6M10 7v6"/></svg><span class="gj-tab-number">02</span><span class="gj-tab-name">ค้นรายชื่อ</span></a></li><li><a href="#government-step-3" id="gj-tab-3" data-government-tab="3"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5h13M8 12h13M8 19h13M3 4v2M3 11v2M3 18v2"/></svg><span class="gj-tab-number">03</span><span class="gj-tab-name">คัดผู้ที่อาจช่วย</span></a></li><li><a href="#government-step-4" id="gj-tab-4" data-government-tab="4"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3H3v4c0 8 6 14 14 14h4v-3l-5-3-2 2a14 14 0 0 1-7-7l2-2z"/></svg><span class="gj-tab-number">04</span><span class="gj-tab-name">ติดต่อรับคำตอบ</span></a></li><li><a href="#government-step-5" id="gj-tab-5" data-government-tab="5"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h12l4 4v14H4zM15 3v5h5M8 12h8M8 16h8"/></svg><span class="gj-tab-number">05</span><span class="gj-tab-name">บันทึกข้อจำกัด</span></a></li><li><a href="#government-step-6" id="gj-tab-6" data-government-tab="6"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="7" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3M3 5H1v16h3M21 5h2v16h-2"/></svg><span class="gj-tab-number">06</span><span class="gj-tab-name">ทวนเงื่อนไข</span></a></li><li><a href="#government-step-7" id="gj-tab-7" data-government-tab="7"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3h18v14H3zM12 17v5M7 22h10M6 7h4v6H6zM13 7h5M13 11h5"/></svg><span class="gj-tab-number">07</span><span class="gj-tab-name">ส่งต่อให้ ICP</span></a></li></ol></nav><p class="gj-reading-note">เลือกหัวข้อที่ต้องการอ่านได้โดยตรง · แถบนี้แสดงจุดที่กำลังอ่าน ไม่ใช่ความคืบหน้าหรือผลอนุมัติ</p><div class="gj-panels"><section class="gj-panel" id="government-step-1" data-government-panel="1" aria-labelledby="gj-title-1" tabindex="-1">
+<header class="gj-panel-header"><p class="gj-eyebrow">จุดที่ 01 / 07</p><h3 id="gj-title-1">เริ่มจากสิ่งที่พื้นที่ต้องการ</h3><p class="gj-summary">ระบุงาน พื้นที่ เวลา และเงื่อนไขที่ต้องการให้ชัด ก่อนออกค้นหาหน่วยสนับสนุน</p></header>
+<div class="gj-panel-content"><div class="gj-visual" role="group" aria-label="ภาพอธิบาย ระบุความต้องการ"><div class="gj-mini-flow"><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v16H4zM8 5V2h8v3M8 10h8M8 14h8M8 18h4"/></svg><h4>ความต้องการในพื้นที่</h4><p>ประเภททรัพยากร · พื้นที่ · เวลา</p></div><span class="gj-mini-arrow" aria-hidden="true">→</span><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h12l4 4v14H4zM15 3v5h5M8 12h8M8 16h8"/></svg><h4>คำขอพร้อมบริบท</h4><p>ความเร่งด่วน และเงื่อนไขภารกิจ</p></div></div><p class="gj-diagram-note">เริ่มจากความต้องการ ไม่ใช่เริ่มจากรายการที่มีอยู่</p></div><dl class="gj-facts"><div><dt>ผู้เกี่ยวข้อง</dt><dd>เจ้าหน้าที่รัฐ / ICP Operator</dd></div><div><dt>ทำอะไร</dt><dd>เลือกประเภททรัพยากรและบันทึกบริบทของคำขอ</dd></div><div><dt>ผลตามแบบจำลอง</dt><dd>Request Task / Request ID ตามแนวคิด</dd></div></dl></div>
+<div class="gj-panel-boundary"><strong>คำขอช่วยให้ค้นหาได้ตรงโจทย์</strong><p>Request Task เป็นข้อมูลคำขอตามแนวคิด ไม่ใช่การสร้างเหตุหรืออนุญาตเข้าร่วมเหตุ</p></div>
+<details class="gj-stage-detail"><summary>อ่านรายละเอียดขั้นนี้<span class="gj-detail-hint">ถ้อยคำและบทบาทจากแนวคิดเดิม · ยังไม่ใช่ระบบที่เชื่อมใช้งานจริง</span></summary><article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">1</div>
+            <h3>เกิดความต้องการใน ICP</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>เลือกประเภทที่ต้องการ เช่น รถสูง, ทีมแพทย์, ตำรวจจราจร, generator</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>สร้าง Request Task พร้อมพื้นที่ เวลา ความเร่งด่วน และเงื่อนไขภารกิจ</span>
+              <span class="output">Request ID</span>
+            </div>
+          </div>
+        </article></details>
+</section><section class="gj-panel" id="government-step-2" data-government-panel="2" aria-labelledby="gj-title-2" tabindex="-1">
+<header class="gj-panel-header"><p class="gj-eyebrow">จุดที่ 02 / 07</p><h3 id="gj-title-2">ค้นว่าใครหรืออะไรอาจช่วยได้</h3><p class="gj-summary">ค้นหน่วยงาน คน หรือทรัพยากรจากพื้นที่และความสามารถ พร้อมเก็บที่มาของข้อมูล</p></header>
+<div class="gj-panel-content"><div class="gj-visual" role="group" aria-label="ภาพอธิบาย ค้นรายชื่อ"><div class="gj-mini-flow"><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6M7 10h6M10 7v6"/></svg><h4>เงื่อนไขค้นหา</h4><p>พื้นที่ · ความสามารถ · ประเภททรัพยากร</p></div><span class="gj-mini-arrow" aria-hidden="true">→</span><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5h13M8 12h13M8 19h13M3 4v2M3 11v2M3 18v2"/></svg><h4>รายชื่อที่อาจช่วยได้</h4><p>พร้อมที่มาของข้อมูล</p></div></div><p class="gj-diagram-note">รายชื่อเป็นจุดเริ่มต้นของการติดต่อ ไม่ใช่ผลรับรองความพร้อม</p></div><dl class="gj-facts"><div><dt>ผู้เกี่ยวข้อง</dt><dd>เจ้าหน้าที่รัฐ / ICP Operator</dd></div><div><dt>ทำอะไร</dt><dd>ค้นจากหน่วยงาน พื้นที่ capability หรือ asset type</dd></div><div><dt>ผลตามแบบจำลอง</dt><dd>Candidate list ตามแนวคิด</dd></div></dl></div>
+<div class="gj-panel-boundary"><strong>พบรายชื่อ ≠ ยืนยันความพร้อม</strong><p>Registry / API เป็นแนวทางเชื่อมข้อมูลที่เสนอ หน้านี้ยังไม่ได้ดึงข้อมูลจากระบบจริง</p></div>
+<details class="gj-stage-detail"><summary>อ่านรายละเอียดขั้นนี้<span class="gj-detail-hint">ถ้อยคำและบทบาทจากแนวคิดเดิม · ยังไม่ใช่ระบบที่เชื่อมใช้งานจริง</span></summary><article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">2</div>
+            <h3>ค้นรายชื่อหรือทรัพยากร</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>ค้นจากหน่วยงาน พื้นที่ capability asset type หรือรายชื่อผู้เชี่ยวชาญ</span>
+            </div>
+            <div class="journey-row system">
+              <b>API action</b>
+              <span>pull จากฐานกลางหรือ registry ที่เชื่อถือได้</span>
+              <span class="output">Candidate list</span>
+            </div>
+          </div>
+        </article></details>
+</section><section class="gj-panel" id="government-step-3" data-government-panel="3" aria-labelledby="gj-title-3" tabindex="-1">
+<header class="gj-panel-header"><p class="gj-eyebrow">จุดที่ 03 / 07</p><h3 id="gj-title-3">คัดรายชื่อให้เหมาะกับบริบท</h3><p class="gj-summary">พิจารณาพื้นที่ เวลา และความเสี่ยง เพื่อเลือกว่าจะติดต่อหน่วยหรือบุคคลใดต่อ</p></header>
+<div class="gj-panel-content"><div class="gj-visual" role="group" aria-label="ภาพอธิบาย คัดผู้ที่อาจช่วย"><div class="gj-mini-flow"><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5h13M8 12h13M8 19h13M3 4v2M3 11v2M3 18v2"/></svg><h4>รายชื่อจากการค้นหา</h4><p>ข้อมูลติดต่อ และความสามารถที่มีบันทึก</p></div><span class="gj-mini-arrow" aria-hidden="true">→</span><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 22V8l9-5 9 5v14M1 22h22M9 22v-6h6v6M7 10h1m8 0h1"/></svg><h4>รายชื่อสำหรับติดต่อ</h4><p>พิจารณาตามพื้นที่ เวลา และความเสี่ยง</p></div></div><p class="gj-diagram-note">ยังต้องรับคำตอบและเงื่อนไขจากหน่วยสนับสนุน</p></div><dl class="gj-facts"><div><dt>ผู้เกี่ยวข้อง</dt><dd>เจ้าหน้าที่รัฐ / ICP Operator</dd></div><div><dt>ทำอะไร</dt><dd>เปรียบเทียบข้อมูลติดต่อ capability และ availability ที่มี</dd></div><div><dt>ผลตามแบบจำลอง</dt><dd>Shortlist ตามแนวคิด</dd></div></dl></div>
+<div class="gj-panel-boundary"><strong>ข้อมูลเดิมยังต้องทวนกับเจ้าของทรัพยากร</strong><p>การถูกคัดเข้ารายชื่อไม่ได้แปลว่าหน่วยนั้นตอบรับ หรือมีทรัพยากรพร้อมใช้งานแล้ว</p></div>
+<details class="gj-stage-detail"><summary>อ่านรายละเอียดขั้นนี้<span class="gj-detail-hint">ถ้อยคำและบทบาทจากแนวคิดเดิม · ยังไม่ใช่ระบบที่เชื่อมใช้งานจริง</span></summary><article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">3</div>
+            <h3>เลือก candidate</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>เลือกหน่วยหรือคนที่เหมาะกับพื้นที่ เวลา และความเสี่ยง</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>แสดงข้อมูลติดต่อ capability ล่าสุด และประวัติ availability ถ้ามี</span>
+              <span class="output">Shortlist</span>
+            </div>
+          </div>
+        </article></details>
+</section><section class="gj-panel" id="government-step-4" data-government-panel="4" aria-labelledby="gj-title-4" tabindex="-1">
+<header class="gj-panel-header"><p class="gj-eyebrow">จุดที่ 04 / 07</p><h3 id="gj-title-4">คุยกับคนที่รับเรื่องได้</h3><p class="gj-summary">ส่งคำขอผ่านโทรศัพท์ ข้อความราชการ หรือช่องทางหน่วยงาน แล้วรับคำตอบกลับพร้อมเงื่อนไข</p></header>
+<div class="gj-panel-content"><div class="gj-visual" role="group" aria-label="ภาพอธิบาย ติดต่อรับคำตอบ"><div class="gj-mini-flow"><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3H3v4c0 8 6 14 14 14h4v-3l-5-3-2 2a14 14 0 0 1-7-7l2-2z"/></svg><h4>เจ้าหน้าที่ติดต่อ</h4><p>แจ้งโจทย์และบริบทของคำขอ</p></div><span class="gj-mini-arrow" aria-hidden="true">→</span><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></svg><h4>หน่วยสนับสนุนตอบ</h4><p>ตอบรับ / ปฏิเสธ / ขอข้อมูล / มีเงื่อนไข</p></div></div><p class="gj-diagram-note">บันทึกคำตอบตามที่ได้รับ ไม่ตีความการตอบรับเป็นการอนุมัติ</p></div><dl class="gj-facts"><div><dt>ผู้เกี่ยวข้อง</dt><dd>เจ้าหน้าที่รัฐ / ICP Operator และหน่วยสนับสนุน</dd></div><div><dt>ทำอะไร</dt><dd>แจ้งคำขอและรับคำตอบจากหน่วยที่ติดต่อ</dd></div><div><dt>ผลตามแบบจำลอง</dt><dd>Response: ตอบรับ ปฏิเสธ ขอรายละเอียด หรือมีเงื่อนไข</dd></div></dl></div>
+<div class="gj-panel-boundary"><strong>คำตอบเป็นข้อมูลประกอบการประสานงาน</strong><p>การตอบรับยังไม่แทนการพิจารณาสิทธิ์ ความพร้อม หรือการมอบหมายงาน</p></div>
+<details class="gj-stage-detail"><summary>อ่านรายละเอียดขั้นนี้<span class="gj-detail-hint">ถ้อยคำและบทบาทจากแนวคิดเดิม · ยังไม่ใช่ระบบที่เชื่อมใช้งานจริง</span></summary><article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">4</div>
+            <h3>ติดต่อและยืนยัน</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>โทร ส่งข้อความราชการ หรือส่ง request ผ่านระบบของหน่วยงาน</span>
+            </div>
+            <div class="journey-row external">
+              <b>Support unit action</b>
+              <span>ตอบรับ ปฏิเสธ ขอรายละเอียด หรือระบุเงื่อนไขก่อนเริ่มงาน</span>
+              <span class="output">Response</span>
+            </div>
+          </div>
+        </article></details>
+</section><section class="gj-panel" id="government-step-5" data-government-panel="5" aria-labelledby="gj-title-5" tabindex="-1">
+<header class="gj-panel-header"><p class="gj-eyebrow">จุดที่ 05 / 07</p><h3 id="gj-title-5">เก็บคำตอบพร้อมสิ่งที่ยังขาด</h3><p class="gj-summary">บันทึกผลการติดต่อ ETA จำนวนคนและอุปกรณ์ รวม needs-first และข้อจำกัด เพื่อให้ผู้รับช่วงอ่านต่อได้</p></header>
+<div class="gj-panel-content"><div class="gj-visual" role="group" aria-label="ภาพอธิบาย บันทึกข้อจำกัด"><div class="gj-mini-flow"><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3H3v4c0 8 6 14 14 14h4v-3l-5-3-2 2a14 14 0 0 1-7-7l2-2z"/></svg><h4>คำตอบจากหน่วย</h4><p>ผลการติดต่อ · ETA · จำนวนคน / อุปกรณ์</p></div><span class="gj-mini-arrow" aria-hidden="true">→</span><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h12l4 4v14H4zM15 3v5h5M8 12h8M8 16h8"/></svg><h4>ข้อมูลพร้อมเงื่อนไข</h4><p>สิ่งที่ต้องการก่อนเริ่ม และข้อจำกัด</p></div></div><p class="gj-diagram-note">เก็บเงื่อนไขควบคู่กับทรัพยากร ไม่แสดงเพียงคำว่าพร้อม</p></div><dl class="gj-facts"><div><dt>ผู้เกี่ยวข้อง</dt><dd>เจ้าหน้าที่รัฐ / ICP Operator</dd></div><div><dt>ทำอะไร</dt><dd>บันทึกคำตอบ เวลา ความสามารถ และเงื่อนไขของทรัพยากร</dd></div><div><dt>ผลตามแบบจำลอง</dt><dd>Helper / Unit / Asset / Supply record และ Resource ID ตามแนวคิด</dd></div></dl></div>
+<div class="gj-panel-boundary"><strong>รายละเอียดที่ครบช่วยให้ทบทวนต่อได้</strong><p>Resource ID เป็นรหัสรายการตามแนวคิด ไม่ใช่การยืนยันตัวบุคคลหรือการให้สิทธิ์</p></div>
+<details class="gj-stage-detail"><summary>อ่านรายละเอียดขั้นนี้<span class="gj-detail-hint">ถ้อยคำและบทบาทจากแนวคิดเดิม · ยังไม่ใช่ระบบที่เชื่อมใช้งานจริง</span></summary><article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">5</div>
+            <h3>บันทึกคำตอบ</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row">
+              <b>Officer action</b>
+              <span>บันทึก contact result, ETA, จำนวนคน/อุปกรณ์, needs-first และข้อจำกัด</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>สร้างหรือ update Helper / Unit / Asset / Supply record</span>
+              <span class="output">Resource ID</span>
+            </div>
+          </div>
+        </article></details>
+</section><section class="gj-panel" id="government-step-6" data-government-panel="6" aria-labelledby="gj-title-6" tabindex="-1">
+<header class="gj-panel-header"><p class="gj-eyebrow">จุดที่ 06 / 07</p><h3 id="gj-title-6">ทวนสิ่งที่ต้องพร้อมก่อน — Safety Gate</h3><p class="gj-summary">ให้คนทบทวนว่าติดต่อได้จริงหรือไม่ เวลาเป็นอย่างไร และยังขาดเงื่อนไขใดก่อนส่งต่อข้อมูล</p></header>
+<div class="gj-panel-content"><div class="gj-visual" role="group" aria-label="ภาพอธิบาย ทวนเงื่อนไข"><div class="gj-data-chips"><span>fuel</span><span>route</span><span>operator</span><span>access pass</span><span>staging area</span></div><div class="gj-mini-flow"><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 9 5v10l-9 5-9-5V7zM3 7l9 5 9-5M12 12v10M7 4.8l9 5"/></svg><h4>เงื่อนไขที่ต้องทวน</h4><p>ติดต่อได้ · ETA · สิ่งที่ยังขาด</p></div><span class="gj-mini-arrow" aria-hidden="true">→</span><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="7" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3M3 5H1v16h3M21 5h2v16h-2"/></svg><h4>คนทบทวนข้อมูล</h4><p>พิจารณาเงื่อนไขและสถานะที่เสนอ</p></div></div><p class="gj-diagram-note">การทบทวนไม่แทนสิทธิ์เข้าพื้นที่หรือการรับรองว่าปลอดภัย</p></div><dl class="gj-facts"><div><dt>ผู้เกี่ยวข้อง</dt><dd>ผู้รับผิดชอบทบทวน — บทบาทผู้ตรวจยังต้องกำหนด</dd></div><div><dt>ทำอะไร</dt><dd>ทวนคำตอบ ETA และ needs-first เช่น เชื้อเพลิง เส้นทาง หรือผู้ควบคุม</dd></div><div><dt>ผลตามแบบจำลอง</dt><dd>สถานะความพร้อมตามข้อเสนอ เพื่อประกอบการพิจารณา</dd></div></dl></div>
+<div class="gj-panel-boundary"><strong>Safety Gate คือการทบทวนโดยคน</strong><p>ไม่ใช่การอนุญาตเข้าร่วมเหตุหรือรับรองความปลอดภัย ผู้ตรวจความพร้อมและผู้ให้สิทธิ์ยังเป็นเรื่องเปิดใน ORC-P04</p></div>
+<details class="gj-stage-detail"><summary>อ่านรายละเอียดขั้นนี้<span class="gj-detail-hint">ถ้อยคำและบทบาทจากแนวคิดเดิม · ยังไม่ใช่ระบบที่เชื่อมใช้งานจริง</span></summary><article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">6</div>
+            <h3>Safety Gate</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row risk">
+              <b>Decision</b>
+              <span>ติดต่อได้จริงไหม ETA เชื่อถือได้ไหม ต้องการ fuel, route, access pass, operator หรือ staging area ไหม</span>
+            </div>
+            <div class="journey-row system">
+              <b>System action</b>
+              <span>ตั้งสถานะ Ready, Need ICP Support First, Pending หรือ Unavailable</span>
+              <span class="output">Readiness</span>
+            </div>
+          </div>
+        </article></details>
+</section><section class="gj-panel" id="government-step-7" data-government-panel="7" aria-labelledby="gj-title-7" tabindex="-1">
+<header class="gj-panel-header"><p class="gj-eyebrow">จุดที่ 07 / 07</p><h3 id="gj-title-7">ส่ง Resource Card ให้พิจารณาต่อ</h3><p class="gj-summary">รวบรวมข้อมูลล่าสุด ที่มา และเงื่อนไข ส่งให้ ICP เห็นภาพเดียวกันก่อนพิจารณาการสนับสนุนหรืองานต่อไป</p></header>
+<div class="gj-panel-content"><div class="gj-visual" role="group" aria-label="ภาพอธิบาย ส่งต่อให้ ICP"><div class="gj-mini-flow"><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h12l4 4v14H4zM15 3v5h5M8 12h8M8 16h8"/></svg><h4>Resource Card</h4><p>ข้อมูลทรัพยากร · เงื่อนไข · เวลาอัปเดต</p></div><span class="gj-mini-arrow" aria-hidden="true">→</span><div class="gj-mini-node"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3h18v14H3zM12 17v5M7 22h10M6 7h4v6H6zM13 7h5M13 11h5"/></svg><h4>ICP พิจารณาต่อ</h4><p>เห็นข้อมูลเพื่อประสานงานและทวนงานถัดไป</p></div></div><p class="gj-diagram-note">คำว่า Mission-ready ในต้นฉบับเป็นข้อเสนอ ไม่ใช่สถานะอำนาจที่ใช้งานจริง</p></div><dl class="gj-facts"><div><dt>ผู้เกี่ยวข้อง</dt><dd>ICP และผู้รับผิดชอบตามกติกางานที่ยังต้องกำหนด</dd></div><div><dt>ทำอะไร</dt><dd>อ่าน Resource Card พร้อมสถานะ เวลาอัปเดต และข้อมูลสำหรับทบทวน</dd></div><div><dt>ผลตามแบบจำลอง</dt><dd>Resource Card บน ICP Board ตามแนวคิด</dd></div></dl></div>
+<div class="gj-panel-boundary"><strong>ขึ้นบอร์ด ≠ อนุญาตปฏิบัติงาน</strong><p>การมอบหมายภารกิจหรือส่งการสนับสนุนต้องพิจารณาตามกติกาที่เกี่ยวข้อง ไม่เกิดขึ้นอัตโนมัติจากการลงทะเบียน</p></div>
+<details class="gj-stage-detail"><summary>อ่านรายละเอียดขั้นนี้<span class="gj-detail-hint">ถ้อยคำและบทบาทจากแนวคิดเดิม · ยังไม่ใช่ระบบที่เชื่อมใช้งานจริง</span></summary><article class="stage">
+          <div class="stage-head">
+            <div class="stage-no">7</div>
+            <h3>ขึ้น ICP Board</h3>
+          </div>
+          <div class="stage-body">
+            <div class="journey-row icp">
+              <b>ICP action</b>
+              <span>เห็น Resource Card และเลือก assign mission หรือส่ง support ก่อน</span>
+            </div>
+            <div class="journey-row system">
+              <b>System output</b>
+              <span>last updated, verification status, assignment status และ audit trail</span>
+              <span class="output">Mission-ready card</span>
+            </div>
+          </div>
+        </article></details>
+</section></div><div class="gj-controls" hidden><button type="button" data-government-prev>← อ่านจุดก่อนหน้า</button><p class="gj-current" aria-live="polite" aria-atomic="true"></p><button type="button" data-government-next>อ่านจุดถัดไป →</button></div></section>
+<details class="gj-context-details" id="scenario-actors"><summary>บริบทและผู้เกี่ยวข้อง<span class="gj-detail-hint">Scenario + Actors จากแนวคิดเดิม</span></summary><section class="overview">
         <div class="panel">
           <div class="panel-head">
             <h2>Scenario</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
@@ -784,148 +210,8 @@
             </div>
           </div>
         </div>
-      </section>
-
-      <div class="section-title">
-        <h2>Main User Journey</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
-        <span>เส้นทางหลักจาก request ไปเป็น Resource Card</span>
-      </div>
-
-      <section class="journey" aria-label="government console user journey">
-        <article class="stage">
-          <div class="stage-head">
-            <div class="stage-no">1</div>
-            <h3>เกิดความต้องการใน ICP</h3>
-          </div>
-          <div class="stage-body">
-            <div class="journey-row">
-              <b>Officer action</b>
-              <span>เลือกประเภทที่ต้องการ เช่น รถสูง, ทีมแพทย์, ตำรวจจราจร, generator</span>
-            </div>
-            <div class="journey-row system">
-              <b>System action</b>
-              <span>สร้าง Request Task พร้อมพื้นที่ เวลา ความเร่งด่วน และเงื่อนไขภารกิจ</span>
-              <span class="output">Request ID</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="stage">
-          <div class="stage-head">
-            <div class="stage-no">2</div>
-            <h3>ค้นรายชื่อหรือทรัพยากร</h3>
-          </div>
-          <div class="stage-body">
-            <div class="journey-row">
-              <b>Officer action</b>
-              <span>ค้นจากหน่วยงาน พื้นที่ capability asset type หรือรายชื่อผู้เชี่ยวชาญ</span>
-            </div>
-            <div class="journey-row system">
-              <b>API action</b>
-              <span>pull จากฐานกลางหรือ registry ที่เชื่อถือได้</span>
-              <span class="output">Candidate list</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="stage">
-          <div class="stage-head">
-            <div class="stage-no">3</div>
-            <h3>เลือก candidate</h3>
-          </div>
-          <div class="stage-body">
-            <div class="journey-row">
-              <b>Officer action</b>
-              <span>เลือกหน่วยหรือคนที่เหมาะกับพื้นที่ เวลา และความเสี่ยง</span>
-            </div>
-            <div class="journey-row system">
-              <b>System action</b>
-              <span>แสดงข้อมูลติดต่อ capability ล่าสุด และประวัติ availability ถ้ามี</span>
-              <span class="output">Shortlist</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="stage">
-          <div class="stage-head">
-            <div class="stage-no">4</div>
-            <h3>ติดต่อและยืนยัน</h3>
-          </div>
-          <div class="stage-body">
-            <div class="journey-row">
-              <b>Officer action</b>
-              <span>โทร ส่งข้อความราชการ หรือส่ง request ผ่านระบบของหน่วยงาน</span>
-            </div>
-            <div class="journey-row external">
-              <b>Support unit action</b>
-              <span>ตอบรับ ปฏิเสธ ขอรายละเอียด หรือระบุเงื่อนไขก่อนเริ่มงาน</span>
-              <span class="output">Response</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="stage">
-          <div class="stage-head">
-            <div class="stage-no">5</div>
-            <h3>บันทึกคำตอบ</h3>
-          </div>
-          <div class="stage-body">
-            <div class="journey-row">
-              <b>Officer action</b>
-              <span>บันทึก contact result, ETA, จำนวนคน/อุปกรณ์, needs-first และข้อจำกัด</span>
-            </div>
-            <div class="journey-row system">
-              <b>System action</b>
-              <span>สร้างหรือ update Helper / Unit / Asset / Supply record</span>
-              <span class="output">Resource ID</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="stage">
-          <div class="stage-head">
-            <div class="stage-no">6</div>
-            <h3>Safety Gate</h3>
-          </div>
-          <div class="stage-body">
-            <div class="journey-row risk">
-              <b>Decision</b>
-              <span>ติดต่อได้จริงไหม ETA เชื่อถือได้ไหม ต้องการ fuel, route, access pass, operator หรือ staging area ไหม</span>
-            </div>
-            <div class="journey-row system">
-              <b>System action</b>
-              <span>ตั้งสถานะ Ready, Need ICP Support First, Pending หรือ Unavailable</span>
-              <span class="output">Readiness</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="stage">
-          <div class="stage-head">
-            <div class="stage-no">7</div>
-            <h3>ขึ้น ICP Board</h3>
-          </div>
-          <div class="stage-body">
-            <div class="journey-row icp">
-              <b>ICP action</b>
-              <span>เห็น Resource Card และเลือก assign mission หรือส่ง support ก่อน</span>
-            </div>
-            <div class="journey-row system">
-              <b>System output</b>
-              <span>last updated, verification status, assignment status และ audit trail</span>
-              <span class="output">Mission-ready card</span>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <div class="section-title">
-        <h2>Console Flow</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
-        <span>สิ่งที่เจ้าหน้าที่เห็นเป็นลำดับบนหน้าจอ</span>
-      </div>
-
-      <section class="flow-grid">
-        <div class="flow-card">
+      </section></details>
+<section class="gj-section" id="supporting-information" aria-labelledby="gj-support-title"><header class="gj-section-intro"><p class="gj-eyebrow">SUPPORTING INFORMATION</p><h2 id="gj-support-title">หน้าจอและข้อมูลที่ใช้ประกอบ</h2><p>เปิดอ่านรายละเอียดโครงหน้าจอและข้อมูลขั้นต่ำที่เสนอ</p></header><div class="gj-supporting-details"><details><summary>ลำดับหน้าจอของเจ้าหน้าที่<span class="gj-detail-hint">Officer Screen Flow</span></summary><div class="flow-card">
           <h3>Officer Screen Flow</h3>
           <div class="flow-steps">
             <div class="step">
@@ -949,9 +235,7 @@
               <div class="step-text"><b>Push to ICP Board</b><span>ออก Resource Card และส่งต่อให้ review/assign</span></div>
             </div>
           </div>
-        </div>
-
-        <div class="flow-card">
+        </div></details><details><summary>ข้อมูลขั้นต่ำที่เสนอ<span class="gj-detail-hint">Minimum Data Captured</span></summary><div class="flow-card">
           <h3>Minimum Data Captured</h3>
           <div class="data-list">
             <div class="data-item"><b>Request</b><span>request type, area, urgency, mission note, requester</span></div>
@@ -961,34 +245,48 @@
             <div class="data-item"><b>Needs First</b><span>fuel, route, operator, access pass, radio channel, staging area</span></div>
             <div class="data-item"><b>Audit</b><span>who created, who confirmed, timestamp, last updated</span></div>
           </div>
-        </div>
-      </section>
-
-      <div class="section-title">
+        </div></details></div></section>
+<section class="gj-section" id="result-states" aria-labelledby="gj-result-title"><div class="gj-result-heading" id="gj-result-title"><div class="section-title">
         <h2>Result States</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
         <span>คำตอบหลังรัฐติดต่อ candidate แล้ว</span>
-      </div>
-
-      <section class="cards">
+      </div></div><p class="gj-state-scope">ชื่อสถานะเหล่านี้มาจากแบบจำลองเดิม ใช้อธิบายคำตอบและเงื่อนไข ไม่ใช่การอนุญาตปฏิบัติงานหรือผลตรวจความพร้อมจากระบบจริง</p><section class="cards">
         <div class="small-card">
+          <h3>ตอบรับ พร้อมตามข้อมูลที่ทวน</h3>
           <b>Confirmed Ready</b>
           <span>ติดต่อได้ ETA ชัด capacity ใช้ได้ และไม่ต้องรอ support เพิ่ม</span>
         </div>
         <div class="small-card">
+          <h3>ตอบรับ แต่ต้องการสิ่งสนับสนุน</h3>
           <b>Confirmed but Needs First</b>
           <span>พร้อมช่วย แต่ต้องการ fuel, route, operator, access pass หรือ staging area ก่อน</span>
         </div>
         <div class="small-card">
+          <h3>รอคำตอบหรือข้อมูล</h3>
           <b>Pending Response</b>
           <span>โทรไม่ติด รอผู้มีอำนาจตอบ หรือรอข้อมูลจากหน่วยงานต้นสังกัด</span>
         </div>
         <div class="small-card">
+          <h3>ไม่พร้อมหรือไม่เหมาะกับงาน</h3>
           <b>Declined / Unavailable</b>
           <span>ไม่พร้อม ไม่ตรง capability หรือเสี่ยงเกินกว่าจะมอบหมายภารกิจ</span>
         </div>
-      </section>
-
-      <div class="footer">
+      </section></section>
+<details class="gj-original" id="original-concept"><summary>รายละเอียดและถ้อยคำจากแนวคิดเดิม<span class="gj-detail-hint">หัวเรื่องเดิม · Journey Rule · คำอธิบายสีและผลลัพธ์</span></summary><p class="gj-original-note">คำว่า Ready, Mission-ready และ “พร้อมสั่งการ” ด้านล่างเป็นถ้อยคำในข้อเสนอเดิม ไม่ใช่อำนาจอนุญาตที่ยืนยันแล้ว หรือระบบเชื่อมต่อที่เปิดใช้งานจริง</p><div class="gj-original-header">
+        <div>
+          <h3>Government Console / API User Journey</h3>
+          <p class="subtitle">Journey ง่ายสุดของช่องทางที่รัฐเป็นผู้เริ่ม: ICP เห็นความต้องการ → เจ้าหน้าที่ค้นฐานข้อมูลหรือ API → ขอสนับสนุน → บันทึกคำตอบ → Resource Card ขึ้น board</p>
+        </div>
+        <div class="mode-card">
+          <b>Channel</b>
+          <span>G: Government-led</span>
+        </div>
+      </div><div class="gj-source-headings"><div class="section-title">
+        <h2>Main User Journey</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
+        <span>เส้นทางหลักจาก request ไปเป็น Resource Card</span>
+      </div><div class="section-title">
+        <h2>Console Flow</h2><span class="prototype-sample-label">แนวคิด / ข้อมูลจำลอง</span>
+        <span>สิ่งที่เจ้าหน้าที่เห็นเป็นลำดับบนหน้าจอ</span>
+      </div></div><div class="footer">
         <div>
           <b>Journey Rule</b>
           <span>Government Console / API ไม่ใช่ฟอร์มรับสมัครทั่วไป แต่เป็นเครื่องมือของรัฐเพื่อเปลี่ยน request ที่เกิดจาก ICP ให้เป็น Resource Card ที่ตรวจสอบได้และพร้อมสั่งการ</span>
@@ -999,8 +297,12 @@
           <span class="chip green">Resource Card</span>
           <span class="chip red">Safety Gate</span>
         </div>
-      </div>
-    </div>
-  </main>
-</body>
-</html>
+      </div></details>
+<aside class="prototype-notice" aria-label="สถานะต้นแบบ">
+  <p class="prototype-notice-label">ต้นแบบ · ข้อมูลจำลอง</p>
+  <p>แผนภาพแนวคิดสำหรับอ่านประกอบ ยังไม่เชื่อม API หรือระบบรับข้อมูลจริง</p>
+  <p class="prototype-notice-scope">โครงการแนวคิดและต้นแบบ อยู่ระหว่างพัฒนา · ไม่ใช่ช่องทางแจ้งเหตุหรือขอความช่วยเหลือจริง</p>
+  <a href="../index.html#prototype-library">กลับไปหน้าโชว์เคส LCCS</a>
+</aside>
+<footer class="gj-footer"><p>LCCS Research · งานศึกษาและต้นแบบส่วนตัว</p><p><a href="LCCS_Stakeholder_Registration_ORC_Chart.html#pending">อ่านเรื่องสิทธิ์และผู้รับผิดชอบที่ยังต้องตัดสินใจใน ORC</a></p></footer>
+</main></body></html>
